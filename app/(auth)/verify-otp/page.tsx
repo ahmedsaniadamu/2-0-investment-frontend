@@ -66,7 +66,7 @@ export default function VerifyOTP() {
              if(searchParams.get("from") === "signup" ||  searchParams.get("from") === "login"){
                 sessionStorage.setItem("token", res?.token);
                 sessionStorage.setItem("user", JSON.stringify(res?.user));
-                push("/admin");
+                push("/investor");
              }
              else{
                 push(`reset-password?email=${values.email}`);

@@ -77,7 +77,7 @@ export default function LoginPage() {
                 </Link>
               </div>
             <CardTitle className="text-2xl">Forgot Password</CardTitle>
-            <CardDescription>Use youe email address to continue</CardDescription>
+            <CardDescription>Use your email address to continue</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={formik.handleSubmit} className="space-y-4">
@@ -102,7 +102,7 @@ export default function LoginPage() {
               </div>
               {/* Submit Button */}
               <Button type="submit" className="w-full">
-                {isPending ? <SpinnerCustom /> : "Sign In"}
+                {isPending ? <SpinnerCustom /> : "Submit"}
               </Button>
             </form>
           </CardContent>

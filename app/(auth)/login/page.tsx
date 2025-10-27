@@ -76,7 +76,7 @@ export default function LoginPage() {
         toastMessage("success", "Success", res?.message);
         sessionStorage.setItem("token", res?.token);
         sessionStorage.setItem("user", JSON.stringify(res?.user));
-        push("/admin");
+        push("/investor");
       } catch (error: any) {
         toastMessage("error", "Error", error?.response?.data?.message);
       }

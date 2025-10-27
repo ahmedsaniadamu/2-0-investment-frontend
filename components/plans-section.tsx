@@ -2,14 +2,15 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Check } from "lucide-react"
-
-const plans = [
+import {v4 } from 'uuid'
+export const plans = [
 	{
 		name: "Basic Investment",
 		description: "Entry level investment package",
 		minDeposit: "$5,000",
 		maxDeposit: "$50,000",
 		roi: "20-30%",
+		id: v4()
 	},
 	{
 		name: "Advanced Investment",
@@ -18,6 +19,7 @@ const plans = [
 		maxDeposit: "$500,000",
 		roi: "30-40%",
 		popular: true,
+		id: v4()
 	},
 	{
 		name: "Premium Investment",
@@ -25,6 +27,7 @@ const plans = [
 		minDeposit: "$500,000",
 		maxDeposit: "$5,000,000",
 		roi: "40-50%",
+		id: v4()
 	},
 ]
 

@@ -1,5 +1,5 @@
 'use client'
-import { Calendar, CircleDollarSign, Home, Inbox, ScanLine, Search, Settings,  } from "lucide-react"
+import { Calendar, CircleDollarSign, Home, Inbox, LayoutDashboard, ScanLine, Search, Settings,  } from "lucide-react"
 import Image from "next/image"
 import logo from "@/assets/logo.png"
 import {
@@ -13,37 +13,42 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import Link from "next/link"
+import { useEffect } from "react"
+import { usePathname } from "next/navigation"
 
 // Menu items.
 const items = [
   {
     title: "Dashboard",
-    url: "#",
-    icon: Home,
+    url: "/investor/",
+    icon: LayoutDashboard ,
   },
   {
     title: "Investments",
-    url: "#",
+    url: "/investor/investments",
     icon: CircleDollarSign,
   },
-  {
-    title: "Profit Tracking",
-    url: "#",
-    icon: Calendar,
-  },
+  // {
+  //   title: "Profit Tracking",
+  //   url: "/investor/profit-tracking",
+  //   icon: Calendar,
+  // },
   {
     title: "Transactions",
-    url: "#",
+    url: "/investor/transactions",
     icon: ScanLine ,
   },
   {
     title: "Settings",
-    url: "#",
+    url: "/investor/settings",
     icon: Settings,
   },
 ]
 
 export function AppSidebar() {
+
+  const pathname = usePathname()
+
   return (
     <Sidebar collapsible="icon">
       <SidebarContent className="bg-primary">
@@ -57,14 +62,18 @@ export function AppSidebar() {
           </SidebarGroupLabel>
           <SidebarGroupContent className="mt-12">
             <SidebarMenu>
-              {items.map((item) => (
+              {items.map((item, index: number) => (
                 <SidebarMenuItem  key={item.title}>
-                  <SidebarMenuButton className="text-white px-3 mb-3 py-5 hover:bg-primary hover:text-white hover:border-r-3 hover:rounded-none hover:border-white text-lg" asChild>
-                    <a href={item.url} className="text-white px-3">
+                  <SidebarMenuButton className={`text-white px-3 ${
+                    index === 0 && pathname === '/investor' ? "border-r-3 pl-2 border-white rounded-none" :
+                     pathname.includes(item.url) && (index !== 0) ?
+                     "border-r-3 border-white pl-2 rounded-none" : ""
+                  } mb-3 py-5 hover:bg-primary hover:text-white hover:border-r-3 hover:rounded-none hover:border-white text-lg`} asChild>
+                    <Link href={item.url} className="text-white px-3">
                        <item.icon className="text-white w-10 h-10" />
 
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

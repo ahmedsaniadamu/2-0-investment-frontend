@@ -75,7 +75,7 @@ export default function ResetPassword() {
             toastMessage('success', "Success", res?.message || "Password reset successfully");
             sessionStorage.setItem("token", res?.token);
             sessionStorage.setItem("user", JSON.stringify(res?.user));
-            push("/admin"); 
+            push("/investor"); 
         } catch (error: any) {
             toastMessage("error", "Error", error?.response?.data?.message || "Verification failed");
         }
@@ -217,7 +217,7 @@ return (
 
             {/* Submit Button */}
             <Button disabled={isPending} type="submit" className="w-full">
-              {isPending ? <SpinnerCustom /> : "Verify OTP"}
+              {isPending ? <SpinnerCustom /> : "Reset Password"}
             </Button>
           </form>
         </CardContent>
