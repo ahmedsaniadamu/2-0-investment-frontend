@@ -15,7 +15,7 @@ const client: AxiosInstance = axios.create({
 
 client.interceptors.request.use(
   async (config: any) => {
-    const token = sessionStorage.getItem("userToken");
+    const token = sessionStorage.getItem("token");
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;

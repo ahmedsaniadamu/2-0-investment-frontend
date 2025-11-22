@@ -41,7 +41,7 @@ const InvestorPageLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <AppSidebar  />
       <main className="w-full">
         <header className="flex shadow px-3 bg-white py-5 sticky justify-between">
              <div className="flex items-center gap-4">

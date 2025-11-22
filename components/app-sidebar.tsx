@@ -1,5 +1,5 @@
 'use client'
-import { Calendar, CircleDollarSign, Home, Inbox, LayoutDashboard, ScanLine, Search, Settings,  } from "lucide-react"
+import { Calendar, ChartSpline, CircleDollarSign, Home, Inbox, LayoutDashboard, ScanLine, Search, Settings, UserCircle,  } from "lucide-react"
 import Image from "next/image"
 import logo from "@/assets/logo.png"
 import {
@@ -17,35 +17,39 @@ import { useEffect } from "react"
 import { usePathname } from "next/navigation"
 
 // Menu items.
-const items = [
+const investorModules = [
   {
     title: "Dashboard",
     url: "/investor/",
     icon: LayoutDashboard ,
   },
   {
+    title: "Plans",
+    url: "/investor/available-plans",
+    icon: ChartSpline,
+  },
+  {
     title: "Investments",
     url: "/investor/investments",
     icon: CircleDollarSign,
   },
-  // {
-  //   title: "Profit Tracking",
-  //   url: "/investor/profit-tracking",
-  //   icon: Calendar,
-  // },
   {
     title: "Transactions",
     url: "/investor/transactions",
     icon: ScanLine ,
   },
   {
-    title: "Settings",
+    title: "Profile Setting",
     url: "/investor/settings",
-    icon: Settings,
+    icon: UserCircle,
   },
 ]
 
-export function AppSidebar() {
+export function AppSidebar({items = investorModules}: {items?: {
+  title: string
+  url: string
+  icon: any
+}[]}) {
 
   const pathname = usePathname()
 

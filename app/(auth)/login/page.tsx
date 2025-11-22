@@ -22,6 +22,7 @@ import { toastMessage } from "@/lib/custom-toast";
 import { SpinnerCustom } from "@/components/ui/spinner";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Eye, EyeOff } from "lucide-react"; // 👁️ Import icons
+import { hashSync } from "bcryptjs";
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -76,7 +77,11 @@ export default function LoginPage() {
         toastMessage("success", "Success", res?.message);
         sessionStorage.setItem("token", res?.token);
         sessionStorage.setItem("user", JSON.stringify(res?.user));
-        push("/investor");
+        sessionStorage.setItem("role", 
+          hashSync(res?.user?.role, 10)
+        );
+        if(res?.user?.role === "admin") push("/admin");
+        else push("/investor");
       } catch (error: any) {
         toastMessage("error", "Error", error?.response?.data?.message);
       }

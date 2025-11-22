@@ -66,7 +66,7 @@ const RecentInvestmentsTable = () => {
           {recentInvestments.map((inv) => (
             <TableRow key={inv.id}>
               <TableCell>{inv.plan}</TableCell>
-              <TableCell>{inv.amount.toLocaleString()}</TableCell>
+              <TableCell className="font-bold">${inv.amount.toLocaleString()}</TableCell>
               <TableCell>{inv.roi}%</TableCell>
               <TableCell>{inv.expectedWithdrawalDate}</TableCell>
               <TableCell className="w-[200px]">
@@ -82,7 +82,7 @@ const RecentInvestmentsTable = () => {
                 />
                 <p className="text-xs text-gray-500 mt-1">{inv.profitProgress}% of yearly profit</p>
               </TableCell>
-              <TableCell>{inv.currentProfit.toLocaleString()}</TableCell>
+              <TableCell className="font-bold text-green-900">${inv.currentProfit.toLocaleString()}</TableCell>
               <TableCell>
                 <span
                   className={`px-3 py-1 rounded-full text-xs font-medium ${

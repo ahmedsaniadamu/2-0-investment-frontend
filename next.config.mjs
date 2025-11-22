@@ -9,6 +9,19 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  experimental: {
+  turbo: {
+    rules: {
+      ignore: [
+        "**/node_modules/**",
+        "**/.next/**",
+        "**/.git/**",
+        "**/public/**",
+      ],
+    },
+  },
+}
+
 }
 
 export default nextConfig

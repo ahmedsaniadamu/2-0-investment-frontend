@@ -15,7 +15,7 @@ import {
 
 const Navbar = ({className}: {className?: string}) => {
   return (
-    <nav className={className || "hidden items-center gap-6 md:flex"}>
+    <nav className={className || "hidden items-center gap-6 md:flex justify-end pr-5"}>
           <Link
             href="/#plans"
             className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
@@ -50,8 +50,8 @@ const Navbar = ({className}: {className?: string}) => {
 }
 export function Header() {
   return (
-    <header className="border-b border-border bg-white backdrop-blur supports-[backdrop-filter]:bg-white">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
+    <header className="w-full bg-white ">
+      <div className="w-full flex h-16 items-center justify-between">
         <Link href="/" className="flex max-[500px]:-ml-5 items-center gap-2">
            <Image className="w-[190px] h-[80px]" src={logo} alt="2Zero Investment" />
         </Link>

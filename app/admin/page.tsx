@@ -1,84 +1,123 @@
 'use client'
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import wavingHand from "@/assets/twemoji_waving-hand.png"
 import React, { useEffect, useState } from 'react'
-import { Settings } from "lucide-react"
-import Image from "next/image"
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-} from '@/components/ui/dropdown-menu';
 import { useRouter } from "next/navigation"
-import userImg from '@/assets/user.png';
-import { AppSidebar } from "@/components/app-sidebar"
+import AdminPageLayout from "./_components/admin-page-layout"
+import { Bar, Doughnut } from "react-chartjs-2";
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from "chart.js";
+import { CircleDollarSign, Users, ArrowUpRight, ArrowDownRight, MonitorCheck } from "lucide-react";
+import { v4 as uuidv4 } from "uuid";
+import { plans } from '@/components/plans-section';
+import SummaryCard from '../investor/_components/summary-card';
+import FilterModal from './transactions/_components/filter-modal';
+import { useQuery } from '@tanstack/react-query';
+import { useSessionUserId } from '@/hooks/use-session-user-id';
+import { adminDashboard } from '@/api/dashbard';
+import { formatNumberWithCommas } from '@/lib/format-number';
+import { DISTINCT_COLORS } from '@/lib/colors';
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
+
 const page = () => {
 
-  const [greeting, setGreeting] = useState<string>('');
-   const router = useRouter();
+  const userId = useSessionUserId();
+ 
+  const { data: summary, isPending } = useQuery({
+    queryKey: ["dashboardSummary"],
+    queryFn: () => adminDashboard.getDashboardSummary(),
+    select: (data: any) => data?.data,
+  });
 
-  useEffect(() => {
-    const updateGreeting = () => {
-      const today = new Date();
-      const hourOfDay = today.getHours();
-      if (hourOfDay > 11 && hourOfDay <= 16) {
-        setGreeting('afternoon');
-      } else if (hourOfDay > 16) {
-        setGreeting('evening');
-      } else {
-        setGreeting('morning');
-      }
-    };
-    // Update greeting immediately
-    updateGreeting();
-    // Set up interval to update greeting every hour
-    const interval = setInterval(updateGreeting, 3600000); // 3600000 ms = 1 hour
-    // Cleanup interval on component unmount
-    return () => clearInterval(interval);
-  }, []);
+  const { data: roiPerPlan, isPending: roiPending } = useQuery({
+    queryKey: ["roiPerPlan"],
+    queryFn: () => adminDashboard.getROIPerPlan(),
+    select: (data: any) => data?.data,
+  });
+
+   const { data: investmentDistribution, isPending: investmentPending } = useQuery({
+    queryKey: ["Investment Distribution"],
+    queryFn: () => adminDashboard.getInvestmentDistribution(),
+    select: (data: any) => data?.data,
+  });
+
+  const barData = {
+    labels: roiPerPlan?.length ? roiPerPlan?.map((p: any) => p?.planName) :  [],
+    datasets: roiPerPlan?.length ? 
+      [
+        {
+          label: '', //roiPerPlan?.length ? roiPerPlan?.map((p: any) => p?.planName) :  [],,
+          data: roiPerPlan?.map((p: any) => Number(p.roi)),
+          backgroundColor: DISTINCT_COLORS.slice(0, roiPerPlan?.length),
+          borderRadius: 10,
+      }]
+    : [],
+  };
+
+  const doughnutData = {
+    labels: investmentDistribution?.distribution?.length ? investmentDistribution?.distribution?.map((p: any) => `${p?.planName} ${formatNumberWithCommas(p?.amount)} (${p?.percentage}%)`) : [],
+    datasets: [
+      {
+        data: investmentDistribution?.distribution?.length ? investmentDistribution?.distribution?.map((p: any) => Number(p?.percentage)) : [],
+        backgroundColor: DISTINCT_COLORS.slice(0, investmentDistribution?.distribution?.length),
+      },
+    ],
+  };
 
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <main className="w-full">
-        <header className="flex shadow px-3 bg-white py-5 sticky justify-between">
-             <div className="flex items-center gap-4">
-                <SidebarTrigger />
-                <h5 className='text-sm capitalize font-bold flex items-center'>
-                Good {greeting}, Ahmed Sani &nbsp;
-                <Image src={wavingHand} alt='hands' />
-              </h5>
-             </div>
-            <div>
-                <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <button className='text-sm items-center font-semibold flex' aria-label='Customise options'>
-                <span className='flex items-center rounded-full justify-center w-[30px] bg-slate-200 h-[30px]'>
-                  <Image src={userImg} alt='profile' className='w-[25px] rounded-full h-[25px]' />
-                </span>
-              <span className='pl-1'>{'Investor'}</span>
-              <i className='bi bi-chevron-down pl-1' />
-            </button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className='w-56' align='end'>
-            <DropdownMenuItem
-              className='cursor-pointer focus:bg-red-500 focus:text-white text-red-500'
-              onClick={() => {
-                router.push('/');
-                sessionStorage.clear();
-                localStorage.clear();
-              }}
-            >
-              <i className='bi bi-box-arrow-in-left pr-1' /> Logout
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-            </div>
-        </header>
-      </main>
-    </SidebarProvider>
+    <React.Fragment>
+       <AdminPageLayout>
+           <div className="p-3 space-y-6">
+      <h1 className="text-2xl font-semibold">Admin Dashboard Overview</h1>
+
+      {/* Summary Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+       
+        <SummaryCard
+          title="Total Plans"
+          isLoading={isPending}
+          amount={summary?.totalPlans}
+          Icon={<MonitorCheck className="w-6 h-6 text-[#005b9e]" />}
+        />
+        <SummaryCard
+          title="Total Investors"
+          amount={summary?.totalInvestors}
+          isLoading={isPending}
+          Icon={<Users className="w-6 h-6 text-green-600" />}
+        />
+        <SummaryCard
+          title="Investments"
+          isLoading={isPending}
+          amount={'$' + formatNumberWithCommas(summary?.totalInvestments)}
+          Icon={<CircleDollarSign className="w-6 h-6 text-blue-600" />}
+        />
+        <SummaryCard
+          title="Total Deposits"
+          amount={'$' + formatNumberWithCommas(summary?.totalDeposits)}
+          isLoading={isPending}
+          Icon={<ArrowUpRight className="w-6 h-6 text-emerald-600" />}
+        />
+        <SummaryCard
+          title="Withdrawals"
+          amount={ '$' + formatNumberWithCommas(summary?.totalWithdrawals)}
+          isLoading={isPending}
+          Icon={<ArrowDownRight className="w-6 h-6 text-red-600" />}
+        />
+      </div>
+
+      {/* Charts Section */}
+      <div className="grid md:grid-cols-2 gap-8">
+        <div className="bg-white p-6 rounded-2xl shadow-sm border">
+          <h2 className="font-semibold mb-4">ROI per Plan</h2>
+          <Bar data={barData} />
+        </div>
+
+        <div className="bg-white p-6 rounded-2xl shadow-sm border">
+          <h2 className="font-semibold mb-4">Investment Distribution ({formatNumberWithCommas(investmentDistribution?.total)}) </h2>
+          <Doughnut data={doughnutData} />
+        </div>
+      </div>
+    </div>
+       </AdminPageLayout>
+    </React.Fragment>
   )
 }
 

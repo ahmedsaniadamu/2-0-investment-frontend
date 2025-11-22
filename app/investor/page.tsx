@@ -39,7 +39,7 @@ const Page = () => {
 
         {/* 💼 Available Balance */}
         <SummaryCard
-          title="Available Balance"
+          title="Total Transactions"
           amount="$420"
           Icon={<Wallet className="w-6 h-6 text-amber-500" />}
           isLoading={false}

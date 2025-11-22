@@ -7,6 +7,7 @@ import "./globals.css"
 import { Suspense } from "react"
 import QueryProvider from "@/components/query-provider"
 import { Toaster } from "@/components/ui/sonner"
+import PageLoader from "@/components/page-loader"
 
 export const metadata: Metadata = {
   title: "2Zero Investment - Grow Your Wealth with 10% Annual Returns",
@@ -22,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
-        <Suspense fallback={'Loading..'}>
+        <Suspense fallback={<PageLoader />}>
           <Toaster className="bg-primary text-white"  />
             <QueryProvider>
                {children}

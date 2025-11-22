@@ -62,6 +62,7 @@ const plans = [
 ]
 
 export default function PlansPage() {
+  
   const [selectedPlan, setSelectedPlan] = useState<(typeof plans)[0] | null>(null)
   const [amount, setAmount] = useState("")
   const [paymentMethod, setPaymentMethod] = useState("")
