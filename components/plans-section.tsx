@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { useQuery } from "@tanstack/react-query"
 import { sharedPlans } from "@/api/plan"
 import { Skeleton } from "./ui/skeleton"
+import { formatNumberWithCommas } from "@/lib/format-number"
 
 export const plans = []
 export function PlansSection() {
@@ -60,7 +61,7 @@ export function PlansSection() {
         ) : availablePlans?.length ? (
           <div className="scroll-wrapper">
             <div className="scroll-track">
-              {[...availablePlans, ...availablePlans].map((plan: any, i: number) => {
+              {[/*...availablePlans, */...availablePlans].map((plan: any, i: number) => {
                 const isPopular =
                   [...availablePlans].sort((a, b) => b.investmentCount - a.investmentCount)[0]
                     ?.investmentCount === plan?.investmentCount;
@@ -94,7 +95,7 @@ export function PlansSection() {
                         <div className="mt-2 text-sm text-muted-foreground">
                           Investment Range:
                           <div className="font-semibold text-foreground">
-                            {plan.minDeposit} - {plan.maxDeposit}
+                            ${formatNumberWithCommas(plan.minDeposit)} - ${formatNumberWithCommas(plan.maxDeposit)}
                           </div>
                         </div>
                       </div>

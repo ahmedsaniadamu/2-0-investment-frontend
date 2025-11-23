@@ -15,11 +15,26 @@ import { format, addMonths } from "date-fns"
 import { toast } from "@/components/ui/use-toast"
 import { cn } from "@/lib/utils"
 import { toastMessage } from "@/lib/custom-toast"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { SpinnerCustom } from "@/components/ui/spinner"
+import { investorInvestments } from "@/api/investment"
+import { useMutation } from "@tanstack/react-query"
+import { useSessionUserId } from "@/hooks/use-session-user-id"
+import { formatNumberWithCommas } from "@/lib/format-number"
 
-const InvestmentForm: React.FC<{setOpen: React.Dispatch<React.SetStateAction<boolean>>}> = ({
-  setOpen,
+const InvestmentForm: React.FC<{
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>,
+  open: boolean, activePlan: any, setActivePlan: any
+}> = ({
+  setOpen, open, activePlan, setActivePlan
 }) => {
+
+  const userId = useSessionUserId();
   const [withdrawalDate, setWithdrawalDate] = useState<string | null>(null)
+  const { mutateAsync: initiateInvestment, isPending } = useMutation({
+    mutationFn: investorInvestments.initiateInvestment,
+    mutationKey: ["initiate-investment"],
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -31,7 +46,7 @@ const InvestmentForm: React.FC<{setOpen: React.Dispatch<React.SetStateAction<boo
     },
     validationSchema: Yup.object({
       amount: Yup.number()
-        .min(5000, "Minimum investment is $5,000")
+        .min(parseFloat(activePlan?.minDeposit), `Minimum investment is $${formatNumberWithCommas(activePlan?.minDeposit)}`)
         .required("Amount is required"),
       paymentMethod: Yup.string().required("Select a payment method"),
       startDate: Yup.date().nullable().required("Select a start date"),
@@ -40,13 +55,30 @@ const InvestmentForm: React.FC<{setOpen: React.Dispatch<React.SetStateAction<boo
         .required("Please describe your investment goal"),
       agreement: Yup.boolean().oneOf([true], "You must agree to the terms"),
     }),
-    onSubmit: (values) => {
-      toastMessage("success", 
+    onSubmit: async(values) => {
+      try{
+        const payload = {
+          amount: values.amount,
+          paymentMethod: values.paymentMethod,
+          startDate: values.startDate,
+          investmentGoal: values.investmentGoal,
+          agreement: values.agreement,
+          planId: activePlan?.id,
+          investorId: userId as string
+        }
+        const res = await initiateInvestment(payload);
+        toastMessage("success", 
         `You invested $${values.amount} via ${values.paymentMethod}.`,
         `Payment is under review. you will be nofitied once approved.`
-      )
-      console.log(values)
-      setOpen(false)
+        )
+        setTimeout(() => {
+          setOpen(false)
+          setActivePlan(null)
+        }, 2000);
+
+      } catch (error: any) {
+        toastMessage("error", "Error", error?.response?.data?.message || "Failed to initiate investment"); 
+      }
     },
   })
 
@@ -61,6 +93,11 @@ const InvestmentForm: React.FC<{setOpen: React.Dispatch<React.SetStateAction<boo
   }, [formik.values.startDate])
 
   return (
+    <Dialog open={open} onOpenChange={setOpen}>
+            <DialogContent className="sm:max-w-[600px] w-full bg-white  max-h-[95vh] overflow-y-auto">
+                <DialogHeader>
+                    <DialogTitle>Make Investment (Fill the form to proceed)</DialogTitle>
+                </DialogHeader>
     <form onSubmit={formik.handleSubmit} className="space-y-6 bg-white">
       {/* Amount */}
       <div>
@@ -167,12 +204,23 @@ const InvestmentForm: React.FC<{setOpen: React.Dispatch<React.SetStateAction<boo
       {formik.touched.agreement && formik.errors.agreement && (
         <p className="text-red-500 text-sm mt-1">{formik.errors.agreement}</p>
       )}
+       {/* Actions */}
+          <div className="flex justify-end gap-2">
+              <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setOpen(false)}
+              >
+                  Cancel
+              </Button>
 
-      {/* Submit */}
-      <Button type="submit" className="w-full bg-primary text-white">
-        Proceed to Invest
-      </Button>
+              <Button type="submit" disabled={isPending}>
+                  {isPending ? <SpinnerCustom /> : "Initiate Investment"}
+              </Button>
+          </div>
     </form>
+            </DialogContent>
+        </Dialog>
   )
 }
 

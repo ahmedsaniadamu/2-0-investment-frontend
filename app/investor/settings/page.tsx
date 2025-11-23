@@ -54,7 +54,8 @@ const InvestorProfilePage = () => {
         </div>
         <div className="w-[200px]">
             <h4>KYC Status</h4>
-            <h2 className="text-2xl font-semibold text-orange-500">Not Verified</h2>
+            <h2 className="text-2xl mb-2 font-semibold text-orange-500">Not Verified</h2>
+            <Button className="bg-orange-500">Verify Kyc</Button>
         </div>
         <Button onClick={ () => setOpen(true) } className="mt-4 sm:mt-0 bg-primary text-white">Update Password</Button>
       </div>
@@ -93,8 +94,8 @@ const InvestorProfilePage = () => {
               <Input {...formik.getFieldProps("accountNumber")} />
             </div>
 
-            <div className="sm:col-span-2">
-              <Button type="submit" className="w-full bg-primary text-white">
+            <div className="sm:col-span-2 flex justify-end">
+              <Button type="submit" className="bg-primary text-white">
                 Save Changes
               </Button>
             </div>

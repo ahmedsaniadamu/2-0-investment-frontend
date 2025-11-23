@@ -42,7 +42,7 @@ const InvestorPageLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <SidebarProvider>
       <AppSidebar  />
-      <main className="w-full">
+      <main className="w-full overflow-x-hidden">
         <header className="flex shadow px-3 bg-white py-5 sticky justify-between">
              <div className="flex items-center gap-4">
                 <SidebarTrigger />

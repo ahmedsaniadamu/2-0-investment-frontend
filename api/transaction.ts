@@ -32,3 +32,16 @@ export const adminTransactions = {
     client.patch(`/admin/transactions/review/${id}`, { status, reason })
  .then(({ data }) => data),
 };
+
+export const investorTransactions = {
+  getTransactions: ({
+    search, page, limit, id
+  }: getRequestParamsType & { id: string } 
+): Promise<any> =>
+    client.get(`/investor/transactions/${id}?page=${page}&limit=${limit}${
+      search ? `&search=${search}` : ""
+    }`)
+      .then(({ data }) => data),
+  getTransactionsSummary: (id: string): Promise<any> =>
+    client.get(`/investor/transactions/summary/${id}`).then(({ data }) => data),
+};

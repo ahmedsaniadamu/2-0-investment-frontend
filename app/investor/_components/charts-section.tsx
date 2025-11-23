@@ -18,6 +18,10 @@ import {
   Legend,
 } from "chart.js";
 import { CircleDollarSign, Calendar, ScanLine, Settings } from "lucide-react";
+import { useSessionUserId } from "@/hooks/use-session-user-id";
+import { useQuery } from "@tanstack/react-query";
+import { investorDashboard } from "@/api/dashbard";
+import { DISTINCT_COLORS } from "@/lib/colors";
 
 ChartJS.register(
   LineElement,
@@ -32,14 +36,42 @@ ChartJS.register(
 
 const ChartsSection = () => {
   const router = useRouter();
+ const userId = useSessionUserId();
+   
+    const { data: monthlyProfitGrowth, isPending: profitGrowthPending } = useQuery({
+      queryKey: ["investorMonthlyProfitGrowth"],
+      queryFn: () => investorDashboard.getMonthlyProfitGrowth(userId as string),
+      select: (data: any) => data?.data,
+      enabled: !!userId
+    });
 
-  // 📈 Line chart - Profit Growth over months
+    const { data: investmentVsProfit, isPending: investmentVsProfitPending }:
+    {
+      isPending: boolean;
+      data: any
+    } = useQuery({
+      queryKey: ["investorInvestmentVsProfit"],
+      queryFn: () => investorDashboard.getInvestmentVsProfit(userId as string),
+      select: (data: any) => data?.data,
+      enabled: !!userId
+    });
+
+    const { data: portfolioAllocation, isPending: portfolioAllocationPending } = useQuery({
+      queryKey: ["investorPortfolioAllocation"],
+      queryFn: () => investorDashboard.getPortfolioAllocation(userId as string),
+      select: (data: any) => data?.data,
+      enabled: !!userId
+    });
+
+    console.log({monthlyProfitGrowth, investmentVsProfit, portfolioAllocation});
+    
+  
   const profitGrowthData = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+    labels: monthlyProfitGrowth?.length ? monthlyProfitGrowth?.map((p: any) => p?.month) : [],
     datasets: [
       {
         label: "Profit ($)",
-        data: [200, 450, 600, 900, 1100, 1500],
+        data: monthlyProfitGrowth?.length ? monthlyProfitGrowth?.map((p: any) => parseFloat(p?.profit)) : [],
         borderColor: "#10b981",
         backgroundColor: "rgba(22,163,74,0.15)",
         tension: 0.4,
@@ -48,36 +80,30 @@ const ChartsSection = () => {
     ],
   };
 
-  // 📊 Bar chart - Total Investment vs Profit (by plan)
   const investmentVsProfitData = {
-    labels: ["Basic", "Advanced", "Premium"],
+    labels: investmentVsProfit?.length && !investmentVsProfitPending ? investmentVsProfit?.map((p: any) => p?.planName) : [],
     datasets: [
       {
         label: "Total Investment ($)",
-        data: [15000, 40000, 75000],
+        data: investmentVsProfit?.length && !investmentVsProfitPending ? investmentVsProfit?.map((p: any) => parseFloat(p?.totalInvestment)) : [],
         backgroundColor: "#005b9e",
         borderRadius: 6,
       },
       {
         label: "Total Profit ($)",
-        data: [3000, 12000, 32000],
+        data:  investmentVsProfit?.length && !investmentVsProfitPending ? investmentVsProfit?.map((p: any) => parseFloat(p?.totalProfit)) : [],
         backgroundColor: "#10b981",
         borderRadius: 6,
       },
     ],
   };
 
-  // 🍩 Doughnut chart - Portfolio Allocation
   const portfolioData = {
-    labels: ["Basic", "Advanced", "Premium"],
+    labels: portfolioAllocation?.length ? portfolioAllocation?.map((p: any) => p?.planName) : [],
     datasets: [
       {
-        data: [25, 45, 30],
-        backgroundColor: [
-          "#005b9e", // blue - Basic
-          "#10b981", // green - Advanced
-          "#f59e0b", // amber - Premium
-        ],
+        data: portfolioAllocation?.length ? portfolioAllocation?.map((p: any) => parseFloat(p?.percentage)) : [],
+        backgroundColor: DISTINCT_COLORS.slice(0, portfolioAllocation?.length),
         borderColor: "#fff",
         borderWidth: 2,
         cutout: "60%", // makes it a doughnut
@@ -85,7 +111,6 @@ const ChartsSection = () => {
     ],
   };
 
-  // ⚡ Quick actions
   const quickActions = [
     {
       label: "View Investments",
@@ -93,9 +118,9 @@ const ChartsSection = () => {
       action: () => router.push("/investor/investments"),
     },
     {
-      label: "Profit Tracking",
+      label: "Plans",
       icon: <Calendar className="text-green-500 w-10 h-10 text-2xl" />,
-      action: () => router.push("/investor/profit-tracking"),
+      action: () => router.push("/investor/available-plans"),
     },
     {
       label: "Transactions",
@@ -103,7 +128,7 @@ const ChartsSection = () => {
       action: () => router.push("/investor/transactions"),
     },
     {
-      label: "Settings",
+      label: "Profile Settings",
       icon: <Settings className="text-gray-600 w-10 h-10 text-2xl" />,
       action: () => router.push("/investor/settings"),
     },
@@ -111,27 +136,20 @@ const ChartsSection = () => {
 
   return (
     <section className="grid gap-8 md:grid-cols-2 mt-8">
-      {/* 📈 Profit Growth Line Chart */}
       <div className="p-5 rounded-2xl shadow bg-white">
         <h3 className="font-semibold mb-3">Profit Growth (Last 6 Months)</h3>
         <Line data={profitGrowthData} />
       </div>
-
-      {/* 📊 Investment vs Profit Bar Chart */}
       <div className="p-5 rounded-2xl shadow bg-white">
         <h3 className="font-semibold mb-3">Investment vs Profit</h3>
         <Bar data={investmentVsProfitData} />
       </div>
-
-      {/* 🍩 Portfolio Allocation Doughnut Chart */}
       <div className="p-5 rounded-2xl shadow bg-white">
         <h3 className="font-semibold mb-3">Portfolio Allocation</h3>
         <div className="max-w-xs mx-auto">
           <Doughnut data={portfolioData} />
         </div>
       </div>
-
-      {/* ⚡ Quick Actions */}
       <div className="p-5 rounded-2xl shadow bg-white">
         <h3 className="font-semibold mb-3">Quick Actions</h3>
         <div className="grid grid-cols-2 gap-3">
