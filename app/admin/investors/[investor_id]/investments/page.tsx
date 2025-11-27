@@ -284,7 +284,7 @@ const page = () => {
                      </Table>
             </section>
            }
-        </div>
+          </div>
         </section>
         {investorInvestments?.pagination ?
         <Pagination

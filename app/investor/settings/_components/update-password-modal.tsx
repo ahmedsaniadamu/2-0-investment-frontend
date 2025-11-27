@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -17,7 +16,8 @@ import { Eye, EyeOff } from "lucide-react";
 import { toastMessage } from "@/lib/custom-toast";
 import { SpinnerCustom } from "@/components/ui/spinner";
 import { useMutation } from "@tanstack/react-query";
-//import { user } from "@/api/user"; // adjust this path to your API
+import { investorProfile } from "@/api/profile";
+import { useSessionUserId } from "@/hooks/use-session-user-id";
 
 const getPasswordStrength = (password: string) => {
   let strength = 0;
@@ -54,13 +54,16 @@ export default function UpdatePasswordModal({
   open: boolean;
   onClose: () => void;
 }) {
+
   const [showOld, setShowOld] = useState(false);
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+   const userId = useSessionUserId();
 
-//   const { mutateAsync: updatePassword, isPending } = useMutation({
-//     mutationFn: user.updatePassword, // implement in your backend API
-//   });
+  const {mutateAsync: updatePassword, isPending: updatePending} = useMutation({
+        mutationFn: investorProfile.updatePassword,
+        mutationKey: ["update-password"],
+      })
 
   const formik = useFormik({
     initialValues: {
@@ -71,10 +74,13 @@ export default function UpdatePasswordModal({
     validationSchema,
     onSubmit: async (values) => {
       try {
-        // await updatePassword({
-        //   old_password: values.oldPassword,
-        //   new_password: values.newPassword,
-        // });
+        await updatePassword({
+          id: userId as string,
+          data: {
+            currentPassword: values.oldPassword,
+            newPassword: values.newPassword
+          }
+        });
         toastMessage("success", "Success", "Password updated successfully!");
         onClose();
       } catch (error: any) {

@@ -104,7 +104,7 @@ const page = () => {
       </div>
 
       {/* Charts Section */}
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid md:grid-cols-2 gap-5">
         <div className="bg-white p-6 rounded-2xl shadow-sm border">
           <h2 className="font-semibold mb-4">ROI per Plan</h2>
           <Bar data={barData} />

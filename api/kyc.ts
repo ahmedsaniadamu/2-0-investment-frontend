@@ -33,3 +33,4 @@ export const adminKyc = {
     client.post(`/admin/kyc-management/review-investor-kyc-request/${id}`, { status, reason })
     .then(({ data }) => data),
 };
+

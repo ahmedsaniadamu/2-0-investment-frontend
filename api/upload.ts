@@ -4,9 +4,7 @@ const client = createApiClient();
 
 export const fileManagement = {
   uploadFile: (data: any): Promise<any> =>
-    client.post(`upload/kyc-document`, {
-      file: data,
-    }, {
+    client.post(`upload/kyc-document`, data, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
