@@ -9,18 +9,15 @@ export function HeroSection() {
     <section className="relative overflow-hidden border-b border-border bg-primary py-20 md:py-32">
       {/* Add the scanning effect element */}
       <motion.div
-        className="absolute h-[200%] w-[300px] bg-gradient-to-r from-[#81a1f8] via-white/20 to-transparent"
-        initial={{ left: '-100%', top: '-50%', rotate: 45 }}
-        animate={{ 
-          left: '200%',
-          top: '-50%',
-        }}
+        className="absolute h-[600px] w-[600px] rounded-full bg-gradient-to-r from-[#81a1f8] via-white/20 to-transparent"
+        initial={{ x: '-50%', y: '-50%', scale: 0.8, rotate: 0 }} // Start at the center with slight scaling
+        animate={{ x: ['-50%', '10%', '50%', '10%', '-50%'], y: ['-50%', '-30%', '0%', '30%', '-50%'], rotate: 360 }} // Larger circular motion
         transition={{
-          duration: 3,
+          duration: 10, // Slower and smoother motion
           repeat: Infinity,
-          ease: "linear",
-          repeatDelay: 0.5
+          ease: "linear" // Continuous motion
         }}
+        style={{ willChange: 'transform, opacity' }} // Optimize for animation
       />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.5),transparent_60%)]" />
       <div className="container relative mx-auto px-4">
@@ -28,7 +25,7 @@ export function HeroSection() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.4, ease: "easeOut" }} // Reduced duration
             className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card/80 backdrop-blur-sm px-4 py-2 text-sm"
           >
             <TrendingUp className="h-4 w-4 text-accent" />
@@ -38,7 +35,7 @@ export function HeroSection() {
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.4, delay: 0.2, ease: "easeOut" }} // Reduced duration
             className="mb-6 text-white text-balance font-sans text-4xl font-bold tracking-tight text-foreground md:text-6xl lg:text-7xl"
           >
             Grow your wealth with steady{" "}
@@ -50,7 +47,7 @@ export function HeroSection() {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            transition={{ duration: 0.4, delay: 0.3, ease: "easeOut" }} // Reduced duration
             className="mb-10 text-pretty text-lg text-slate-200 md:text-xl"
           >
             Start investing with as little as $5,000 and watch your money grow. Professional investment management made
@@ -60,7 +57,7 @@ export function HeroSection() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
+            transition={{ duration: 0.4, delay: 0.5, ease: "easeOut" }} // Reduced duration
             className="flex flex-col items-center justify-center gap-4 sm:flex-row"
           >
             <Button size="lg" className="w-full sm:w-auto" asChild>

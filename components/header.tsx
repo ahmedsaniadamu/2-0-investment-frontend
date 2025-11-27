@@ -58,7 +58,7 @@ export function Header() {
         <div className="sm:hidden">
             <Sheet>
               <SheetTrigger>
-                 <Menu className="md:hidden text-xl" />
+                 <Menu className="md:hidden text-3xl pl-5 text-primary" size={60} />
               </SheetTrigger>
               <SheetContent side="left">
                 <SheetHeader>
