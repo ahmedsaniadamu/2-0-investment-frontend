@@ -42,12 +42,12 @@ const page = () => {
   return (
     <AdminPageLayout>
         <section className='p-3'>
-            <header className='flex justify-between items-center'>
-                <h1 className="text-2xl font-semibold flex justify-between items-center capitalize">
+            <header className='md:flex justify-between items-center'>
+                <h1 className="text-2xl max-[500px]:mb-3 font-semibold flex justify-between items-center capitalize">
                  Investments Overview
                 </h1>
                 <div>
-                    <div className='flex items-center'>
+                      <div className='flex max-[500px]:flex-col max-[500px]:gap-3 items-center'>
                     <SearchInput 
                         setSearch={setSearch} placeHolder='Search Investments...'
                     />

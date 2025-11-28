@@ -12,6 +12,7 @@ import Loader from '@/components/loader';
 import { CloudUpload, Eye, Trash } from 'lucide-react';
 import { SpinnerCustom } from '@/components/ui/spinner';
 import { toastMessage } from '@/lib/custom-toast';
+import EmptyData from '@/components/empty-data';
 
 const page = () => {
       
@@ -144,6 +145,7 @@ const page = () => {
           isPending ?
            <Loader />
           :
+          kycDocuments?.length ?
           kycDocuments?.map((document: any, index: number) => {
             const uploadedDocument = uploadedDocuments?.length ?  uploadedDocuments?.find((doc) => doc?.name === document?.name) : null
             let isImage = false
@@ -218,8 +220,11 @@ const page = () => {
             </div>
             )
           })
+          : <div className='mb-8'>
+                <EmptyData text='No required documents added yet.' />
+          </div>
         }
-        <div className="flex justify-end gap-5 items-center">
+        <div className="flex justify-end gap-5 mt-3 items-center">
             <Button onClick={() => setUploadedDocuments([])} className='px-8' variant={'destructive'}>
                 Clear All 
             </Button>

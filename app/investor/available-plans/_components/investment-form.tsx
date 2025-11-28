@@ -133,38 +133,26 @@ const InvestmentForm: React.FC<{
       </div>
 
       {/* Start Date */}
-      <div>
-        <Label>Start Date</Label>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              className={cn(
-                "w-full justify-start text-left font-normal",
-                !formik.values.startDate && "text-muted-foreground"
-              )}
-            >
-              <CalendarIcon className="mr-2 h-4 w-4" />
-              {formik.values.startDate ? (
-                format(formik.values.startDate, "PPP")
-              ) : (
-                <span>Select date</span>
-              )}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0">
-            <Calendar
-              mode="single"
-              selected={formik.values.startDate || undefined}
-              onSelect={(date) => formik.setFieldValue("startDate", date)}
-              initialFocus
+          <div>
+            <Label>Start Date</Label>
+            <Input
+              type="date"
+              className="w-full"
+              min={format(new Date(), "yyyy-MM-dd")} 
+              value={
+                formik.values.startDate
+                  ? format(formik.values.startDate, "yyyy-MM-dd")
+                  : ""
+              }
+              onChange={(e) => {
+                const date = e.target.value ? new Date(e.target.value) : null
+                formik.setFieldValue("startDate", date)
+              }}
             />
-          </PopoverContent>
-        </Popover>
-        {formik.touched.startDate && formik.errors.startDate && (
-          <p className="text-red-500 text-sm mt-1">{formik.errors.startDate}</p>
-        )}
-      </div>
+            {formik.touched.startDate && formik.errors.startDate && (
+              <p className="text-red-500 text-sm mt-1">{formik.errors.startDate}</p>
+            )}
+          </div>
 
       {/* Expected Withdrawal Date */}
       {withdrawalDate && (

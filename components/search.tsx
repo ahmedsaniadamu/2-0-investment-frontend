@@ -16,6 +16,7 @@ const SearchInput: React.FC<{
     <React.Fragment>
           <Input
                  value={searchInit}
+        className={'max-[500px]:w-[300px] mb-2'}
                   onChange={ (e: React.ChangeEvent<HTMLInputElement>) => {
                     if(e.target.value === '') setSearch('')
                     setSearchInit(e.target.value)
