@@ -61,7 +61,7 @@ const page = () => {
                     }`}
                   >
                     {isPopular && (
-                      <div className="absolute -top-4 z-[1000] left-1/2 -translate-x-1/2">
+                      <div className="absolute -top-4 z-[10] left-1/2 -translate-x-1/2">
                         <span className="rounded-full bg-primary px-4 py-1 text-sm font-medium text-primary-foreground">
                           Most Popular
                         </span>

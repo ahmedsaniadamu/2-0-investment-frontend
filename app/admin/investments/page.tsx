@@ -92,7 +92,7 @@ const page = () => {
         {/* Total Investment Amount */}
         <SummaryCard
             title="Total Investments Amount"
-            amount={`$${summary?.amount?.toLocaleString()}`}
+            amount={`$${summary?.amount ? summary?.amount?.toLocaleString() : 0}`}
             isLoading={isPending}
             Icon={<Wallet className="w-6 h-6 text-indigo-600" />}
         />
