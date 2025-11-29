@@ -28,10 +28,10 @@ const page = () => {
               <InvestmentForm activePlan={activePlan} setActivePlan={setActivePlan} setOpen={setOpenModal} open={openModal} />
             : null
         }
-         <header className='flex justify-between items-center'>
-             <h1 className="text-2xl font-semibold">Investment Plans Overview</h1>
+         <header className='flex flex-col md:flex-row justify-between items-center'>
+        <h1 className="text-2xl max-[500px]:mb-3 font-semibold">Investment Plans Overview</h1>
              <div>
-                 <div className='flex items-center'>
+                 <div className='flex max-[500px]:mb-3 items-center'>
                 <Input
                   type="search"
                   placeholder="Search plans..." 

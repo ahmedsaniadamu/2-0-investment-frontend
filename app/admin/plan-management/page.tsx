@@ -55,14 +55,14 @@ const page = () => {
               <CreatePlanModal open={open} setOpen={setOpen} refetch={refetch} />
             : null
         }
-         <header className='flex mt-3 justify-between items-center'>
-             <h1 className="text-2xl font-semibold">Plans Management Overview</h1>
+         <header className='md:flex mt-3 justify-between items-center'>
+              <h1 className="text-2xl max-[500px]:mb-3 font-semibold">Plans Management Overview</h1>
              <div>
-                 <div className='flex items-center'>
+                 <div className='md:flex items-center'>
                  <SearchInput 
                     setSearch={setSearch} placeHolder='Search plans...'
                   />
-                <Button onClick={() => setOpen(true)} className='h-12 text-white bg-primary ml-2' variant="outline">
+                      <Button onClick={() => setOpen(true)} className='h-12 max-[500px]:mt-3 max-[500px]:w-full text-white bg-primary ml-2' variant="outline">
                    <PlusCircle /> Create Investment Plan
                 </Button>
                  </div>
@@ -75,7 +75,7 @@ const page = () => {
           !investmentPlans?.data?.length ?
             <EmptyData text='No plan Found' />
           :
-     <div className="grid mt-8 gap-5 md:grid-cols-3">
+                      <div className="grid mt-8 max-[500px]:grid-cols-1 gap-5 md:grid-cols-3">
         {
           investmentPlans?.data.map((plan: any) => (
             <Card key={plan.id} className='p-4 pb-0'>

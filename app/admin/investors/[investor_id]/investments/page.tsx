@@ -145,17 +145,17 @@ const page = () => {
 
   return (
     <AdminPageLayout>
-        <section className='p-3'>
-            <header className='flex justify-between items-center'>
-                <h1 className="text-2xl font-semibold flex justify-between items-center capitalize">
+        <section className='md:p-3'>
+            <header className='md:flex justify-between items-center'>
+          <h1 className="text-2xl max-[500px]:mb-3 font-semibold flex justify-between items-center capitalize">
                     {searchParams.get('name')}'s  Investments
                 </h1>
                 <div>
-                    <div className='flex items-center'>
+                    <div className='md:flex items-center'>
                     <SearchInput 
                         setSearch={setSearch} placeHolder='Search Investments...'
                     />
-                    <Button onClick={ () => window.history.back() } className='h-12 text-white bg-primary ml-2' variant="outline">
+              <Button onClick={() => window.history.back()} className='h-12 max-[500px]:w-full max-[500px]:mt-3 text-white bg-primary ml-2' variant="outline">
                         Back
                     </Button> 
                     </div>

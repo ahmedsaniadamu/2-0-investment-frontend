@@ -63,16 +63,16 @@ const getStatusColor = (status: string) => {
   return (
     <InvestorPageLayout>
        <section className='md:p-3'>
-            <header className='flex justify-between items-center'>
-                <h1 className="text-2xl font-semibold flex justify-between items-center capitalize">
+            <header className='md:flex flex-col md:flex-row justify-between items-center'>
+          <h1 className="text-2xl max-[500px]:mb-3 font-semibold flex justify-between items-center capitalize">
                     Transactions Overview
                 </h1>
                 <div>
-                    <div className='flex items-center'>
+                    <div className='md:flex items-center'>
                     <SearchInput  
                         setSearch={setSearch} placeHolder='Search Transactions...'
                     />
-                    <Button onClick={ () => window.history.back() } className='h-12 text-white bg-primary ml-2' variant="outline">
+              <Button onClick={() => window.history.back()} className='h-12 max-[500px]:mt-3 max-[500px]:w-full text-white bg-primary ml-2' variant="outline">
                         Back
                     </Button> 
                     </div>

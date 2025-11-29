@@ -132,9 +132,9 @@ const page = () => {
 
   return (
     <InvestorPageLayout>
-        <header className='p-2 mt-3 mb-3 flex justify-between'>
+        <header className='p-2 mt-3 mb-3 md:flex justify-between'>
           <h5 className='font-bold text-xl'>Verify KYC (Upload Documents Required) </h5>
-          <Button  className='' asChild>
+        <Button className='max-[500px]:w-full max-[500px]:mt-3' asChild>
             <Link href={'/investor/settings'}>
               Back
             </Link>
@@ -161,9 +161,9 @@ const page = () => {
 
             return (
                 <div key={document.id} className='rounded-lg mt-3 mb-5 bg-white p-3'>
-              <header className='flex items-center'>
+              <header className='md:flex items-center'>
                  <h5 className='font-bold text-md'>{index + 1}. {document.name}</h5>
-                 <span className='text-red-500 text-sm italic ml-4'>
+                  <span className='text-red-500 max-[500px]:mt-2 text-sm italic md:ml-4'>
                     (Please ensure the document is clear and legible and is one of the required file types)
                  </span>
               </header>

@@ -59,14 +59,14 @@ const page = () => {
     <AdminPageLayout>
         {ConfirmModalElement}
          <div className="p-1 space-y-6">
-        <header className='flex justify-between items-center'>
-             <h1 className="text-2xl font-semibold">KYC Management</h1>
+        <header className='md:flex justify-between items-center'>
+          <h1 className="text-2xl max-[500px]:mb-3 font-semibold">KYC Management</h1>
              <div>
-                 <div className='flex items-center'>
+                 <div className='md:flex items-center'>
                  <SearchInput 
                    setSearch={setSearch} placeHolder='Search Investor...'
                  />
-                <Button asChild className='h-12 text-white bg-primary ml-2' variant="outline">
+              <Button asChild className='h-12 max-[500px]:w-full max-[500px]:mt-3 text-white bg-primary ml-2' variant="outline">
                    <Link href={'/admin/kyc-management/document-requirements'}> View/Update KYC Document Requirements </Link>
                 </Button>
                  </div>

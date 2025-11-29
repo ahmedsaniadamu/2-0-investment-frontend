@@ -80,9 +80,9 @@ const page = () => {
   return (
     <InvestorPageLayout>
       {ConfirmModalElement}
-      <header className='p-2 mt-3 mb-3 flex justify-between'>
-          <h5 className='font-medium text-xl'>Investments Overview</h5>
-          <Button className='' asChild>
+      <header className='p-2 mt-3 mb-3 flex flex-col md:flex-row justify-between'>
+        <h5 className='font-medium text-xl max-[500px]:mb-3'>Investments Overview</h5>
+        <Button className='max-[500px]:w-full' asChild>
             <Link href={'/investor/available-plans'}>Explore Investments Plans</Link>
           </Button>
       </header>

@@ -81,14 +81,14 @@ const page = () => {
            //onApply={handleApplyFilter}
        />
      <div className="p-1 space-y-6">
-      <header className='flex justify-between items-center'>
-             <h1 className="text-2xl font-semibold">Transactions Overview</h1>
+      <header className='md:flex justify-between items-center'>
+          <h1 className="text-2xl font-semibold max-[500px]:mb-3">Transactions Overview</h1>
              <div>
-                 <div className='flex items-center'>
+                 <div className='md:flex items-center'>
                  <SearchInput 
                     setSearch={setSearch} placeHolder='Search transactions...'
                   />
-                <Button onClick={ () => setOpenFilterModal(true)} className='h-12 text-white bg-primary ml-2' variant="outline">
+              <Button onClick={() => setOpenFilterModal(true)} className='h-12 max-[500px]:w-full max-[500px]:mt-3 text-white bg-primary ml-2' variant="outline">
                    <Filter /> Filter
                 </Button>
                  </div>
@@ -134,13 +134,13 @@ const page = () => {
           <TabsTrigger onClick={ () => {
             setPage(1)
             setType('deposit')
-          } } className='w-[500px]' value="Deposit">
+              }} className='max-[500px]:w-[200px] md:w-[500px]' value="Deposit">
             Deposit
           </TabsTrigger>
           <TabsTrigger onClick={ () => {
             setPage(1)
             setType('withdraw')
-          } } value="Withdrawal">
+              }} className='max-[500px]:w-[200px] md:w-[500px]' value="Withdrawal">
             Withdrawal
           </TabsTrigger>
         </TabsList>

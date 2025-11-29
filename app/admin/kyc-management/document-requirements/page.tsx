@@ -119,11 +119,11 @@ const Page = () => {
   return (
     <AdminPageLayout>
       {ConfirmModalElement}
-      <header className="flex justify-between items-center mb-6">
+      <header className="md:flex justify-between items-center mb-6">
         <h1 className="text-2xl font-semibold">My KYC Document Requirements</h1>
-        <div className="flex items-center">
+        <div className="md:flex items-center">
           <Button
-            className="h-10 text-white bg-primary ml-2"
+            className="h-10 max-[500px]:w-full max-[500px]:mb-3 text-white bg-primary ml-2"
             variant="outline"
             onClick={() => {
               setEditDoc(null);
@@ -135,7 +135,7 @@ const Page = () => {
           </Button>
           <Button
             onClick={() => window.history.back()}
-            className="h-10 ml-2"
+            className="h-10 max-[500px]:w-full md:ml-2"
             variant="outline"
           >
             <ArrowLeft className="mr-2 h-4 w-4" /> Back

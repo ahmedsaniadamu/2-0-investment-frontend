@@ -45,8 +45,8 @@ const page = () => {
   return (  
     <AdminPageLayout>
         <div className="p-3 space-y-6">
-        <header className='flex justify-between items-center'>
-             <h1 className="text-2xl font-semibold">My Investors</h1>
+        <header className='md:flex justify-between items-center'>
+          <h1 className="text-2xl max-[500px]:mb-3 font-semibold">My Investors</h1>
              <div>
                  <div className='flex items-center'>
                  <SearchInput 
@@ -130,7 +130,7 @@ const page = () => {
                         : "bg-red-100 text-red-700"
                     }`}
                   >
-                    {investor?.kycRequests?.status}
+                    {investor?.kycRequests?.status || 'Not verified'}
                   </span>
 
                 </TableCell>

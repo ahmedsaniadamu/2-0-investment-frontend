@@ -120,7 +120,6 @@ export function PlansSection() {
                 <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </button>
-
             {/* Scroll wrapper now has ref */}
             <div ref={wrapperRef} className="scroll-wrapper">
               {/* scroll-track has ref so we can pause/resume animation from JS */}

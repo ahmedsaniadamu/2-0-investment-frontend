@@ -82,12 +82,12 @@ const page = () => {
           : null
          }
          <div className="p-1 space-y-6">
-             <header className='flex justify-between items-center'>
-             <h1 className="text-2xl font-semibold">
+             <header className='md:flex justify-between items-center'>
+          <h1 className="text-2xl max-[500px]:mb-3 font-semibold">
                 KYC Documents For ({investorKyc?.investor?.name})
               </h1>
              <div>
-               <div className='flex gap-4 items-center'>
+            <div className='md:flex md:gap-4 md:items-center max-[500px]:grid max-[500px]:grid-cols-2 max-[500px]:gap-4'>
                 <Button style={{ opacity: investorKyc?.status === 'approved' ? 0.5 : 1}} disabled={investorKyc?.status === 'approved'} onClick={handleApprove} className='h-12 text-white bg-primary ml-2'>
                     Approve
                 </Button>
@@ -104,7 +104,7 @@ const page = () => {
              </div>
             
         </header>
-        <header className='grid grid-cols-4 gap-5'>
+        <header className='grid max-[500px]:grid-cols-1 grid-cols-4 gap-5'>
              <div className='shadow py-5 rounded-lg px-3 bg-white flex justify-center items-center flex-col'>
                 <h3 className='text-md font-medium'>
                   Total Documents
@@ -161,8 +161,8 @@ const page = () => {
 
                   return (
                     <Card key={index} className="overflow-hidden rounded-xl border shadow">
-                      <CardHeader className='flex justify-between'>
-                        <CardTitle className="text-lg">{doc.title}</CardTitle>
+                      <CardHeader className='md:flex justify-between'>
+                        <CardTitle className="text-lg max-[500px]:w-full max-[500px]:mb-3">{doc.title}</CardTitle>
                         <Button className="mx-aut" asChild>
                           <a href={doc.url} download target="_blank">
                             Download Document
