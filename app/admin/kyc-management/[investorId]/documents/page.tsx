@@ -1,4 +1,5 @@
 'use client'
+export const dynamic = "force-static"
 import AdminPageLayout from '@/app/admin/_components/admin-page-layout'
 import EmptyData from '@/components/empty-data';
 import PageLoader from '@/components/page-loader';

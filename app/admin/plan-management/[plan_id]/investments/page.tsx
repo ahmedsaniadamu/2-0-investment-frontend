@@ -1,4 +1,5 @@
 'use client'
+export const dynamic = "force-static"
 import { adminPlans } from '@/api/plan'
 import AdminPageLayout from '@/app/admin/_components/admin-page-layout'
 import Pagination from '@/components/pagination'
