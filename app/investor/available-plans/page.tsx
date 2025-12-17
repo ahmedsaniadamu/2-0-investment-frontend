@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Search } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import InvestorPageLayout from '../_components/investor-page-layout'
-import { sharedPlans } from '@/api/plan'
+import { sharedPlans } from '@/services/plan'
 import { useQuery } from '@tanstack/react-query'
 import InvestmentForm from './_components/investment-form'
 import Loader from '@/components/loader'

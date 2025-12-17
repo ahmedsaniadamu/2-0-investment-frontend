@@ -22,7 +22,7 @@ import EmptyData from '@/components/empty-data';
 import { formatNumberWithCommas } from '@/lib/format-number';
 import AddReasonModal from './add-reason';
 import { useMutation } from '@tanstack/react-query';
-import { adminTransactions } from '@/api/transaction';
+import { adminTransactions } from '@/services/transaction';
 import { SpinnerCustom } from '@/components/ui/spinner';
 import { usePermission } from '@/hooks/use-permission';
 

@@ -1,6 +1,6 @@
 'use client'
 export const dynamic = "force-static"
-import { adminInvestors } from '@/api/investors';
+import { adminInvestors } from '@/services/investors';
 import AdminPageLayout from '@/app/admin/_components/admin-page-layout';
 import Loader from '@/components/loader';
 import { useQuery } from '@tanstack/react-query';

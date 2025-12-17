@@ -20,7 +20,7 @@ import {
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { adminKyc } from '@/api/kyc';
+import { adminKyc } from '@/services/kyc';
 import Loader from '@/components/loader';
 import EmptyData from '@/components/empty-data';
 import Pagination from '@/components/pagination';

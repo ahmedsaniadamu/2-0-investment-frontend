@@ -13,7 +13,7 @@ import { useState } from "react";
 import Link from 'next/link'
 import { useConfirmModal } from '@/components/useConfirmationModal';
 import { useQuery } from '@tanstack/react-query'
-import { adminKyc } from '@/api/kyc'
+import { adminKyc } from '@/services/kyc'
 import SearchInput from '@/components/search'
 import Loader from '@/components/loader'
 import EmptyData from '@/components/empty-data'

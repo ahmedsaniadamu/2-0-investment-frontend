@@ -16,7 +16,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { toastMessage } from "@/lib/custom-toast";
 import { SpinnerCustom } from "@/components/ui/spinner";
 import { useMutation } from "@tanstack/react-query";
-import { investorProfile } from "@/api/profile";
+import { investorProfile } from "@/services/profile";
 import { useSessionUserId } from "@/hooks/use-session-user-id";
 
 const getPasswordStrength = (password: string) => {

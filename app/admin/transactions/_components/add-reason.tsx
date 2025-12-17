@@ -12,7 +12,7 @@ import { useFormik } from "formik"
 import * as Yup from "yup"
 import { useMutation } from "@tanstack/react-query"
 import { toastMessage } from "@/lib/custom-toast";
-import { adminTransactions } from "@/api/transaction"
+import { adminTransactions } from "@/services/transaction"
 import { SpinnerCustom } from "@/components/ui/spinner"
 
 const JoditEditor = dynamic(() => import("jodit-react"), {

@@ -16,7 +16,7 @@ import { CheckCircle, Clock, XCircle } from "lucide-react"
 import SummaryCard from '../_components/summary-card'
 import { useSessionUserId } from '@/hooks/use-session-user-id'
 import { useQuery } from '@tanstack/react-query'
-import { investorTransactions as investorTransactions_ } from '@/api/transaction'
+import { investorTransactions as investorTransactions_ } from '@/services/transaction'
 import SearchInput from '@/components/search'
 import { Button } from '@/components/ui/button'
 import Pagination from '@/components/pagination'

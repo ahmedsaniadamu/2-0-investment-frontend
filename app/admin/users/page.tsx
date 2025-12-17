@@ -13,7 +13,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { users as usersApi } from '@/api/users';
+import { users as usersApi } from '@/services/users';
 import Loader from '@/components/loader';
 import EmptyData from '@/components/empty-data';
 import Pagination from '@/components/pagination';

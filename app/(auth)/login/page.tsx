@@ -17,7 +17,7 @@ import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import logo from "@/assets/logo.png";
 import { useMutation } from "@tanstack/react-query";
-import { auth } from "@/api/auth";
+import { auth } from "@/services/auth";
 import { toastMessage } from "@/lib/custom-toast";
 import { SpinnerCustom } from "@/components/ui/spinner";
 import { useRouter } from "next/navigation";

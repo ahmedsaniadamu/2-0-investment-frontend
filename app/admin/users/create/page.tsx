@@ -16,8 +16,8 @@ import AccessDeniedFullScreen from "../../_components/access-denied";
 import { usePermission } from "@/hooks/use-permission";
 import { toastMessage } from "@/lib/custom-toast";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { users } from "@/api/users";
-import { permissions as permissionsApi } from '@/api/permissions';
+import { users } from "@/services/users";
+import { permissions as permissionsApi } from '@/services/permissions';
 import { useRouter, useSearchParams } from "next/navigation";
 import { SpinnerCustom } from "@/components/ui/spinner";
 

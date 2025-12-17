@@ -11,7 +11,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import SearchInput from '@/components/search';
 import { useSessionUserId } from '@/hooks/use-session-user-id';
 import { useQuery } from '@tanstack/react-query';
-import { adminInvestors } from '@/api/investors';
+import { adminInvestors } from '@/services/investors';
 import Pagination from '@/components/pagination';
 import Loader from '@/components/loader';
 import EmptyData from '@/components/empty-data';

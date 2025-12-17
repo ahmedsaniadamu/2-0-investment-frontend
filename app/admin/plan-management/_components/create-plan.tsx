@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import Loader from "@/components/loader";
-import { adminPlans } from "@/api/plan";
+import { adminPlans } from "@/services/plan";
 import { useMutation } from "@tanstack/react-query";
 import { toastMessage } from "@/lib/custom-toast";
 

@@ -4,7 +4,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { useQuery } from "@tanstack/react-query"
-import { sharedPlans } from "@/api/plan"
+import { sharedPlans } from "@/services/plan"
 import { Skeleton } from "./ui/skeleton"
 import { formatNumberWithCommas } from "@/lib/format-number"
 

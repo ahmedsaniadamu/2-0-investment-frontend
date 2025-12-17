@@ -7,7 +7,7 @@ import { CircleDollarSign, Users, ArrowUpRight, ArrowDownRight, MonitorCheck } f
 import SummaryCard from '../investor/_components/summary-card';
 import { useQuery } from '@tanstack/react-query';
 import { useSessionUserId } from '@/hooks/use-session-user-id';
-import { adminDashboard } from '@/api/dashbard';
+import { adminDashboard } from '@/services/dashbard';
 import { formatNumberWithCommas } from '@/lib/format-number';
 import { DISTINCT_COLORS } from '@/lib/colors';
 import AccessDeniedFullScreen from './_components/access-denied';

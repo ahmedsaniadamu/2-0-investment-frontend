@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import AdminPageLayout from '../_components/admin-page-layout'
-import { adminInvestments } from '@/api/investment'
+import { adminInvestments } from '@/services/investment'
 import { useQuery } from '@tanstack/react-query'
 import {
   Table,

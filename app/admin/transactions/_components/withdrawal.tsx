@@ -20,7 +20,7 @@ import ViewMore from './view-more';
 import ConfirmActionModal from '@/components/comfirmation-modal';
 import { formatNumberWithCommas } from '@/lib/format-number';
 import EmptyData from '@/components/empty-data';
-import { adminTransactions } from '@/api/transaction';
+import { adminTransactions } from '@/services/transaction';
 import { useMutation } from '@tanstack/react-query';
 import { useConfirmModal } from '@/components/useConfirmationModal';
 import { SpinnerCustom } from '@/components/ui/spinner';

@@ -13,7 +13,7 @@ import * as Yup from "yup"
 import { useMutation } from "@tanstack/react-query"
 import { toastMessage } from "@/lib/custom-toast"
 import { SpinnerCustom } from "@/components/ui/spinner"
-import { adminKyc } from "@/api/kyc"
+import { adminKyc } from "@/services/kyc"
 
 const JoditEditor = dynamic(() => import("jodit-react"), {
     ssr: false,

@@ -19,7 +19,7 @@ import Image from "next/image";
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import logo from "@/assets/logo.png";
 import { useRouter } from "next/navigation";
-import { auth } from "@/api/auth";
+import { auth } from "@/services/auth";
 import { useMutation } from "@tanstack/react-query";
 import { toastMessage } from "@/lib/custom-toast";
 import { SpinnerCustom } from "@/components/ui/spinner";

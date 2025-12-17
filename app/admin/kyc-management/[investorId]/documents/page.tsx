@@ -13,7 +13,7 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
-import { adminKyc } from '@/api/kyc';
+import { adminKyc } from '@/services/kyc';
 import { useMutation } from '@tanstack/react-query';
 import { toastMessage } from '@/lib/custom-toast';
 import AddReasonModal from './_components/add-reason';

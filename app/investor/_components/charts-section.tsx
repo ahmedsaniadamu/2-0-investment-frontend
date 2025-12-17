@@ -20,7 +20,7 @@ import {
 import { CircleDollarSign, Calendar, ScanLine, Settings } from "lucide-react";
 import { useSessionUserId } from "@/hooks/use-session-user-id";
 import { useQuery } from "@tanstack/react-query";
-import { investorDashboard } from "@/api/dashbard";
+import { investorDashboard } from "@/services/dashbard";
 import { DISTINCT_COLORS } from "@/lib/colors";
 
 ChartJS.register(

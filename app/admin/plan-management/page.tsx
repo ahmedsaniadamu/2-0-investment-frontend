@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { EllipsisVertical, Eye, EyeOff, PlusCircle } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { useRouter } from 'next/navigation'
-import { adminPlans } from '@/api/plan'
+import { adminPlans } from '@/services/plan'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import SearchInput from '@/components/search'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'

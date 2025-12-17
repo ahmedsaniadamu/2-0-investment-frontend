@@ -11,7 +11,7 @@ import {
 import ChartsSection from "./_components/charts-section";
 import { useSessionUserId } from "@/hooks/use-session-user-id";
 import { useQuery } from "@tanstack/react-query";
-import { investorDashboard } from "@/api/dashbard";
+import { investorDashboard } from "@/services/dashbard";
 import { formatNumberWithCommas } from "@/lib/format-number";
 
 const Page = () => {

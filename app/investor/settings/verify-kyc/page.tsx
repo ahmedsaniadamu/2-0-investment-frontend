@@ -4,8 +4,8 @@ import InvestorPageLayout from '../../_components/investor-page-layout'
 import { useSessionUserId } from '@/hooks/use-session-user-id';
 import { useRouter } from 'next/navigation';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { investorProfile } from '@/api/profile';
-import { fileManagement } from '@/api/upload';
+import { investorProfile } from '@/services/profile';
+import { fileManagement } from '@/services/upload';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Loader from '@/components/loader';
