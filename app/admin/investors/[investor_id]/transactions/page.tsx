@@ -22,6 +22,8 @@ import Loader from '@/components/loader'
 import Pagination from '@/components/pagination'
 import { formatNumberWithCommas } from '@/lib/format-number'
 import { Badge } from '@/components/ui/badge'
+import { usePermission } from '@/hooks/use-permission'
+import AccessDeniedFullScreen from '@/app/admin/_components/access-denied'
 
 const page = () => {
 
@@ -30,7 +32,7 @@ const page = () => {
        const [limit, setLimit] = React.useState(5)
        const {investor_id}: {investor_id: string} = useParams()
        const searchParams = useSearchParams();
-     
+       const { hasAccess, loading } = usePermission("investors", 'view_investors_transactions');
      const { data: summary, isPending } = useQuery({
        queryKey: ["investorstransactionSummary"],
        queryFn: () => adminInvestors.getInvestorTransactionsSummary({
@@ -61,6 +63,14 @@ const page = () => {
       return "bg-gray-100 text-gray-700"
   }
 }
+
+if(loading) return (
+    <Loader />
+  )
+  
+  if(!hasAccess) return (
+    <AccessDeniedFullScreen />
+  )
 
   return (
     <AdminPageLayout>

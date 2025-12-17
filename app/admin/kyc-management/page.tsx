@@ -19,6 +19,8 @@ import Loader from '@/components/loader'
 import EmptyData from '@/components/empty-data'
 import Pagination from '@/components/pagination'
 import { useRouter } from 'next/navigation'
+import AccessDeniedFullScreen from '../_components/access-denied'
+import { usePermission } from '@/hooks/use-permission'
 
 const page = () => {
 
@@ -27,6 +29,7 @@ const page = () => {
     const [page, setPage] = React.useState(1)
     const [limit, setLimit] = React.useState(5)
     const router = useRouter()
+    const { hasAccess, loading } = usePermission("kyc", "view_kyc");
 
     const { data: summary, isPending } = useQuery({
        queryKey: ["kycSummary"],
@@ -54,6 +57,14 @@ const page = () => {
   const handleReject = (kyc: any) => {
     console.log("Rejected:", kyc);
   };
+
+  if(loading) return (
+      <Loader />
+    )
+    
+    if(!hasAccess) return (
+      <AccessDeniedFullScreen />
+    )
 
   return (
     <AdminPageLayout>

@@ -21,6 +21,8 @@ import EmptyData from '@/components/empty-data'
 import Loader from '@/components/loader'
 import Pagination from '@/components/pagination'
 import { formatNumberWithCommas } from '@/lib/format-number'
+import { usePermission } from '@/hooks/use-permission'
+import AccessDeniedFullScreen from '@/app/admin/_components/access-denied'
 
 export const getStatusConfig = (status: string) => {
     switch (status.toLowerCase()) {
@@ -124,6 +126,7 @@ const page = () => {
        const [limit, setLimit] = React.useState(5)
        const {investor_id}: {investor_id: string} = useParams()
        const searchParams = useSearchParams();
+       const { hasAccess, loading } = usePermission("investors", 'view_investors_investments');
      //  const userId = useSessionUserId();
      const { data: summary, isPending } = useQuery({
        queryKey: ["investorsinvestmentSummary"],
@@ -142,6 +145,14 @@ const page = () => {
        enabled: !!investor_id,
        select: (data: any) => data,
      });
+
+  if(loading) return (
+      <Loader />
+    )
+    
+    if(!hasAccess) return (
+      <AccessDeniedFullScreen />
+    )
 
   return (
     <AdminPageLayout>

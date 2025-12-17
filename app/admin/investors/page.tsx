@@ -17,6 +17,8 @@ import Loader from '@/components/loader';
 import EmptyData from '@/components/empty-data';
 import { formatNumberWithCommas } from '@/lib/format-number';
 import { useRouter } from 'next/navigation';
+import { usePermission } from '@/hooks/use-permission';
+import AccessDeniedFullScreen from '../_components/access-denied';
 
 const page = () => {
 
@@ -25,6 +27,7 @@ const page = () => {
    const [limit, setLimit] = React.useState(5)
    const userId = useSessionUserId();
    const {push} = useRouter();
+  const { hasAccess, loading } = usePermission('investors', 'view_investors');
     
      const { data: summary, isPending } = useQuery({
        queryKey: ["investorsSummary"],
@@ -41,6 +44,14 @@ const page = () => {
        select: (data: any) => data,
      });
   //console.log({investors_});
+
+  if(loading) return (
+      <Loader />
+    )
+    
+    if(!hasAccess) return (
+      <AccessDeniedFullScreen />
+    )
   
   return (  
     <AdminPageLayout>

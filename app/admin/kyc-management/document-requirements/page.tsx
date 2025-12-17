@@ -27,6 +27,8 @@ import Pagination from '@/components/pagination';
 import { toastMessage } from '@/lib/custom-toast';
 import { SpinnerCustom } from '@/components/ui/spinner';
 import { useConfirmModal } from '@/components/useConfirmationModal';
+import { usePermission } from '@/hooks/use-permission';
+import AccessDeniedFullScreen from '../../_components/access-denied';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('Document name is required'),
@@ -42,6 +44,10 @@ const Page = () => {
   const [search, setSearch] = React.useState('')
   const [page, setPage] = React.useState(1)
   const [limit, setLimit] = React.useState(5)
+  const { hasAccess, loading } = usePermission("kyc", "view_kyc_documents");
+  const { hasAccess: hasAccessToCreate } = usePermission("kyc", "create_kyc_document");
+  const { hasAccess: hasAccessToUpdate } = usePermission("kyc", "update_kyc_document");
+  const { hasAccess: hasAccessToDelete } = usePermission("kyc", "delete_kyc_document");
   const {confirm, ConfirmModalElement} = useConfirmModal();
   const { data: kycDocuments, isPending: kycPending, refetch } = useQuery({
        queryKey: ["kycDocuments", search, page, limit],
@@ -100,6 +106,7 @@ const Page = () => {
   };
 
   const handleDelete = async(id: string) => {
+    if(!hasAccessToDelete) return toastMessage("error", "Error", "You don't have permission to delete KYC document requirement");
     try {
       const ok = await confirm({
         title: "Delete Document Requirement",
@@ -116,6 +123,14 @@ const Page = () => {
     }
   };
 
+  if(loading) return (
+      <Loader />
+    )
+    
+    if(!hasAccess) return (
+      <AccessDeniedFullScreen />
+    )
+
   return (
     <AdminPageLayout>
       {ConfirmModalElement}
@@ -126,6 +141,7 @@ const Page = () => {
             className="h-10 max-[500px]:w-full max-[500px]:mb-3 text-white bg-primary ml-2"
             variant="outline"
             onClick={() => {
+              if(!hasAccessToCreate) return toastMessage("error", "Error", "You don't have permission to create KYC document requirement");
               setEditDoc(null);
               formik.resetForm();
               setIsModalOpen(true);
@@ -187,7 +203,10 @@ const Page = () => {
                   <Pencil
                     size={16}
                     className="cursor-pointer text-blue-600 hover:text-blue-800"
-                    onClick={() => handleEdit({...doc, acceptedFileTypes: doc.fileTypes})}
+                    onClick={() => {
+                      if(!hasAccessToUpdate) return toastMessage("error", "Error", "You don't have permission to update KYC document requirement");
+                      handleEdit({ ...doc, acceptedFileTypes: doc.fileTypes })
+                    }}
                   />
                   <Trash2
                     size={16}

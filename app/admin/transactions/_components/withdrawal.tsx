@@ -25,6 +25,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useConfirmModal } from '@/components/useConfirmationModal';
 import { SpinnerCustom } from '@/components/ui/spinner';
 import AddReasonModal from './add-reason';
+import { usePermission } from '@/hooks/use-permission';
 
 const Withdrawal = ({transactions, limit, refetch, refetchSummary}: {
   transactions: any, limit: number, 
@@ -37,6 +38,7 @@ const Withdrawal = ({transactions, limit, refetch, refetchSummary}: {
    const [openReasonModal, setOpenReasonModal] = useState(false);
    const {confirm, ConfirmModalElement} = useConfirmModal();
    const [activeTxn, setActiveTxn] = useState<any | null>(null);
+   const { hasAccess, loading } = usePermission("transactions", "review_transactions");
 
     const { mutateAsync: addReason, isPending } = useMutation({
     mutationFn: adminTransactions.reviewTransaction,
@@ -148,32 +150,38 @@ const Withdrawal = ({transactions, limit, refetch, refetchSummary}: {
                 {new Date(txn?.createdAt).toLocaleDateString('en-ng')}
               </TableCell>
                <TableCell className="flex gap-3 items-center">
-                  <Eye
-                    className="w-5 h-5 text-blue-600 cursor-pointer"
-                    onClick={() => {
-                      setSelectedTxn(txn);
-                      setIsOpen(true);
-                    }}
-                  />
                   {
-                    isPending && activeTxn?.id === txn?.id ? 
-                    <SpinnerCustom />
-                    : 
-                    <CheckCircle
-                    className="w-5 h-5 text-green-600 cursor-pointer"
-                    onClick={() => {
-                      setActiveTxn(txn);
-                      handleApprove(txn)
-                    }}
-                  />
+                    hasAccess ? 
+                      <>
+                      <Eye
+                        className="w-5 h-5 text-blue-600 cursor-pointer"
+                        onClick={() => {
+                          setSelectedTxn(txn);
+                          setIsOpen(true);
+                        }}
+                      />
+                      {
+                        isPending && activeTxn?.id === txn?.id ?
+                          <SpinnerCustom />
+                          :
+                          <CheckCircle
+                            className="w-5 h-5 text-green-600 cursor-pointer"
+                            onClick={() => {
+                              setActiveTxn(txn);
+                              handleApprove(txn)
+                            }}
+                          />
+                      }
+                      <XCircle
+                        className="w-5 h-5 text-red-600 cursor-pointer"
+                        onClick={() => {
+                          setActiveTxn(txn);
+                          handleReject(txn)
+                        }}
+                      />
+                      </>
+                    : '----------'
                   }
-                  <XCircle
-                    className="w-5 h-5 text-red-600 cursor-pointer"
-                    onClick={() => {
-                      setActiveTxn(txn);
-                      handleReject(txn)
-                    }}
-                  />
                 </TableCell>
             </TableRow>
           ))}

@@ -23,6 +23,7 @@ import { SpinnerCustom } from "@/components/ui/spinner";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Eye, EyeOff } from "lucide-react"; // 👁️ Import icons
 import { hashSync } from "bcryptjs";
+import { adminModules } from "@/app/admin/_components/admin-page-layout";
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -80,7 +81,18 @@ export default function LoginPage() {
         sessionStorage.setItem("role", 
           hashSync(res?.user?.role, 10)
         );
-        if(res?.user?.role === "admin") push("/admin");
+        if(res?.user?.role === "admin" || res?.user?.role === "sub-admin"){
+          if(res?.user?.role === "sub-admin"){
+            const allowedModules = new Set(res?.user?.permissions?.map((p: any) => p?.module));
+            const availableModules = adminModules.filter(module => allowedModules.has(module.slug))
+            if(availableModules.length > 0){
+              push(`${availableModules[0].url}`);
+            }
+            else{
+              toastMessage("error", "Error", "You don't have access to any of the admin modules");
+            }
+          } else push("/admin");
+        }
         else push("/investor");
       } catch (error: any) {
         toastMessage("error", "Error", error?.response?.data?.message);

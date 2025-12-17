@@ -1,22 +1,22 @@
 'use client'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import AdminPageLayout from '../_components/admin-page-layout'
-import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { EllipsisVertical, Eye, EyeClosed, EyeOff, Filter, PlusCircle, Search } from 'lucide-react'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { plans } from '@/components/plans-section'
+import { EllipsisVertical, Eye, EyeOff, PlusCircle } from 'lucide-react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { useRouter } from 'next/navigation'
-import  { adminPlans } from '@/api/plan'
+import { adminPlans } from '@/api/plan'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import SearchInput from '@/components/search'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import Loader from '@/components/loader'
 import EmptyData from '@/components/empty-data'
 import Pagination from '@/components/pagination'
 import { formatNumberWithCommas } from '@/lib/format-number'
 import { toastMessage } from '@/lib/custom-toast'
 import CreatePlanModal from './_components/create-plan'
+import { usePermission } from '@/hooks/use-permission'
+import AccessDeniedFullScreen from '../_components/access-denied'
 
 const page = () => {
 
@@ -26,7 +26,9 @@ const page = () => {
       const [activePlan, setActivePlan] = useState<any>(null) 
       const [open, setOpen] = useState(false)
       const {push} = useRouter();
-
+      const { hasAccess, loading } = usePermission("plans", 'view_plans');
+       const { hasAccess: hasAccessToCreate, loading: loadingToCreate } = usePermission("plans", 'create_plan');
+       const { hasAccess: hasAccessToUpdate, loading: loadingToUpdate } = usePermission("plans", 'update_plan');
        const { data:  investmentPlans, isPending, refetch } = useQuery({
        queryKey: ["get plans", search, page, limit],
        queryFn: () => adminPlans.getPlans({search, page, limit}),
@@ -47,7 +49,14 @@ const page = () => {
         }   
       }
 
+    if (loading) return (
+        <Loader />
+    )
 
+    if (!hasAccess) return (
+        <AccessDeniedFullScreen />
+    )
+    
   return (
     <AdminPageLayout>
         {
@@ -62,7 +71,7 @@ const page = () => {
                  <SearchInput 
                     setSearch={setSearch} placeHolder='Search plans...'
                   />
-                      <Button onClick={() => setOpen(true)} className='h-12 max-[500px]:mt-3 max-[500px]:w-full text-white bg-primary ml-2' variant="outline">
+                      <Button disabled={!hasAccessToCreate} onClick={() => setOpen(true)} className={`h-12 max-[500px]:mt-3 max-[500px]:w-full text-white ${ hasAccessToCreate ? 'bg-primary' : 'bg-gray-400' } ml-2`}variant="outline">
                    <PlusCircle /> Create Investment Plan
                 </Button>
                  </div>
@@ -87,11 +96,13 @@ const page = () => {
                             ) :
                             plan?.visibility ? (
                                 <Eye className='hover:cursor-pointer' onClick={ () => {
+                                    if(!hasAccessToUpdate) return toastMessage("error", "Error", "You don't have permission to update this plan");
                                     setActivePlan(plan);
                                     togglePlanVisibility(plan?.id, false);
                                 } } />
                             ) : (
                                 <EyeOff className='hover:cursor-pointer' onClick={ () => {
+                                    if(!hasAccessToUpdate) return toastMessage("error", "Error", "You don't have permission to update this plan");
                                     setActivePlan(plan)
                                     togglePlanVisibility(plan?.id, true)
                                 } } />

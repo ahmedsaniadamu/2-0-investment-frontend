@@ -21,12 +21,15 @@ import { Progress } from '@/components/ui/progress'
 import { formatNumberWithCommas } from '@/lib/format-number'
 import { calculateInvestmentMetrics, getStatusConfig } from '../investors/[investor_id]/investments/page'
 import Pagination from '@/components/pagination'
+import { usePermission } from '@/hooks/use-permission'
+import AccessDeniedFullScreen from '../_components/access-denied'
 
 const page = () => {
 
     const [search, setSearch] = useState('')
     const [page, setPage] = useState(1)
     const [limit, setLimit] = useState(5)
+    const { hasAccess, loading } = usePermission("investments", 'view_investments');
 
     const { data: summary, isPending, refetch: refetchSummary } = useQuery({
        queryKey: ["investmentSummary"],
@@ -38,7 +41,14 @@ const page = () => {
        queryFn: () => adminInvestments.getInvestments({search, page, limit}),
  });
 
+    if (loading) return (
+        <Loader />
+    )
 
+    if (!hasAccess) return (
+        <AccessDeniedFullScreen />
+    )
+    
   return (
     <AdminPageLayout>
         <section className='p-3'>

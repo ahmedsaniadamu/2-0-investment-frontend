@@ -17,13 +17,17 @@ import { useMutation } from '@tanstack/react-query';
 import { toastMessage } from '@/lib/custom-toast';
 import AddReasonModal from './_components/add-reason';
 import Link from 'next/link';
+import { usePermission } from '@/hooks/use-permission';
+import AccessDeniedFullScreen from '@/app/admin/_components/access-denied';
+import Loader from '@/components/loader';
 
 const page = () => {
 
   const {confirm, ConfirmModalElement} = useConfirmModal();
   const [investorKyc, setInvestorKyc] = React.useState<any>(null);
   const [openReasonModal, setOpenReasonModal] = useState(false);
-
+   const { hasAccess, loading } = usePermission("kyc", "view_kyc");
+  const { hasAccess: hasReviewAccess } = usePermission("kyc", "review_kyc");
   useEffect(() => {
     const investorKyc = sessionStorage.getItem('investor-kyc');
     if (investorKyc) {
@@ -37,6 +41,7 @@ const page = () => {
   });
 
   const handleApprove = async (kyc: any) => {
+     if(!hasReviewAccess) return toastMessage("error", "Error", "You don't have permission to approve KYC document");
         const ok = await confirm({
       title: "Approve KYC Dcoument",
       description: "Are you sure you want to approve kyc document for this investor?",
@@ -55,6 +60,7 @@ const page = () => {
   };
 
   const handleReject = async (kyc: any) => {
+    if(!hasReviewAccess) return toastMessage("error", "Error", "You don't have permission to reject KYC document");
     const ok = await confirm({
       title: "Reject KYC Dcoument",
       description: "Are you sure you want to reject kyc document for this investor?",
@@ -67,6 +73,13 @@ const page = () => {
   };
 
   if(!investorKyc) return <PageLoader />
+  if(loading) return (
+      <Loader />
+    )
+    
+    if(!hasAccess) return (
+      <AccessDeniedFullScreen />
+    )
 
   return (
     <AdminPageLayout>

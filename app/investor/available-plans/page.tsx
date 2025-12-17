@@ -88,11 +88,11 @@ const page = () => {
                     </CardContent>
 
                     <CardFooter>
-                      <Button className="w-full" onClick={() => {
+                      <Button disabled={!plan?.visibility} className={`w-full ${plan?.visibility ? "bg-primary" : "bg-gray-600"}`} onClick={() => {
                         setActivePlan(plan)
                         setOpenModal(true)
                       }}>
-                         Invest Now
+                        {plan?.visibility ? 'Invest Now' : 'Over Subscribed'}
                       </Button>
                     </CardFooter>
                   </Card>

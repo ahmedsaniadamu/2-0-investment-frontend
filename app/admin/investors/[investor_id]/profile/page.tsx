@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { usePermission } from '@/hooks/use-permission';
+import AccessDeniedFullScreen from '@/app/admin/_components/access-denied';
 
 const formatJoinedDate = (dateString: string) => {
   const date = new Date(dateString);
@@ -22,13 +24,13 @@ const formatJoinedDate = (dateString: string) => {
 const Page = () => {
 
   const { investor_id } = useParams();
-
+ const { hasAccess, loading } = usePermission("investors", 'view_investors_profile');
   const { data: profile, isPending } = useQuery({
     queryKey: ["investorProfile", investor_id],
     queryFn: () => adminInvestors.getInvestorProfile(investor_id as string),
     enabled: !!investor_id,
   });
-
+  
   if (isPending) return <Loader />;
 
   const investor = profile?.investor;
@@ -43,6 +45,14 @@ const Page = () => {
     joinedDate: investor?.createdAt ? formatJoinedDate(investor.createdAt) : "",
     kycStatus: profile?.investorKycRequest?.status || "pending",
   };
+
+  if(loading) return (
+      <Loader />
+    )
+    
+    if(!hasAccess) return (
+      <AccessDeniedFullScreen />
+    )
 
   return (
     <AdminPageLayout>

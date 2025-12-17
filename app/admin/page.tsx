@@ -1,42 +1,45 @@
 'use client'
-import React, { useEffect, useState } from 'react'
-import { useRouter } from "next/navigation"
-import AdminPageLayout from "./_components/admin-page-layout"
+import React from 'react';
+import AdminPageLayout from "./_components/admin-page-layout";
 import { Bar, Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from "chart.js";
 import { CircleDollarSign, Users, ArrowUpRight, ArrowDownRight, MonitorCheck } from "lucide-react";
-import { v4 as uuidv4 } from "uuid";
-import { plans } from '@/components/plans-section';
 import SummaryCard from '../investor/_components/summary-card';
-import FilterModal from './transactions/_components/filter-modal';
 import { useQuery } from '@tanstack/react-query';
 import { useSessionUserId } from '@/hooks/use-session-user-id';
 import { adminDashboard } from '@/api/dashbard';
 import { formatNumberWithCommas } from '@/lib/format-number';
 import { DISTINCT_COLORS } from '@/lib/colors';
+import AccessDeniedFullScreen from './_components/access-denied';
+import { usePermission } from '@/hooks/use-permission';
+import Loader from '@/components/loader';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
 
 const page = () => {
 
   const userId = useSessionUserId();
- 
+  const { hasAccess, loading } = usePermission("dashboard");
+  
   const { data: summary, isPending } = useQuery({
     queryKey: ["dashboardSummary"],
     queryFn: () => adminDashboard.getDashboardSummary(),
     select: (data: any) => data?.data,
+    enabled: hasAccess
   });
 
   const { data: roiPerPlan, isPending: roiPending } = useQuery({
     queryKey: ["roiPerPlan"],
     queryFn: () => adminDashboard.getROIPerPlan(),
     select: (data: any) => data?.data,
+    enabled: hasAccess
   });
 
    const { data: investmentDistribution, isPending: investmentPending } = useQuery({
     queryKey: ["Investment Distribution"],
     queryFn: () => adminDashboard.getInvestmentDistribution(),
     select: (data: any) => data?.data,
+    enabled: hasAccess
   });
 
   const barData = {
@@ -61,6 +64,14 @@ const page = () => {
       },
     ],
   };
+
+  if(loading) return (
+    <Loader />
+  )
+  
+  if(!hasAccess) return (
+    <AccessDeniedFullScreen />
+  )
 
   return (
     <React.Fragment>

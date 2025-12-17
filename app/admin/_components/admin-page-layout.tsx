@@ -2,7 +2,7 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import wavingHand from "@/assets/twemoji_waving-hand.png"
 import React, { useEffect, useState } from 'react'
-import { CircleDollarSign, LayoutDashboard, MapPinned, Route, ScanLine, Settings, Users } from "lucide-react"
+import { CircleDollarSign, FileKey, HandCoins, LayoutDashboard, MapPinned, Route, ScanLine, Settings, UserPlus, Users } from "lucide-react"
 import Image from "next/image"
 import {
   DropdownMenu,
@@ -15,14 +15,74 @@ import { useRouter } from "next/navigation"
 import userImg from '@/assets/user.png';
 import { AppSidebar } from "@/components/app-sidebar"
 import { useConfirmModal } from "@/components/useConfirmationModal"
+import { usePermission } from "@/hooks/use-permission"
+
+export const adminModules = [
+  {
+    title: "Dashboard",
+    slug: "dashboard",
+    url: "/admin/",
+    icon: LayoutDashboard,
+  },
+  {
+    title: "My Investors",
+    slug: "investors",
+    url: "/admin/investors",
+    icon: Users,
+  },
+  {
+    title: "Transactions",
+    url: "/admin/transactions",
+    slug: "transactions",
+    icon: ScanLine,
+  },
+  {
+    title: "Investments",
+    url: "/admin/investments",
+    slug: "investments",
+    icon: HandCoins,
+  },
+  {
+    title: "Plan Management",
+    url: "/admin/plan-management",
+    slug: "plans",
+    icon: Route,
+  },
+  {
+    title: "KYC Management",
+    url: "/admin/kyc-management",
+    slug: "kyc",
+    icon: MapPinned,
+  },
+  {
+    title: "Permissions",
+    url: "/admin/permissions",
+    slug: "permissions",
+    icon: FileKey,
+  },
+  {
+    title: "Users Management",
+    url: "/admin/users",
+    slug: "users",
+    icon: UserPlus,
+  },
+]
+
 const AdminPageLayout = ({ children }: { children: React.ReactNode }) => {
 
-  const [greeting, setGreeting] = useState<string>('');
-   const router = useRouter();
-   const [user, setUser] = useState<any>(null);
-   const { ConfirmModalElement } = useConfirmModal();
+    const [greeting, setGreeting] = useState<string>('');
+    const router = useRouter();
+    const [user, setUser] = useState<any>(null);
+    const [availableModules, setAvailableModules] = useState(adminModules);
+    const { ConfirmModalElement } = useConfirmModal();
+    const permissions = JSON.parse(sessionStorage.getItem('user') || '{}')?.permissions || [];
+    const allowedModules = new Set(permissions.map((p: any) => p?.module));
+
 
   useEffect(() => {
+    setAvailableModules(
+      adminModules.filter(module => allowedModules.has(module.slug))
+    )
     setUser(JSON.parse(sessionStorage.getItem('user') || '{}'));
     const updateGreeting = () => {
       const today = new Date();
@@ -43,42 +103,13 @@ const AdminPageLayout = ({ children }: { children: React.ReactNode }) => {
     return () => clearInterval(interval);
   }, []);
 
-  const adminModules = [
-  {
-    title: "Dashboard",
-    url: "/admin/",
-    icon: LayoutDashboard ,
-  },
-  {
-    title: "My Investors",
-    url: "/admin/investors",
-    icon: Users ,
-  },
-  {
-    title: "Transactions",
-    url: "/admin/transactions",
-    icon: ScanLine,
-  },
-  {
-      title: "Investments",
-      url: "/admin/investments",
-      icon: CircleDollarSign,
-    },
-  {
-    title: "Plan Management",
-    url: "/admin/plan-management",
-    icon: Route,
-  },
-  {
-    title: "KYC Management",
-    url: "/admin/kyc-management",
-    icon: MapPinned,
-  },
-  ]
+
+
+
 
   return (
     <SidebarProvider>
-      <AppSidebar items={adminModules}  />
+      <AppSidebar items={availableModules}  />
       {ConfirmModalElement}
       <main className="w-full overflow-x-hidden">
         <header className="flex shadow px-3 bg-white py-5 sticky justify-between">
@@ -96,7 +127,9 @@ const AdminPageLayout = ({ children }: { children: React.ReactNode }) => {
                 <span className='flex items-center rounded-full justify-center w-[30px] bg-slate-200 h-[30px]'>
                   <Image src={userImg} alt='profile' className='w-[25px] rounded-full h-[25px]' />
                 </span>
-              <span className='pl-1 capitalize'>{user?.role}</span>
+              <span className='pl-1 capitalize'>{
+              user?.role === 'admin' ? 'Admin' : user?.userType
+              }</span>
               <i className='bi bi-chevron-down pl-1' />
             </button>
           </DropdownMenuTrigger>

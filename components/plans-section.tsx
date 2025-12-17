@@ -165,8 +165,10 @@ export function PlansSection() {
                       </CardContent>
 
                       <CardFooter>
-                        <Button className="w-full" asChild>
-                          <Link href="/signup">Invest Now</Link>
+                        <Button disabled={!plan?.visibility} className={`w-full ${ plan?.visibility ? "bg-primary" : "bg-gray-600"}`} asChild>
+                          <Link href="/signup">{
+                            plan?.visibility ? 'Invest Now' : 'Over Subscribed'
+                          }</Link>
                         </Button>
                       </CardFooter>
                     </Card>

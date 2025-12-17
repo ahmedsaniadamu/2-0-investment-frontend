@@ -23,6 +23,8 @@ import { useQuery } from '@tanstack/react-query'
 import { adminTransactions } from '@/api/transaction'
 import Pagination from '@/components/pagination'
 import Loader from '@/components/loader'
+import { usePermission } from '@/hooks/use-permission'
+import AccessDeniedFullScreen from '../_components/access-denied'
 
 export type filterType = {
     status: string;
@@ -39,7 +41,7 @@ const page = () => {
   const [limit, setLimit] = useState(5)
   const userId = useSessionUserId();
   const {push} = useRouter();
-
+   const { hasAccess, loading } = usePermission("transactions","view_transactions");
   const [openFilterModal, setOpenFilterModal] = useState(false);
   const [type, setType] = useState<'deposit' | 'withdraw'>('deposit')
   const [filters, setFilters] = useState<filterType>({
@@ -72,6 +74,14 @@ const page = () => {
        //  enabled: !!userId,
          select: (data: any) => data,
        });
+
+  if(loading) return (
+      <Loader />
+    )
+    
+    if(!hasAccess) return (
+      <AccessDeniedFullScreen />
+    )
 
   return (
     <AdminPageLayout>
