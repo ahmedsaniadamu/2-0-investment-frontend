@@ -7,58 +7,50 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import InvestorPageLayout from '../_components/investor-page-layout'
 import { sharedPlans } from '@/services/plan'
 import { useQuery } from '@tanstack/react-query'
-import InvestmentForm from './_components/investment-form'
+import { useRouter } from 'next/navigation'
 import Loader from '@/components/loader'
 import { formatNumberWithCommas } from "@/lib/format-number"
 
 const page = () => {
 
- const [openModal, setOpenModal] = React.useState(false);
- const [activePlan, setActivePlan] = React.useState<any>(null);
-
- const { data: availablePlans, isPending } = useQuery({
+  const router = useRouter();
+  const { data: availablePlans, isPending } = useQuery({
     queryKey: ["get-plans"],
     queryFn: () => sharedPlans.getPlans(),
   });
 
   return (
     <InvestorPageLayout>
-        {
-            openModal ?
-              <InvestmentForm activePlan={activePlan} setActivePlan={setActivePlan} setOpen={setOpenModal} open={openModal} />
-            : null
-        }
-         <header className='flex flex-col md:flex-row justify-between items-center'>
+      <header className='flex flex-col md:flex-row justify-between items-center'>
         <h1 className="text-2xl max-[500px]:mb-3 font-semibold">Investment Plans Overview</h1>
-             <div>
-                 <div className='flex max-[500px]:mb-3 items-center'>
-                <Input
-                  type="search"
-                  placeholder="Search plans..." 
-                />
-                <Button className='h-12 bg-white ml-2' variant="outline">
-                   <Search/> Search
-                </Button>
-                 </div>
-             </div>
-        </header>
-        {
-        isPending  ? (
-           <Loader />
+        <div>
+          <div className='flex max-[500px]:mb-3 items-center'>
+            <Input
+              type="search"
+              placeholder="Search plans..."
+            />
+            <Button className='h-12 bg-white ml-2' variant="outline">
+              <Search /> Search
+            </Button>
+          </div>
+        </div>
+      </header>
+      {
+        isPending ? (
+          <Loader />
         ) :
           <div className="grid mt-8 gap-5 md:grid-cols-3">
-           { availablePlans?.length ? (
+            {availablePlans?.length ? (
               [...availablePlans].map((plan: any, i: number) => {
-                  const isPopular =
+                const isPopular =
                   [...availablePlans].sort((a, b) => b.investmentCount - a.investmentCount)[0]
                     ?.investmentCount === plan?.investmentCount;
 
                 return (
                   <Card
                     key={plan.name + i}
-                    className={`mb-3 flex-shrink-0 ${
-                      isPopular ? "relative border-primary shadow-lg" : ""
-                    }`}
+                    className={`mb-3 flex-shrink-0 ${isPopular ? "relative border-primary shadow-lg" : ""
+                      }`}
                   >
                     {isPopular && (
                       <div className="absolute -top-4 z-[10] left-1/2 -translate-x-1/2">
@@ -89,8 +81,7 @@ const page = () => {
 
                     <CardFooter>
                       <Button disabled={!plan?.visibility} className={`w-full ${plan?.visibility ? "bg-primary" : "bg-gray-600"}`} onClick={() => {
-                        setActivePlan(plan)
-                        setOpenModal(true)
+                        router.push(`/investor/available-plans/payment-intent?planId=${plan.id}`)
                       }}>
                         {plan?.visibility ? 'Invest Now' : 'Over Subscribed'}
                       </Button>
@@ -98,10 +89,10 @@ const page = () => {
                   </Card>
                 );
               })
-        ) : null
-        }
-	    </div>
-        }
+            ) : null
+            }
+          </div>
+      }
     </InvestorPageLayout>
   )
 }

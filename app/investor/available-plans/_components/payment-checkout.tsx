@@ -5,6 +5,8 @@ import { stripePromise } from '@/lib/stripe';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useConfirmModal } from '@/components/useConfirmationModal';
+import Loader from '@/components/loader';
+import { SpinnerCustom } from '@/components/ui/spinner';
 
 function CheckoutForm({ amount }: { amount: number }) {
 
@@ -40,8 +42,11 @@ function CheckoutForm({ amount }: { amount: number }) {
         <form onSubmit={handleSubmit}>
             {ConfirmModalElement}
             <PaymentElement />
-            <Button className='mt-5 w-full block' disabled={!stripe || loading}>
-                {loading ? 'Processing...' : 'Invest'}
+            <Button className='mt-5 w-full flex justify-center items-center' disabled={!stripe || loading}>
+                {loading ? <>
+                    <SpinnerCustom />
+                    Processing...
+                </> : 'Invest'}
             </Button>
         </form>
     );

@@ -35,6 +35,10 @@ export const investorInvestments = {
     currency: string;
     investorId: string;
     planId: string;
+    startDate: string;
+    investmentGoal: string;
+    agreement: boolean;
+    paymentMethod: string;
   }): Promise<any> =>
     client.post(`/investor/investments/create-payment-intent`, data).then(({ data }) => data),
 };

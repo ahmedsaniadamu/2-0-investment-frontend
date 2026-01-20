@@ -9,7 +9,7 @@ import { motion } from 'framer-motion'
 const SuccessPage = () => {
     return (
         <InvestorPageLayout>
-            <div className="flex flex-col items-center justify-center min-h-[80vh] bg-gradient-to-b from-white to-gray-50/50 rounded-3xl overflow-hidden mt-4">
+            <div className="flex flex-col items-center justify-center min-h-[80vh] overflow-hidden ">
                 <section className="flex flex-col items-center max-w-2xl w-full p-8 text-center">
                     {/* Success Icon Animation */}
                     <motion.div
@@ -21,10 +21,10 @@ const SuccessPage = () => {
                             damping: 20,
                             delay: 0.1
                         }}
-                        className="mb-8 relative"
+                        className="mb-5 relative"
                     >
                         <div className="bg-green-100 p-6 rounded-full relative z-10">
-                            <CheckCircle2 className="w-24 h-24 text-green-600" strokeWidth={2.5} />
+                            <CheckCircle2 className="w-16 h-16 text-green-600" strokeWidth={2.5} />
                         </div>
                         {/* Decorative background circles */}
                         <motion.div
@@ -39,12 +39,12 @@ const SuccessPage = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3 }}
-                        className="space-y-4 mb-10"
+                        className="space-y-3 mb-6"
                     >
-                        <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">
+                        <h1 className="text-2xl font-extrabold text-gray-900 tracking-tight">
                             Payment Confirmed!
                         </h1>
-                        <p className="text-xl text-gray-600 font-medium">
+                        <p className="text-md text-gray-600 font-medium">
                             Thank you for your investment
                         </p>
                         <div className="h-1 w-20 bg-green-500 mx-auto rounded-full mt-2" />
@@ -55,7 +55,7 @@ const SuccessPage = () => {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.5 }}
-                        className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full mb-10"
+                        className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full mb-6"
                     >
                         <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex items-start gap-4 text-left">
                             <div className="bg-blue-50 p-3 rounded-xl">
@@ -90,7 +90,7 @@ const SuccessPage = () => {
                         className="w-full sm:w-auto"
                     >
                         <Link href="/investor/available-plans" className="block">
-                            <Button className="group relative w-full sm:w-auto px-10 py-7 text-lg font-semibold rounded-2xl bg-gray-900 hover:bg-black text-white transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1 overflow-hidden">
+                            <Button className="group relative w-full sm:w-auto px-10 py-7 text-md font-semibold rounded-2xl bg-primary hover:bg-black text-white transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1 overflow-hidden">
                                 <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                                 <span className="flex items-center justify-center gap-3">
                                     <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
@@ -105,7 +105,7 @@ const SuccessPage = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 1 }}
-                        className="mt-12 flex items-center gap-2 text-gray-400 text-sm"
+                        className="mt-8 flex items-center gap-2 text-gray-400 text-sm"
                     >
                         <ShieldCheck className="w-4 h-4" />
                         <span>Secured by Stripe & 2Zero Investment</span>
