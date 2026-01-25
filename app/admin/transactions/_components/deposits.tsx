@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react'
-import { transactions } from '../../_components/dummy-data'; 
+import { transactions } from '../../_components/dummy-data';
 import {
   Table,
   TableBody,
@@ -26,34 +26,34 @@ import { adminTransactions } from '@/services/transaction';
 import { SpinnerCustom } from '@/components/ui/spinner';
 import { usePermission } from '@/hooks/use-permission';
 
-const Deposits = ({transactions, limit, refetch, refetchSummary}: {
-  transactions: any, limit: number, 
+const Deposits = ({ transactions, limit, refetch, refetchSummary }: {
+  transactions: any, limit: number,
   refetch: any,
   refetchSummary: any
 }) => {
- 
-   const [selectedTxn, setSelectedTxn] = useState<any | null>(null);
-   const [isOpen, setIsOpen] = useState(false);
-   const {confirm, ConfirmModalElement} = useConfirmModal();
-   const [openReasonModal, setOpenReasonModal] = useState(false);
-   const [activeTxn, setActiveTxn] = useState<any | null>(null);
+
+  const [selectedTxn, setSelectedTxn] = useState<any | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const { confirm, ConfirmModalElement } = useConfirmModal();
+  const [openReasonModal, setOpenReasonModal] = useState(false);
+  const [activeTxn, setActiveTxn] = useState<any | null>(null);
   const { hasAccess, loading } = usePermission("transactions", "review_transactions");
-    const { mutateAsync: addReason, isPending } = useMutation({
+  const { mutateAsync: addReason, isPending } = useMutation({
     mutationFn: adminTransactions.reviewTransaction,
     mutationKey: ["state-reason"],
   });
 
-   const handleApprove = async (txn: any) => {
+  const handleApprove = async (txn: any) => {
 
     const ok = await confirm({
       title: `Approve ${txn.Investor?.name}'s Transaction`,
       description: "Are you sure you want to approve this transaction?",
       confirmText: "Approve",
-     // type: "approve",
+      // type: "approve",
     });
-    if(ok){
+    if (ok) {
       try {
-        await addReason({id: txn.id, status: "approved"});
+        await addReason({ id: txn.id, status: "approved" });
         refetch();
         refetchSummary();
         toastMessage(
@@ -63,7 +63,7 @@ const Deposits = ({transactions, limit, refetch, refetchSummary}: {
         );
       } catch (error: any) {
         console.log(error);
-        
+
         toastMessage(
           "error",
           "Error❌",
@@ -73,7 +73,7 @@ const Deposits = ({transactions, limit, refetch, refetchSummary}: {
     }
   };
 
-  const handleReject = async(txn: any) => {
+  const handleReject = async (txn: any) => {
     const ok = await confirm({
       title: `Reject ${txn.Investor?.name}'s Transaction`,
       description: "Are you sure you want to reject this transaction?",
@@ -81,110 +81,127 @@ const Deposits = ({transactions, limit, refetch, refetchSummary}: {
       type: "reject",
     });
     setActiveTxn(txn);
-    if(ok) setOpenReasonModal(true);
+    if (ok) setOpenReasonModal(true);
   };
+
+  const getStatusColor = (status: string) => {
+    switch (status?.toLowerCase()) {
+      case "approved":
+      case "success":
+      case "successful":
+      case "succeeded":
+        return "bg-green-100 text-green-700"
+      case "pending":
+      case "processing":
+        return "bg-yellow-100 text-yellow-700"
+      case "rejected":
+      case "failed":
+      case "cancelled":
+        return "bg-red-100 text-red-700"
+      default:
+        return "bg-gray-100 text-gray-700"
+    }
+  }
 
   return (
     <div>
-        {ConfirmModalElement}
-        {
-          openReasonModal ? 
-            <AddReasonModal 
+      {ConfirmModalElement}
+      {
+        openReasonModal ?
+          <AddReasonModal
             open={openReasonModal} setOpen={setOpenReasonModal} id={activeTxn?.id}
-             refetch={refetch} refetchSummary={refetchSummary}
-            />
+            refetch={refetch} refetchSummary={refetchSummary}
+          />
           : null
-        }
-        <ViewMore isOpen={isOpen} setIsOpen={setIsOpen} selectedTxn={selectedTxn} />
-         {
-          !transactions?.data?.length ?
-            <EmptyData text='No Deposits Found' />
+      }
+      <ViewMore isOpen={isOpen} setIsOpen={setIsOpen} selectedTxn={selectedTxn} />
+      {
+        !transactions?.data?.length ?
+          <EmptyData text='No Deposits Found' />
           :
-           <>
-              <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>ID</TableHead>
-            <TableHead>Investor</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Plan</TableHead>
-            <TableHead>Amount</TableHead>
-            <TableHead>Method</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Date</TableHead>
-            <TableHead>Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {transactions.data.map((txn: any, index: number) => (
-            <TableRow key={txn?.id} className='py-3 h-16'>
-              <TableCell>
-                {
-                  index + 1 +
-                 ( (transactions?.pagination?.currentPage || 1) - 1) *
-                  ( limit )
-                  }
-              </TableCell>
-              <TableCell>{txn?.Investor?.name}</TableCell>
-              <TableCell>{txn?.Investor?.email}</TableCell>
-              <TableCell>{txn?.Plan?.name}</TableCell>
-              <TableCell className='font-bold text-primary'>${formatNumberWithCommas(txn?.amount)}</TableCell>
-              <TableCell>{txn?.paymentMethod}</TableCell>
-              <TableCell>
-                <span
-                  className={`px-3 py-1 text-sm rounded-full ${
-                    txn.status === "approved"
-                      ? "bg-green-100 text-green-700"
-                      : txn.status === "pending"
-                      ? "bg-yellow-100 text-yellow-700"
-                      : "bg-red-100 text-red-700"
-                  }`}
-                >
-                  {txn.status}
-                </span>
-              </TableCell>
-              <TableCell>
-                {new Date(txn?.createdAt).toLocaleDateString('en-ng')}
-              </TableCell>
-              <TableCell className="flex gap-3 items-center">
-                {
-                  hasAccess ? 
-                  <>
-                      <Eye
-                        className="w-5 h-5 text-blue-600 cursor-pointer"
-                        onClick={() => {
-                          setSelectedTxn(txn);
-                          setIsOpen(true);
-                        }}
-                      />
+          <div className="overflow-x-auto w-full">
+            <Table className="min-w-[1100px]">
+              <TableHeader>
+                <TableRow>
+                  <TableHead>ID</TableHead>
+                  <TableHead>Investor</TableHead>
+                  <TableHead>Email</TableHead>
+                  <TableHead>Plan</TableHead>
+                  <TableHead>Amount</TableHead>
+                  <TableHead>Method</TableHead>
+                  <TableHead>Transaction Status</TableHead>
+                  <TableHead>Approval Status</TableHead>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {transactions.data.map((txn: any, index: number) => (
+                  <TableRow key={txn?.id} className='py-3 h-16'>
+                    <TableCell>
                       {
-                        isPending && activeTxn?.id === txn?.id ?
-                          <SpinnerCustom />
-                          :
-                          <CheckCircle
-                            className="w-5 h-5 text-green-600 cursor-pointer"
-                            onClick={() => {
-                              setActiveTxn(txn);
-                              handleApprove(txn)
-                            }}
-                          />
+                        index + 1 +
+                        ((transactions?.pagination?.currentPage || 1) - 1) *
+                        (limit)
                       }
-                      <XCircle
-                        className="w-5 h-5 text-red-600 cursor-pointer"
-                        onClick={() => {
-                          setActiveTxn(txn);
-                          handleReject(txn)
-                        }}
-                      />
-                  </> : '-----------'
-                }
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-        </Table>
-           </>
-         }
+                    </TableCell>
+                    <TableCell>{txn?.Investor?.name}</TableCell>
+                    <TableCell>{txn?.Investor?.email}</TableCell>
+                    <TableCell>{txn?.Plan?.name}</TableCell>
+                    <TableCell className='font-bold text-primary'>${formatNumberWithCommas(txn?.amount)}</TableCell>
+                    <TableCell>{txn?.paymentMethod}</TableCell>
+                    <TableCell>
+                      <span className={`px-3 py-1 text-sm rounded-full ${getStatusColor(txn.transactionStatus)}`}>
+                        {txn.transactionStatus || 'N/A'}
+                      </span>
+                    </TableCell>
+                    <TableCell>
+                      <span className={`px-3 py-1 text-sm rounded-full ${getStatusColor(txn.status)}`}>
+                        {txn.status}
+                      </span>
+                    </TableCell>
+                    <TableCell>
+                      {new Date(txn?.createdAt).toLocaleDateString('en-ng')}
+                    </TableCell>
+                    <TableCell className="flex gap-3 items-center">
+                      {
+                        hasAccess ?
+                          <>
+                            <Eye
+                              className="w-5 h-5 text-blue-600 cursor-pointer"
+                              onClick={() => {
+                                setSelectedTxn(txn);
+                                setIsOpen(true);
+                              }}
+                            />
+                            {
+                              isPending && activeTxn?.id === txn?.id ?
+                                <SpinnerCustom />
+                                :
+                                <CheckCircle
+                                  className="w-5 h-5 text-green-600 cursor-pointer"
+                                  onClick={() => {
+                                    setActiveTxn(txn);
+                                    handleApprove(txn)
+                                  }}
+                                />
+                            }
+                            <XCircle
+                              className="w-5 h-5 text-red-600 cursor-pointer"
+                              onClick={() => {
+                                setActiveTxn(txn);
+                                handleReject(txn)
+                              }}
+                            />
+                          </> : '-----------'
+                      }
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+      }
     </div>
   )
 }
