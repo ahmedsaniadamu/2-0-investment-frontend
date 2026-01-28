@@ -69,7 +69,7 @@ export default function InvestmentFlow() {
     const handleInvestmentSubmit = async (values: any) => {
         setLoading(true);
         try {
-            if (values.paymentMethod === 'interswitch') {
+            if (values.paymentMethod === 'stripe') {
                 const response = await createPaymentIntent({
                     amount: values.amount,
                     currency: "usd",
@@ -150,7 +150,7 @@ export default function InvestmentFlow() {
                             <Formik
                                 initialValues={{
                                     amount: "",
-                                    paymentMethod: "interswitch",
+                                    paymentMethod: "stripe",
                                     startDate: "",
                                     investmentGoal: "",
                                     agreement: false,
@@ -194,7 +194,7 @@ export default function InvestmentFlow() {
                                                 <Select
                                                     onValueChange={(value) => setFieldValue("paymentMethod", value)}
                                                     defaultValue={values.paymentMethod}
-                                                    value="interswitch" disabled
+                                                    value="stripe" disabled
                                                 >
                                                     <SelectTrigger className={errors.paymentMethod && touched.paymentMethod ? "border-red-500 w-full" : "w-full"}>
                                                         <SelectValue placeholder="Select method" />
@@ -202,7 +202,7 @@ export default function InvestmentFlow() {
                                                     <SelectContent>
                                                         <SelectItem value="wallet">Wallet</SelectItem>
                                                         <SelectItem value="bank">Bank Transfer</SelectItem>
-                                                        <SelectItem value="interswitch">(Stripe)</SelectItem>
+                                                        <SelectItem value="stripe">(Stripe)</SelectItem>
                                                     </SelectContent>
                                                 </Select>
                                                 <ErrorMessage
