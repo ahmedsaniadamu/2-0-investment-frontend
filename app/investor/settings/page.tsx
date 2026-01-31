@@ -17,34 +17,37 @@ import Loader from "@/components/loader"
 import { toastMessage } from "@/lib/custom-toast"
 import { useRouter } from "next/navigation"
 import { SpinnerCustom } from "@/components/ui/spinner"
+import { Textarea } from "@/components/ui/textarea"
 
 type FormData = {
-    fullName: string;
-    email: string;
-    phone: string;
-    address: string;
-    bankName: string;
-    accountNumber: string;
-    accountName: string;
-  }
+  fullName: string;
+  email: string;
+  phone: string;
+  address: string;
+  bankName: string;
+  accountNumber: string;
+  accountName: string;
+}
 
 const InvestorProfilePage = () => {
 
-   const [open, setOpen] = useState(false);
-   const [edit, setEdit] = useState(false);
-   const userId = useSessionUserId();
-   const {push} = useRouter();
-    const { data: profile, isPending, refetch } = useQuery({
-      queryKey: ["investorProfile", userId],
-      queryFn: () => investorProfile.getProfileInfo(userId as string),
-      select: (data: any) => data,
-      enabled: !!userId
-    });
+  const [open, setOpen] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const userId = useSessionUserId();
+  const { push } = useRouter();
+  const { data: profile, isPending, refetch } = useQuery({
+    queryKey: ["investorProfile", userId],
+    queryFn: () => investorProfile.getProfileInfo(userId as string),
+    select: (data: any) => data,
+    enabled: !!userId
+  });
 
-    const {mutateAsync: updateProfile, isPending: updatePending} = useMutation({
-      mutationFn: investorProfile.updateProfileInfo,
-      mutationKey: ["update-profile"],
-    })
+  console.log({ profile });
+
+  const { mutateAsync: updateProfile, isPending: updatePending } = useMutation({
+    mutationFn: investorProfile.updateProfileInfo,
+    mutationKey: ["update-profile"],
+  })
 
   const formik = useFormik({
     initialValues: {
@@ -64,27 +67,27 @@ const InvestorProfilePage = () => {
       //accountNumber: Yup.string().required("Account number is required"),
     }),
     onSubmit: async (values) => {
-      try{
+      try {
         await updateProfile({
           id: userId as string,
           data: values
         });
         setEdit(false);
         refetch();
-        toastMessage( 'success', 'Success', "Profile updated successfully");
-      }catch(err: any){
-        toastMessage( 'error', 'Error', err?.response?.data?.message || "Something went wrong");
+        toastMessage('success', 'Success', "Profile updated successfully");
+      } catch (err: any) {
+        toastMessage('error', 'Error', err?.response?.data?.message || "Something went wrong");
       }
     },
   })
 
-  if(isPending) return <Loader />
+  if (isPending) return <Loader />
 
   return (
     <InvestorPageLayout>
-      {  open ? 
+      {open ?
         <UpdatePasswordModal open={open} onClose={() => setOpen(false)} />
-      : null }
+        : null}
       {/* Profile Header */}
       <div className="flex flex-col sm:flex-row items-center justify-between mb-8 bg-white p-6 rounded-xl shadow">
         <div className="md:flex max-[500px]:w-full items-center gap-4">
@@ -99,31 +102,31 @@ const InvestorProfilePage = () => {
           </div>
         </div>
         <div className="w-full md:w-[200px]">
-            <h4>KYC Status</h4>
-            {
-              profile?.investorKycRequest?.status === "pending" ?
-                <h2 className="text-2xl mb-2 font-semibold text-yellow-500">Pending</h2>
+          <h4>KYC Status</h4>
+          {
+            profile?.investorKycRequest?.status === "pending" ?
+              <h2 className="text-2xl mb-2 font-semibold text-yellow-500">Pending</h2>
               : profile?.investorKycRequest?.status === "approved" ?
                 <h2 className="text-2xl mb-2 font-semibold text-green-500">Verified</h2>
-              : profile?.investorKycRequest?.status === "rejected" ?
-                <h2 className="text-2xl mb-2 font-semibold text-orange-500">Rejected</h2>
-              : <h2 className="text-2xl mb-2 font-semibold text-orange-500">Not Verified</h2>
-            }
-            <Button onClick={ () => {
-            if (profile?.investorKycRequest?.documents){
+                : profile?.investorKycRequest?.status === "rejected" ?
+                  <h2 className="text-2xl mb-2 font-semibold text-orange-500">Rejected</h2>
+                  : <h2 className="text-2xl mb-2 font-semibold text-orange-500">Not Verified</h2>
+          }
+          <Button onClick={() => {
+            if (profile?.investorKycRequest?.documents) {
               sessionStorage.setItem('uploadedDocuments', JSON.stringify(profile?.investorKycRequest?.documents || '[]'));
             }
             else {
               sessionStorage.removeItem('uploadedDocuments')
             }
-                push("/investor/settings/verify-kyc")
-            } } className="bg-orange-500 max-[500px]:w-full">{
+            push("/investor/settings/verify-kyc")
+          }} className="bg-orange-500 max-[500px]:w-full">{
               profile?.investorKycRequest?.status === "approved" || profile?.investorKycRequest?.status === "pending"
-              || profile?.investorKycRequest?.status === "rejected" ?
-                "Update Kyc" : "Verify Kyc"    
+                || profile?.investorKycRequest?.status === "rejected" ?
+                "Update Kyc" : "Verify Kyc"
             }</Button>
         </div>
-        <Button onClick={ () => setOpen(true) } className="mt-4 max-[500px]:w-full sm:mt-0 bg-primary text-white">Update Password</Button>
+        <Button onClick={() => setOpen(true)} className="mt-4 max-[500px]:w-full sm:mt-0 bg-primary text-white">Update Password</Button>
       </div>
 
       {/* Profile Details Form */}
@@ -131,8 +134,8 @@ const InvestorProfilePage = () => {
         <CardContent className="p-6 pt-2 space-y-4">
           <h2 className="text-xl font-semibold flex justify-between">Profile Details
             <PenSquareIcon className='sm:hidden' style={{ opacity: !edit ? 0.5 : 1 }} onClick={() => setEdit(!edit)} />
-            <Button className="text-sm max-[500px]:hidden" style={{opacity: !edit ? 0.5 : 1}} onClick={ () => setEdit(!edit) } asChild size={'icon-sm'}>
-               <PenSquareIcon  />
+            <Button className="text-sm max-[500px]:hidden" style={{ opacity: !edit ? 0.5 : 1 }} onClick={() => setEdit(!edit)} asChild size={'icon-sm'}>
+              <PenSquareIcon />
             </Button>
           </h2>
           <form onSubmit={formik.handleSubmit} className="grid sm:grid-cols-2 gap-6">
@@ -151,28 +154,39 @@ const InvestorProfilePage = () => {
               <Input disabled={!edit} {...formik.getFieldProps("phone")} />
             </div>
 
-            <div>
+            <div className="col-span-2">
               <Label>Address</Label>
-              <Input disabled={!edit} {...formik.getFieldProps("address")} />
+              <Textarea disabled={!edit} {...formik.getFieldProps("address")} />
             </div>
 
-            <div>
+            {/* <div>
               <Label>Bank Name</Label>
               <Input disabled={!edit} {...formik.getFieldProps("bankName")} />
-            </div>
+            </div> */}
 
-            <div>
+            {/* <div>
               <Label>Account Name</Label>
               <Input disabled={!edit} {...formik.getFieldProps("accountName")} />
+            </div> */}
+
+            <div className="py-5 text-sm font-bold col-span-2 bg-yellow-200 rounded-lg p-4">
+              Note: bank details is auto generated and can't be edited.
+              Please note that this account number is only for receiving funds.
+              you will be required to onboard with a payment provider to activate the account for withdrawals.
+              onbarding will be sent after investment is completed and approved by our review team.
+            </div>
+            <div>
+              <Label>Connected Account Id</Label>
+              <Input disabled={true} value={profile?.stripeAccountId} />
             </div>
 
             <div>
-              <Label>Account Number</Label>
-              <Input disabled={!edit} {...formik.getFieldProps("accountNumber")} />
+              <Label>Connected Account Status</Label>
+              <Input disabled={true} value={profile?.accountStatus} className={`${profile?.accountStatus === "active" ? "text-green-500" : "text-orange-500"}`} />
             </div>
 
             <div className="sm:col-span-2 flex justify-end">
-              <Button style={{opacity: !edit ? 0.5 : 1}} disabled={!edit} type="submit" className="bg-primary max-[500px]:w-full text-white">
+              <Button style={{ opacity: !edit ? 0.5 : 1 }} disabled={!edit} type="submit" className="bg-primary max-[500px]:w-full text-white">
                 {
                   updatePending ? <SpinnerCustom /> : 'Save Changes'
                 }

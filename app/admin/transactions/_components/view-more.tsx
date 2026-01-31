@@ -10,7 +10,8 @@ import {
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { formatNumberWithCommas } from '@/lib/format-number'
-import { Calendar, CreditCard, Target, Info, Hash, User, Mail } from 'lucide-react'
+import { Calendar, CreditCard, Target, Info, Hash, User, Mail, TrendingUp, Wallet } from 'lucide-react'
+import { calculateInvestmentMetrics } from '../../investors/[investor_id]/investments/page'
 
 interface ViewMoreProps {
   isOpen: boolean
@@ -124,6 +125,26 @@ const ViewMore = ({ isOpen, setIsOpen, selectedTxn: transaction }: ViewMoreProps
             value={transaction.transactionStatus}
             isBadge={true}
           />
+          {transaction.isPayout && transaction.Plan && (
+            <>
+              {/* <DetailItem
+                icon={TrendingUp}
+                label="Profit"
+                value={`$${formatNumberWithCommas(parseFloat(calculateInvestmentMetrics({ ...transaction, plan: transaction.Plan }).currentProfit))}`}
+              />
+              <DetailItem
+                icon={Wallet}
+                label="Total (Inc. Profit)"
+                value={`$${formatNumberWithCommas(parseFloat(transaction.amount) + parseFloat(calculateInvestmentMetrics({ ...transaction, plan: transaction.Plan }).currentProfit))}`}
+              /> */}
+              <DetailItem
+                icon={Info}
+                label="Payout Status"
+                value={transaction.payoutStatus}
+                isBadge={true}
+              />
+            </>
+          )}
         </div>
 
         <div className="mt-4 p-4 bg-slate-50 rounded-xl space-y-4">

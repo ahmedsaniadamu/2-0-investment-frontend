@@ -272,10 +272,10 @@ const page = () => {
                                 <Progress
                                   value={metrics.profitProgress}
                                   className={`h-2 ${metrics.profitProgress < 30
-                                      ? "bg-blue-100 [&>div]:bg-blue-500"
-                                      : metrics.profitProgress < 60
-                                        ? "bg-orange-100 [&>div]:bg-orange-500"
-                                        : "bg-green-100 [&>div]:bg-green-600"
+                                    ? "bg-blue-100 [&>div]:bg-blue-500"
+                                    : metrics.profitProgress < 60
+                                      ? "bg-orange-100 [&>div]:bg-orange-500"
+                                      : "bg-green-100 [&>div]:bg-green-600"
                                     }`}
                                 />
                                 <p className="text-xs text-gray-500 mt-1">{metrics.profitProgress}% of yearly profit</p>

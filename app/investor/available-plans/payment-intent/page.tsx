@@ -22,6 +22,8 @@ import { format, addMonths } from "date-fns";
 import { formatNumberWithCommas } from "@/lib/format-number";
 import InvestmentCheckout from '../_components/payment-checkout';
 import { useSessionUserId } from "@/hooks/use-session-user-id";
+import { investorProfile } from "@/services/profile";
+import UpdateProfile from "./_components/update-profile";
 
 // Validation schemas
 const investmentDetailsSchema = (minDeposit: number) => Yup.object().shape({
@@ -40,6 +42,7 @@ export default function InvestmentFlow() {
     const [currentStep, setCurrentStep] = useState(1);
     const [loading, setLoading] = useState(false);
     const [paymentData, setPaymentData] = useState<any>(null);
+    const [showUpdateProfile, setShowUpdateProfile] = useState(false);
     const userId = useSessionUserId();
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -49,6 +52,19 @@ export default function InvestmentFlow() {
         queryKey: ["get-plans"],
         queryFn: () => sharedPlans.getPlans(),
     });
+
+    const { data: profileStatus, isPending: profileStatusPending } = useQuery({
+        queryKey: ["check-profile-status", userId],
+        queryFn: () => investorProfile.checkProfileStatus(userId as string),
+        enabled: !!userId,
+    });
+
+    useEffect(() => {
+        if (profileStatus && profileStatus?.exists === false) {
+            setShowUpdateProfile(true);
+        }
+    }, [profileStatus]);
+
 
     const activePlan = availablePlans?.find((p: any) => p.id === planId);
 
@@ -84,6 +100,9 @@ export default function InvestmentFlow() {
                 setCurrentStep(2);
             }
         } catch (error: any) {
+            if (error?.response?.data?.message === "Profile not found") {
+                setShowUpdateProfile(true);
+            }
             toastMessage('error', 'Error', error?.response?.data?.message || 'Failed to initiate investment. Please try again.');
         } finally {
             setLoading(false);
@@ -97,6 +116,7 @@ export default function InvestmentFlow() {
 
     return (
         <InvestorPageLayout>
+            <UpdateProfile open={showUpdateProfile} onClose={() => setShowUpdateProfile(false)} />
             <div className="container mx-auto py-8 px-4 max-w-4xl">
                 <Card>
                     <CardHeader>
