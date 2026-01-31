@@ -58,7 +58,7 @@ const Deposits = ({ transactions, limit, refetch, refetchSummary }: {
         refetchSummary();
         toastMessage(
           "success",
-          "Transaction Approved ✅",
+          "Transaction Approved ",
           `Transaction for ${txn.Investor?.name} has been approved.`,
         );
       } catch (error: any) {
@@ -66,7 +66,7 @@ const Deposits = ({ transactions, limit, refetch, refetchSummary }: {
 
         toastMessage(
           "error",
-          "Error❌",
+          "Error",
           error?.response?.data?.message || "Failed to approve transaction",
         );
       }
@@ -179,10 +179,19 @@ const Deposits = ({ transactions, limit, refetch, refetchSummary }: {
                                 <SpinnerCustom />
                                 :
                                 <CheckCircle
-                                  className="w-5 h-5 text-green-600 cursor-pointer"
+                                  className={`w-5 h-5 text-green-600 cursor-pointer ${txn?.status === "pending" || txn?.status === "rejected" ? "" : "opacity-25 cursor-not-allowed"}`}
                                   onClick={() => {
-                                    setActiveTxn(txn);
-                                    handleApprove(txn)
+                                    if (txn?.status === "pending" || txn?.status === "rejected") {
+                                      setActiveTxn(txn);
+                                      handleApprove(txn)
+                                    }
+                                    else {
+                                      toastMessage(
+                                        "error",
+                                        "Error",
+                                        "Transaction is already approved",
+                                      );
+                                    }
                                   }}
                                 />
                             }

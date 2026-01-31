@@ -17,9 +17,11 @@ import { AppSidebar } from "@/components/app-sidebar"
 const InvestorPageLayout = ({ children }: { children: React.ReactNode }) => {
 
   const [greeting, setGreeting] = useState<string>('');
-   const router = useRouter();
+  const [user, setUser] = useState<any>(null)
+  const router = useRouter();
 
   useEffect(() => {
+    setUser(JSON.parse(sessionStorage.getItem('user') as string))
     const updateGreeting = () => {
       const today = new Date();
       const hourOfDay = today.getHours();
@@ -41,41 +43,41 @@ const InvestorPageLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <SidebarProvider>
-      <AppSidebar  />
+      <AppSidebar />
       <main className="w-full overflow-x-hidden">
         <header className="flex shadow px-3 bg-white py-5 sticky justify-between">
-             <div className="flex items-center gap-4">
-                <SidebarTrigger />
-                <h5 className='text-sm capitalize font-bold flex items-center'>
-                Good {greeting}, Ahmed Sani &nbsp;
-                <Image src={wavingHand} alt='hands' />
-              </h5>
-             </div>
-            <div>
-                <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <button className='text-sm items-center font-semibold flex' aria-label='Customise options'>
-                <span className='flex items-center rounded-full justify-center w-[30px] bg-slate-200 h-[30px]'>
-                  <Image src={userImg} alt='profile' className='w-[25px] rounded-full h-[25px]' />
-                </span>
-              <span className='pl-1'>{'Investor'}</span>
-              <i className='bi bi-chevron-down pl-1' />
-            </button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className='w-56' align='end'>
-            <DropdownMenuItem
-              className='cursor-pointer focus:bg-red-500 focus:text-white text-red-500'
-              onClick={() => {
-                router.push('/');
-                sessionStorage.clear();
-                localStorage.clear();
-              }}
-            >
-              <i className='bi bi-box-arrow-in-left pr-1' /> Logout
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-            </div>
+          <div className="flex items-center gap-4">
+            <SidebarTrigger />
+            <h5 className='text-sm capitalize font-bold flex items-center'>
+              Good {greeting}, {user?.name || ''} &nbsp;
+              <Image src={wavingHand} alt='hands' />
+            </h5>
+          </div>
+          <div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className='text-sm items-center font-semibold flex' aria-label='Customise options'>
+                  <span className='flex items-center rounded-full justify-center w-[30px] bg-slate-200 h-[30px]'>
+                    <Image src={userImg} alt='profile' className='w-[25px] rounded-full h-[25px]' />
+                  </span>
+                  <span className='pl-1'>{'Investor'}</span>
+                  <i className='bi bi-chevron-down pl-1' />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className='w-56' align='end'>
+                <DropdownMenuItem
+                  className='cursor-pointer focus:bg-red-500 focus:text-white text-red-500'
+                  onClick={() => {
+                    router.push('/');
+                    sessionStorage.clear();
+                    localStorage.clear();
+                  }}
+                >
+                  <i className='bi bi-box-arrow-in-left pr-1' /> Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </header>
         <section className="p-3">
           {children}

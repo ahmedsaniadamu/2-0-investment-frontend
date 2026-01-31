@@ -25,6 +25,7 @@ import Pagination from '@/components/pagination'
 import Loader from '@/components/loader'
 import { usePermission } from '@/hooks/use-permission'
 import AccessDeniedFullScreen from '../_components/access-denied'
+import Payout from './_components/payout'
 
 export type filterType = {
   status: string;
@@ -44,7 +45,7 @@ const page = () => {
   const { push } = useRouter();
   const { hasAccess, loading } = usePermission("transactions", "view_transactions");
   const [openFilterModal, setOpenFilterModal] = useState(false);
-  const [type, setType] = useState<'deposit' | 'withdraw'>('deposit')
+  const [type, setType] = useState<'deposit' | 'withdraw' | 'payout'>('deposit')
   const [filters, setFilters] = useState<filterType>({
     status: '',
     paymentMethod: '',
@@ -64,6 +65,7 @@ const page = () => {
     queryKey: ["transactions", userId, search, page, limit, type,
       filters.status, filters.paymentMethod, filters.startDateFrom,
       filters.startDateTo, filters.createdFrom, filters.createdTo,
+      filters.transactionId
     ],
     queryFn: () => adminTransactions.getTransactions({
       search, page, limit, type, status: filters.status,
@@ -140,6 +142,13 @@ const page = () => {
             Icon={<HandCoins className="w-6 text-orange-500 h-6" />}
             isLoading={isPending}
           />
+          <SummaryCard
+            title="Awaiting Payout"
+            amount={summary?.payoutCount}
+            Icon={<HandCoins className="w-6 text-orange-500 h-6" />}
+            isLoading={isPending}
+          />
+
         </div>
         <div className="w-full">
           <Tabs defaultValue="Deposit" className='w-full'>
@@ -147,14 +156,20 @@ const page = () => {
               <TabsTrigger onClick={() => {
                 setPage(1)
                 setType('deposit')
-              }} className='max-[500px]:w-[200px] md:w-[500px]' value="Deposit">
+              }} className='max-[500px]:w-[200px] md:w-[300px]' value="Deposit">
                 Deposit
               </TabsTrigger>
               <TabsTrigger onClick={() => {
                 setPage(1)
                 setType('withdraw')
-              }} className='max-[500px]:w-[200px] md:w-[500px]' value="Withdrawal">
+              }} className='max-[500px]:w-[200px] md:w-[300px]' value="Withdrawal">
                 Withdrawal
+              </TabsTrigger>
+              <TabsTrigger onClick={() => {
+                setPage(1)
+                setType('payout')
+              }} className='max-[500px]:w-[200px] md:w-[300px]' value="Payout">
+                Payout
               </TabsTrigger>
             </TabsList>
             <TabsContent value="Deposit" className='w-full block'>
@@ -174,6 +189,21 @@ const page = () => {
                   <CardDescription className='w-full bg-white overflow-x-auto'>
                     {transactionsPending ? <Loader size={8} color='text-primary' /> :
                       <Withdrawal
+                        limit={limit} transactions={transactions}
+                        refetch={refetch}
+                        refetchSummary={refetchSummary}
+                      />
+                    }
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+            </TabsContent>
+            <TabsContent value="Payout">
+              <Card className='w-full m-0 shadow-none border-none'>
+                <CardHeader>
+                  <CardDescription className='w-full bg-white overflow-x-auto'>
+                    {transactionsPending ? <Loader size={8} color='text-primary' /> :
+                      <Payout
                         limit={limit} transactions={transactions}
                         refetch={refetch}
                         refetchSummary={refetchSummary}
