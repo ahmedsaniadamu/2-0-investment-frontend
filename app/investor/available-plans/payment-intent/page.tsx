@@ -207,7 +207,7 @@ export default function InvestmentFlow() {
                                                 />
                                             </div>
 
-                                            <div>
+                                            {/* <div>
                                                 <Label htmlFor="paymentMethod">
                                                     Payment Method <span className="text-red-500">*</span>
                                                 </Label>
@@ -230,7 +230,7 @@ export default function InvestmentFlow() {
                                                     component="div"
                                                     className="text-red-500 text-sm mt-1"
                                                 />
-                                            </div>
+                                            </div> */}
 
                                             <div>
                                                 <Label htmlFor="startDate">
@@ -241,7 +241,7 @@ export default function InvestmentFlow() {
                                                     id="startDate"
                                                     name="startDate"
                                                     type="date"
-                                                    min={format(new Date(), "yyyy-MM-dd")}
+                                                    // min={format(new Date(), "yyyy-MM-dd")}
                                                     className={errors.startDate && touched.startDate ? "border-red-500" : ""}
                                                 />
                                                 <ErrorMessage
