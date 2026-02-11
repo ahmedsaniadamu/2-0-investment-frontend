@@ -6,7 +6,7 @@ import { motion } from "framer-motion"
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden border-b border-border bg-primary py-20 md:py-32">
+    <section className="relative overflow-hidden  bg-primary py-20 md:py-32">
       {/* Add the scanning effect element */}
       <motion.div
         className="absolute h-[600px] w-[600px] rounded-full bg-gradient-to-r from-[#81a1f8] via-white/20 to-transparent"
@@ -40,7 +40,7 @@ export function HeroSection() {
           >
             Grow your wealth with steady{" "}
             <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-slate-300">
-               annual returns
+              annual returns
             </span>
           </motion.h1>
 
@@ -82,17 +82,17 @@ export function HeroSection() {
               { value: "$5K", label: "Minimum Deposit" },
               { value: "24/7", label: "Support" },
             ])
-            .map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1 + index * 0.1 }}
-              >
-                <div className="text-3xl font-bold text-slate-300 md:text-4xl">{stat.value}</div>
-                <div className="mt-1 text-sm text-slate-300">{stat.label}</div>
-              </motion.div>
-            ))}
+              .map((stat, index) => (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 1 + index * 0.1 }}
+                >
+                  <div className="text-3xl font-bold text-slate-300 md:text-4xl">{stat.value}</div>
+                  <div className="mt-1 text-sm text-slate-300">{stat.label}</div>
+                </motion.div>
+              ))}
           </motion.div>
         </div>
       </div>
