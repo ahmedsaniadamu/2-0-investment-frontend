@@ -55,7 +55,7 @@ const faqCategories = [
             },
             {
                 q: "Can I cancel a plan after I have paid?",
-                a: "You have a strict 24-hour cooling-off period after payment where you can request a full refund. After 24 hours, your funds are locked into the plan and cannot be reversed until the maturity date."
+                a: "Once payment is made you can't cancel the plan."
             },
             {
                 q: "Are there any hidden fees when I deposit?",
@@ -74,16 +74,16 @@ const faqCategories = [
             },
             {
                 q: "Can I withdraw my money before the 1 year is up?",
-                a: "No. By joining a plan, you agree to lock your funds for the full 12-month duration. This commitment is what allows us to offer the projected rewards. Early withdrawals are not permitted under any circumstances except in cases of proven medical emergency (subject to penalty)."
+                a: "No. By joining a plan, you agree to lock your funds for the full 12-month duration. This commitment is what allows us to offer the projected rewards. Early withdrawals are not permitted under any circumstances."
             },
             {
                 q: "How are my rewards calculated?",
                 a: "Rewards are calculated based on the specific plan you selected at the time of deposit. These are fixed-rate rewards, meaning you will know exactly what your payout will be before you even pay."
             },
-            {
-                q: "Do I have to pay taxes on my earnings?",
-                a: "2Zero does not deduct taxes automatically. However, earnings from our platform may be considered capital gains or income in your country. We recommend consulting a tax professional to ensure you are compliant with your local laws."
-            }
+            // {
+            //     q: "Do I have to pay taxes on my earnings?",
+            //     a: "2Zero does not deduct taxes automatically. However, earnings from our platform may be considered capital gains or income in your country. We recommend consulting a tax professional to ensure you are compliant with your local laws."
+            // }
         ]
     },
     {
@@ -93,7 +93,7 @@ const faqCategories = [
         questions: [
             {
                 q: "How do I withdraw my funds when they mature?",
-                a: "When your plan matures, a \"Withdraw\" button will appear on your dashboard. You will be asked to link your bank account, and the funds will be sent directly to you."
+                a: "When your plan matures, a \"Withdraw\" button will appear on your dashboard. You will be asked to link your bank account and verify your identity with our payout partner (Stripe), and the funds will be sent directly to you."
             },
             {
                 q: "Why do I need to verify my identity again to withdraw?",
