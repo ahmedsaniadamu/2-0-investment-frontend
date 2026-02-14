@@ -50,7 +50,7 @@ export default function InvestmentFlow() {
 
     const { data: availablePlans, isPending: plansPending } = useQuery({
         queryKey: ["get-plans"],
-        queryFn: () => sharedPlans.getPlans(),
+        queryFn: () => sharedPlans.getPlans({ search: "" }),
     });
 
     const { data: profileStatus, isPending: profileStatusPending } = useQuery({
@@ -67,6 +67,8 @@ export default function InvestmentFlow() {
 
 
     const activePlan = availablePlans?.find((p: any) => p.id === planId);
+
+    console.log({ activePlan });
 
     const { mutateAsync: initiateInvestment } = useMutation({
         mutationFn: investorInvestments.initiateInvestment,
