@@ -42,8 +42,6 @@ const InvestorProfilePage = () => {
     enabled: !!userId
   });
 
-  console.log({ profile });
-
   const { mutateAsync: updateProfile, isPending: updatePending } = useMutation({
     mutationFn: investorProfile.updateProfileInfo,
     mutationKey: ["update-profile"],
@@ -113,6 +111,10 @@ const InvestorProfilePage = () => {
                   : <h2 className="text-2xl mb-2 font-semibold text-orange-500">Not Verified</h2>
           }
           <Button onClick={() => {
+            if (!profile?.stripeAccountId || !profile?.accountStatus || !profile?.address) {
+              toastMessage('error', 'Error', "Your can't update your kyc if your profile is not updated");
+              return;
+            }
             if (profile?.investorKycRequest?.documents) {
               sessionStorage.setItem('uploadedDocuments', JSON.stringify(profile?.investorKycRequest?.documents || '[]'));
             }

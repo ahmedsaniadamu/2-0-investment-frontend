@@ -14,6 +14,7 @@ import { useMutation } from "@tanstack/react-query"
 import { toastMessage } from "@/lib/custom-toast"
 import { SpinnerCustom } from "@/components/ui/spinner"
 import { adminKyc } from "@/services/kyc"
+import { useRouter } from "next/navigation"
 
 const JoditEditor = dynamic(() => import("jodit-react"), {
     ssr: false,
@@ -34,9 +35,11 @@ const addReasonModal = ({
 }: addReasonModalProps) => {
 
     const { mutateAsync: addReason, isPending } = useMutation({
-    mutationFn: adminKyc.reviewInvestorKyc,
-    mutationKey: ["state-reason"],
-  });
+        mutationFn: adminKyc.reviewInvestorKyc,
+        mutationKey: ["state-reason"],
+    });
+
+    const router = useRouter();
 
     const formik = useFormik({
         initialValues: {
@@ -53,25 +56,28 @@ const addReasonModal = ({
                     id: investorKyc?.id
                 })
                 toastMessage('success', "Success",
-                'Kyc request rejected successfully'
+                    'Kyc request rejected successfully'
                 )
-                setInvestorKyc({...investorKyc, status: "rejected"})
+                setInvestorKyc({ ...investorKyc, status: "rejected" })
                 setOpen(false)
+                setTimeout(() => {
+                    router.push(`/admin/kyc-management`);
+                }, 1000);
             } catch (error: any) {
-                toastMessage( 'error','Error', error?.response?.data?.message)
-            }  
+                toastMessage('error', 'Error', error?.response?.data?.message)
+            }
         }
     })
 
     const config = useMemo(
-    () => ({
-      readonly: false,
-      placeholder: 'Add reson for rejecting transaction...',
-      height: 300,
-      width: 750
-    }),
-    []
-  );
+        () => ({
+            readonly: false,
+            placeholder: 'Add reson for rejecting transaction...',
+            height: 300,
+            width: 750
+        }),
+        []
+    );
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -83,7 +89,7 @@ const addReasonModal = ({
                 <form onSubmit={formik.handleSubmit} className="space-y-4">
 
                     {/* Reason Field */}
-                    <div className="space-y-2 ">  
+                    <div className="space-y-2 ">
                         <JoditEditor
                             value={formik.values.reason}
                             config={config}

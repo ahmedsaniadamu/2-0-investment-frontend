@@ -13,10 +13,12 @@ import { formatNumberWithCommas } from "@/lib/format-number"
 
 const page = () => {
 
+  const [search, setSearch] = React.useState('');
+  const [initialSearch, setInitialSearch] = React.useState('');
   const router = useRouter();
   const { data: availablePlans, isPending } = useQuery({
-    queryKey: ["get-plans"],
-    queryFn: () => sharedPlans.getPlans(),
+    queryKey: ["get-plans", search],
+    queryFn: () => sharedPlans.getPlans({ search }),
   });
 
   return (
@@ -28,8 +30,15 @@ const page = () => {
             <Input
               type="search"
               placeholder="Search plans..."
+              value={initialSearch}
+              onChange={(e) => {
+                if (e.target.value === "") {
+                  setSearch("");
+                }
+                setInitialSearch(e.target.value);
+              }}
             />
-            <Button className='h-12 bg-white ml-2' variant="outline">
+            <Button onClick={() => setSearch(initialSearch)} className='h-12 bg-white ml-2' variant="outline">
               <Search /> Search
             </Button>
           </div>
