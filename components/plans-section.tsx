@@ -13,7 +13,9 @@ export function PlansSection() {
 
   const { data: availablePlans, isPending } = useQuery({
     queryKey: ["get-plans"],
-    queryFn: () => sharedPlans.getPlans(),
+    queryFn: () => sharedPlans.getPlans({
+      search: ''
+    }),
   });
 
   // New: refs + resume timer for controlling animation & manual scroll
@@ -113,11 +115,11 @@ export function PlansSection() {
             <button
               aria-label="Scroll left"
               onClick={() => scrollByDelta(-320)}
-                className="absolute left-2 md:left-[-70px] top-1/2 z-20 -translate-y-1/2 rounded-full bg-white/90 p-2 shadow hover:bg-white focus:outline-none"
+              className="absolute left-2 md:left-[-70px] top-1/2 z-20 -translate-y-1/2 rounded-full bg-white/90 p-2 shadow hover:bg-white focus:outline-none"
             >
               {/* simple SVG angle-left */}
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
-                <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
             {/* Scroll wrapper now has ref */}
@@ -132,9 +134,8 @@ export function PlansSection() {
                   return (
                     <Card
                       key={plan.name + i}
-                      className={`mx-4 w-[300px] flex-shrink-0 ${
-                        isPopular ? "relative border-primary shadow-lg" : ""
-                      }`}
+                      className={`mx-4 w-[300px] flex-shrink-0 ${isPopular ? "relative border-primary shadow-lg" : ""
+                        }`}
                     >
                       {isPopular && (
                         <div className="absolute -top-0 z-[1000] left-1/2 -translate-x-1/2">
@@ -165,7 +166,7 @@ export function PlansSection() {
                       </CardContent>
 
                       <CardFooter>
-                        <Button disabled={!plan?.visibility} className={`w-full ${ plan?.visibility ? "bg-primary" : "bg-gray-600"}`} asChild>
+                        <Button disabled={!plan?.visibility} className={`w-full ${plan?.visibility ? "bg-primary" : "bg-gray-600"}`} asChild>
                           <Link href="/signup">{
                             plan?.visibility ? 'Invest Now' : 'Over Subscribed'
                           }</Link>
@@ -185,7 +186,7 @@ export function PlansSection() {
             >
               {/* simple SVG angle-right */}
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
-                <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
           </div>

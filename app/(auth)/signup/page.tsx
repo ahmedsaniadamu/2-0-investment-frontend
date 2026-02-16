@@ -59,16 +59,16 @@ const validationSchema = Yup.object({
 });
 
 export default function SignupPage() {
- 
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-   const { push } = useRouter();
-  
-    const { mutateAsync: register, isPending } = useMutation({
-      mutationFn: auth.register,
-      mutationKey: ["register"],
-    });
+  const { push } = useRouter();
+
+  const { mutateAsync: register, isPending } = useMutation({
+    mutationFn: auth.register,
+    mutationKey: ["register"],
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -81,8 +81,8 @@ export default function SignupPage() {
       terms: false,
     },
     validationSchema,
-    onSubmit: async(values) => {
-       try {
+    onSubmit: async (values) => {
+      try {
         const res = await register({
           name: `${values.firstName} ${values.lastName}`,
           email: values.email,
@@ -105,7 +105,7 @@ export default function SignupPage() {
         <div className="mb-0 bg-white rounded-2xl text-center">
           <div className="mb-0 text-center">
             <Link href="/" className="inline-flex items-center gap-2">
-              <Image className="w-[290px] h-[130px]" src={logo} alt="2Zero Investment" />
+              <Image className="w-[120px] h-[120px]" src={logo} alt="2Zero Investment" />
             </Link>
           </div>
         </div>
@@ -229,9 +229,8 @@ export default function SignupPage() {
                         ></div>
                       </div>
                       <p
-                        className={`text-sm font-medium ${
-                          getPasswordStrength(formik.values.password).color.replace("bg-", "text-")
-                        }`}
+                        className={`text-sm font-medium ${getPasswordStrength(formik.values.password).color.replace("bg-", "text-")
+                          }`}
                       >
                         {getPasswordStrength(formik.values.password).label} password
                       </p>
@@ -300,9 +299,9 @@ export default function SignupPage() {
                 )}
 
                 <Button disabled={isPending} style={{ opacity: isPending ? 0.5 : 1 }} type="submit" className="w-full">
-                   {
-                     isPending ? <SpinnerCustom /> : 'Create Account'
-                   }
+                  {
+                    isPending ? <SpinnerCustom /> : 'Create Account'
+                  }
                 </Button>
               </form>
             </CardContent>
