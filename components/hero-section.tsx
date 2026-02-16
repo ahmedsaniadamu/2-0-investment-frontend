@@ -3,13 +3,15 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, TrendingUp } from "lucide-react"
 import { motion } from "framer-motion"
+import { Header } from "./header"
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden  bg-primary py-20 md:py-32">
+    <section className="relative overflow-hidden  bg-primary py-20 pt-0 md:pt-0 md:py-32">
+      <Header />
       {/* Add the scanning effect element */}
       <motion.div
-        className="absolute h-[600px] w-[600px] rounded-full bg-gradient-to-r from-[#81a1f8] via-white/20 to-transparent"
+        className="pointer-events-none absolute h-[600px] w-[600px] rounded-full bg-gradient-to-r from-[#81a1f8] via-white/20 to-transparent"
         initial={{ x: '-50%', y: '-50%', scale: 0.8, rotate: 0 }} // Start at the center with slight scaling
         animate={{ x: ['-50%', '10%', '50%', '10%', '-50%'], y: ['-50%', '-30%', '0%', '30%', '-50%'], rotate: 360 }} // Larger circular motion
         transition={{
@@ -19,24 +21,26 @@ export function HeroSection() {
         }}
         style={{ willChange: 'transform, opacity' }} // Optimize for animation
       />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.5),transparent_60%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.5),transparent_60%)]" />
       <div className="container relative mx-auto px-4">
         <div className="mx-auto max-w-4xl text-center">
-          <motion.div
+          {/* <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, ease: "easeOut" }} // Reduced duration
-            className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card/80 backdrop-blur-sm px-4 py-2 text-sm"
+            className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-primary backdrop-blur-sm px-4 py-2 text-sm"
           >
             <TrendingUp className="h-4 w-4 text-accent" />
-            <span className="text-muted-foreground">Trusted by 10,000+ investors</span>
-          </motion.div>
+            <span className="text-muted-foreground">
+              Your next investment partner
+            </span>
+          </motion.div> */}
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.2, ease: "easeOut" }} // Reduced duration
-            className="mb-6 text-white text-balance font-sans text-4xl font-bold tracking-tight text-foreground md:text-6xl lg:text-7xl"
+            className="mb-6 pt-12 text-white text-balance font-sans text-4xl font-bold tracking-tight text-foreground md:text-6xl lg:text-7xl"
           >
             Grow your wealth with steady{" "}
             <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-slate-300">

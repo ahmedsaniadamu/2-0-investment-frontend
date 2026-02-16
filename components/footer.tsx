@@ -8,8 +8,10 @@ export function Footer() {
       <div className="container mx-auto px-4 py-12">
         <div className="grid gap-8 md:grid-cols-4">
           <div>
-            <div className="mb-4 w-[190px] h-[80px] rounded-2xl bg-white flex items-center gap-2">
-              <Image className="w-[190px] h-[80px]" src={logo} alt="2Zero Investment" />
+            <div className="mb-4 rounded-2xl  flex items-center gap-2">
+              <div className="w-[90px] h-[90px] bg-white rounded-full">
+                <Image className="w-[90px] h-[90px]" src={logo} alt="2Zero Investment" />
+              </div>
             </div>
             <p className="text-sm text-white">Professional investment management for everyone.</p>
           </div>

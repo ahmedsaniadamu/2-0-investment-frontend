@@ -18,37 +18,37 @@ const Navbar = ({ className }: { className?: string }) => {
     <nav className={className || "hidden items-center gap-6 md:flex justify-end pr-5"}>
       <Link
         href="/#plans"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+        className="text-sm font-medium text-white transition-colors hover:text-foreground"
       >
         Plans
       </Link>
       <Link
         href="/#how-it-works"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+        className="text-sm font-medium text-white transition-colors hover:text-foreground"
       >
         How It Works
       </Link>
       <Link
         href="/faq"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+        className="text-sm font-medium text-white transition-colors hover:text-foreground"
       >
         FAQ
       </Link>
       <Link
         href="/#testimonials"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+        className="text-sm font-medium text-white transition-colors hover:text-foreground"
       >
         Testimonials
       </Link>
       <div className="flex max-[500px]:flex-col md:items-center gap-3">
-        <Button className="max-[500px]:hidden" variant="ghost" asChild>
+        <Button className="max-[500px]:hidden text-white" variant="ghost" asChild>
           <Link href="/login">Login</Link>
         </Button>
-        <Button variant="outline" className="sm:hidden" asChild>
+        <Button variant="outline" className="sm:hidden text-white" asChild>
           <Link href="/login">Login</Link>
         </Button>
-        <Button asChild>
-          <Link href="/signup">Get Started</Link>
+        <Button asChild className="text-primary bg-white">
+          <Link href="/signup">Create Account</Link>
         </Button>
       </div>
     </nav>
@@ -56,12 +56,14 @@ const Navbar = ({ className }: { className?: string }) => {
 }
 export function Header() {
   return (
-    <header className="w-full bg-white ">
-      <div className="w-full flex h-16 items-center justify-between">
-        <Link href="/" className="flex max-[500px]:-ml-5 items-center gap-2">
-          <Image className="w-[190px] h-[80px]" src={logo} alt="2Zero Investment" />
+    <header className="relative z-50 w-full shadow mb-5">
+      <div className="w-full flex h-20 items-center justify-between">
+        <Link href="/" className="flex max-[500px]:-ml-5  items-center gap-2">
+          <div className="bg-white p-0 rounded-full ml-2">
+            <Image className="w-[70px] h-[70px] rounded-full" src={logo} alt="2Zero Investment" />
+          </div>
         </Link>
-        <div className="sm:hidden">
+        <div className="md:hidden">
           <Sheet>
             <SheetTrigger>
               <Menu className="md:hidden text-3xl pl-5 text-primary" size={60} />

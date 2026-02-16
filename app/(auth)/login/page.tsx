@@ -107,7 +107,7 @@ export default function LoginPage() {
         <div className="mb-0 bg-white rounded-2xl text-center">
           <div className="mb-0 text-center">
             <Link href="/" className="inline-flex items-center gap-2">
-              <Image className="w-[290px] h-[130px]" src={logo} alt="2Zero Investment" />
+              <Image className="w-[120px] h-[120px]" src={logo} alt="2Zero Investment" />
             </Link>
           </div>
         </div>
