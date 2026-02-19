@@ -111,7 +111,7 @@ const page = () => {
             Icon={<XCircle className="w-6 h-6 text-red-600" />}
           />
         </div>
-        <div className="bg-white mt-5 overflow-x-auto p-3 rounded-2xl shadow-sm border">
+        <div className="bg-white mt-5 p-3 rounded-2xl shadow-sm border">
           {
             investorTransactionsPending ? (
               <Loader size={8} color='text-primary' />
@@ -119,51 +119,49 @@ const page = () => {
               !investorTransactions?.data?.length ?
                 <EmptyData text='No Transactions found' />
                 :
-                <section className='overflow-x-auto w-full p-1'>
-                  <Table className="overflow-x-auto w-full">
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Plan</TableHead>
-                        <TableHead>Type</TableHead>
-                        <TableHead>Transaction Status</TableHead>
-                        {/* <TableHead>Investment Goal</TableHead> */}
-                        <TableHead>Amount ($)</TableHead>
-                        <TableHead>Payment Method</TableHead>
-                        <TableHead>Date Added</TableHead>
-                        <TableHead>Approval Status</TableHead>
-                        <TableHead>Action</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {investorTransactions?.data?.map((tx: any, index: number) => (
-                        <TableRow key={tx?.id}>
-                          <TableCell>{tx?.Plan?.name}</TableCell>
-                          <TableCell className="font-medium capitalize flex gap-1 w-[150px] justify-between">{tx.type}
-                            {tx?.type == 'deposit' ? <ArrowUpToLine className="ml-2 text-green-500" size={16} /> : <ArrowDownToLine className="ml-2 text-orange-500" size={16} />}
-                          </TableCell>
-                          <TableCell>
-                            <Badge className={getStatusColor(tx.transactionStatus)}>{tx.transactionStatus || 'N/A'}</Badge>
-                          </TableCell>
-                          {/* <TableCell>{tx.investmentGoal}</TableCell> */}
-                          <TableCell className='font-bold text-primary'>${
-                            formatNumberWithCommas(parseFloat(tx?.amount))
-                          }</TableCell>
-                          <TableCell>{tx.paymentMethod}</TableCell>
-                          <TableCell>{
-                            tx?.createdAt ? new Date(tx?.createdAt).toLocaleDateString('en-ng') : 'N/A'
-                          }</TableCell>
-                          <TableCell>
-                            <Badge className={getStatusColor(tx.status)}>{tx.status}</Badge>
-                          </TableCell>
+                <Table className="min-w-[1000px]">
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Plan</TableHead>
+                      <TableHead>Type</TableHead>
+                      <TableHead>Transaction Status</TableHead>
+                      {/* <TableHead>Investment Goal</TableHead> */}
+                      <TableHead>Amount ($)</TableHead>
+                      <TableHead>Payment Method</TableHead>
+                      <TableHead>Date Added</TableHead>
+                      <TableHead>Approval Status</TableHead>
+                      <TableHead>Action</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {investorTransactions?.data?.map((tx: any, index: number) => (
+                      <TableRow key={tx?.id}>
+                        <TableCell>{tx?.Plan?.name}</TableCell>
+                        <TableCell className="font-medium capitalize flex gap-1 w-[150px] justify-between">{tx.type}
+                          {tx?.type == 'deposit' ? <ArrowUpToLine className="ml-2 text-green-500" size={16} /> : <ArrowDownToLine className="ml-2 text-orange-500" size={16} />}
+                        </TableCell>
+                        <TableCell>
+                          <Badge className={getStatusColor(tx.transactionStatus)}>{tx.transactionStatus || 'N/A'}</Badge>
+                        </TableCell>
+                        {/* <TableCell>{tx.investmentGoal}</TableCell> */}
+                        <TableCell className='font-bold text-primary'>${
+                          formatNumberWithCommas(parseFloat(tx?.amount))
+                        }</TableCell>
+                        <TableCell>{tx.paymentMethod}</TableCell>
+                        <TableCell>{
+                          tx?.createdAt ? new Date(tx?.createdAt).toLocaleDateString('en-ng') : 'N/A'
+                        }</TableCell>
+                        <TableCell>
+                          <Badge className={getStatusColor(tx.status)}>{tx.status}</Badge>
+                        </TableCell>
 
-                          <TableCell>
-                            <ViewMore transaction={tx} />
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </section>
+                        <TableCell>
+                          <ViewMore transaction={tx} />
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
           }
         </div>
       </section>

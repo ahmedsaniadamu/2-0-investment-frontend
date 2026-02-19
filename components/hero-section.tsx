@@ -8,7 +8,7 @@ import { Header } from "./header"
 export function HeroSection() {
   return (
     <section className="relative overflow-hidden  bg-primary py-20 pt-0 md:pt-0 md:py-32">
-      <Header />
+      <Header isTransaprent hasSpacing />
       {/* Add the scanning effect element */}
       <motion.div
         className="pointer-events-none absolute h-[600px] w-[600px] rounded-full bg-gradient-to-r from-[#81a1f8] via-white/20 to-transparent"

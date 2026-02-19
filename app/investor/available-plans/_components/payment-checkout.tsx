@@ -42,12 +42,14 @@ function CheckoutForm({ amount }: { amount: number }) {
         <form onSubmit={handleSubmit}>
             {ConfirmModalElement}
             <PaymentElement />
-            <Button className='mt-5 w-full flex justify-center items-center' disabled={!stripe || loading}>
-                {loading ? <>
-                    <SpinnerCustom />
-                    Processing...
-                </> : 'Invest'}
-            </Button>
+            <div className='flex justify-end items-center'>
+                <Button className='mt-5 w-[200px] py-5 flex justify-center items-center' disabled={!stripe || loading}>
+                    {loading ? <>
+                        <SpinnerCustom />
+                        Processing...
+                    </> : 'Invest'}
+                </Button>
+            </div>
         </form>
     );
 }

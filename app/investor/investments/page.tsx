@@ -142,7 +142,7 @@ const page = () => {
           Icon={<Wallet className="w-6 h-6 text-indigo-600" />}
         />
       </div>
-      <div className="bg-white mt-5 overflow-x-auto p-3 rounded-2xl shadow-sm border">
+      <div className="bg-white mt-5 p-3 rounded-2xl shadow-sm border">
         {
           investorInvestmentsPending ? (
             <Loader size={8} color='text-primary' />
@@ -150,120 +150,118 @@ const page = () => {
             !investments?.data?.length ?
               <EmptyData text='No Investments found' />
               :
-              <section className='overflow-x-auto w-full p-1'>
-                <Table className='overflow-x-auto w-full'>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Plan</TableHead>
-                      <TableHead>Amount ($)</TableHead>
-                      <TableHead>ROI (%)</TableHead>
-                      <TableHead>Start Date</TableHead>
-                      <TableHead>Expected Withdrawal</TableHead>
-                      <TableHead>Profit Progress</TableHead>
-                      <TableHead>Current Profit ($)</TableHead>
-                      <TableHead>Payment Status</TableHead>
-                      <TableHead>Onboarding Link</TableHead>
-                      <TableHead>Login Link</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Action</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {
-                      investments?.data?.map((investment: any, index: number) => {
-                        const metrics = calculateInvestmentMetrics(investment);
-                        const statusConfig = getStatusConfig(investment.status);
-                        const amount = parseFloat(investment?.amount);
-                        const averageRoi = () => {
-                          const [min, max] = investment?.plan?.roi?.replace("%", "").split("-").map(Number);
-                          const avgRoi = (min + max) / 2;
-                          return avgRoi.toFixed(2);
-                        }
+              <Table className='min-w-[1200px]'>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Plan</TableHead>
+                    <TableHead>Amount ($)</TableHead>
+                    <TableHead>ROI (%)</TableHead>
+                    <TableHead>Start Date</TableHead>
+                    <TableHead>Expected Withdrawal</TableHead>
+                    <TableHead>Profit Progress</TableHead>
+                    <TableHead>Current Profit ($)</TableHead>
+                    <TableHead>Payment Status</TableHead>
+                    <TableHead>Onboarding Link</TableHead>
+                    <TableHead>Login Link</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Action</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {
+                    investments?.data?.map((investment: any, index: number) => {
+                      const metrics = calculateInvestmentMetrics(investment);
+                      const statusConfig = getStatusConfig(investment.status);
+                      const amount = parseFloat(investment?.amount);
+                      const averageRoi = () => {
+                        const [min, max] = investment?.plan?.roi?.replace("%", "").split("-").map(Number);
+                        const avgRoi = (min + max) / 2;
+                        return avgRoi.toFixed(2);
+                      }
 
-                        return (
-                          <TableRow key={investment?.id}>
-                            <TableCell>{investment?.plan?.name}</TableCell>
-                            <TableCell className="font-bold text-primary">${formatNumberWithCommas(amount)}</TableCell>
-                            <TableCell className='font-bold'>{averageRoi()}%</TableCell>
-                            <TableCell>{investment?.startDate
-                              ? new Date(investment.startDate).toLocaleDateString('en-US', {
-                                year: 'numeric',
-                                month: 'short',
-                                day: 'numeric'
-                              }) : 'N/A'
-                            }</TableCell>
-                            <TableCell>{metrics.expectedWithdrawalDate}</TableCell>
-                            <TableCell className="w-[200px]">
-                              <Progress
-                                value={metrics.profitProgress}
-                                className={`h-2 ${metrics.profitProgress < 30
-                                  ? "bg-blue-100 [&>div]:bg-blue-500"
-                                  : metrics.profitProgress < 60
-                                    ? "bg-orange-100 [&>div]:bg-orange-500"
-                                    : "bg-green-100 [&>div]:bg-green-600"
-                                  }`}
-                              />
-                              <p className="text-xs text-gray-500 mt-1">{metrics.profitProgress}% of yearly profit</p>
-                            </TableCell>
-                            <TableCell className="font-bold text-green-900">${metrics.currentProfit.toLocaleString()}</TableCell>
-                            <TableCell className="capitalize">{investment?.paymentStatus || 'N/A'}</TableCell>
-                            <TableCell className='pl-8'>
-                              {investment?.onboardingLink ? (
-                                <a
-                                  href={investment.onboardingLink}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="text-primary hover:underline font-medium"
-                                >
-                                  <Eye />
-                                </a>
-                              ) : (
-                                <span className="text-gray-400">N/A</span>
-                              )}
-                            </TableCell>
-                            <TableCell className='pl-5'>
-                              {
-                                statusConfig.label === "Completed" && investment?.onboardingLink
-                                  ? (
-                                    <button
-                                      onClick={() => handleGetLoginLink(investment?.id)}
-                                      className="text-primary hover:underline font-medium"
-                                    >
-                                      {getLoginLinkPending ? <SpinnerCustom /> : <Eye />}
-                                    </button>
-                                  ) : (
-                                    <span className="text-gray-400">N/A</span>
-                                  )}
-                            </TableCell>
-                            <TableCell>
-                              <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium ${statusConfig.className}`}>
-                                {statusConfig.icon}
-                                {statusConfig.label}
-                              </span>
-                            </TableCell>
-                            <TableCell>
-                              <Button
-                                onClick={() => {
-                                  setActiveInvestment(investment);
-                                  requestWithdrawal(investment?.id)
-                                }}
-                                variant={statusConfig.label === "Completed" && !investment?.isWithdrawalSent ? "default" : "outline"}
-                                disabled={statusConfig.label !== "Completed" || investment?.isWithdrawalSent}
+                      return (
+                        <TableRow key={investment?.id}>
+                          <TableCell>{investment?.plan?.name}</TableCell>
+                          <TableCell className="font-bold text-primary">${formatNumberWithCommas(amount)}</TableCell>
+                          <TableCell className='font-bold'>{averageRoi()}%</TableCell>
+                          <TableCell>{investment?.startDate
+                            ? new Date(investment.startDate).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'short',
+                              day: 'numeric'
+                            }) : 'N/A'
+                          }</TableCell>
+                          <TableCell>{metrics.expectedWithdrawalDate}</TableCell>
+                          <TableCell className="w-[200px]">
+                            <Progress
+                              value={metrics.profitProgress}
+                              className={`h-2 ${metrics.profitProgress < 30
+                                ? "bg-blue-100 [&>div]:bg-blue-500"
+                                : metrics.profitProgress < 60
+                                  ? "bg-orange-100 [&>div]:bg-orange-500"
+                                  : "bg-green-100 [&>div]:bg-green-600"
+                                }`}
+                            />
+                            <p className="text-xs text-gray-500 mt-1">{metrics.profitProgress}% of yearly profit</p>
+                          </TableCell>
+                          <TableCell className="font-bold text-green-900">${metrics.currentProfit.toLocaleString()}</TableCell>
+                          <TableCell className="capitalize">{investment?.paymentStatus || 'N/A'}</TableCell>
+                          <TableCell className='pl-8'>
+                            {investment?.onboardingLink ? (
+                              <a
+                                href={investment.onboardingLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-primary hover:underline font-medium"
                               >
-                                {
-                                  activeInvestment?.id === investment?.id && initiateWithdrawalPending ?
-                                    <SpinnerCustom />
-                                    :
-                                    investment?.isWithdrawalSent ? 'Request Sent' : 'Withdraw'
-                                }
-                              </Button>
-                            </TableCell>
-                          </TableRow>
-                        )
-                      })}
-                  </TableBody>
-                </Table>
-              </section>
+                                <Eye />
+                              </a>
+                            ) : (
+                              <span className="text-gray-400">N/A</span>
+                            )}
+                          </TableCell>
+                          <TableCell className='pl-5'>
+                            {
+                              statusConfig.label === "Completed" && investment?.onboardingLink
+                                ? (
+                                  <button
+                                    onClick={() => handleGetLoginLink(investment?.id)}
+                                    className="text-primary hover:underline font-medium"
+                                  >
+                                    {getLoginLinkPending ? <SpinnerCustom /> : <Eye />}
+                                  </button>
+                                ) : (
+                                  <span className="text-gray-400">N/A</span>
+                                )}
+                          </TableCell>
+                          <TableCell>
+                            <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium ${statusConfig.className}`}>
+                              {statusConfig.icon}
+                              {statusConfig.label}
+                            </span>
+                          </TableCell>
+                          <TableCell>
+                            <Button
+                              onClick={() => {
+                                setActiveInvestment(investment);
+                                requestWithdrawal(investment?.id)
+                              }}
+                              variant={statusConfig.label === "Completed" && !investment?.isWithdrawalSent ? "default" : "outline"}
+                              disabled={statusConfig.label !== "Completed" || investment?.isWithdrawalSent}
+                            >
+                              {
+                                activeInvestment?.id === investment?.id && initiateWithdrawalPending ?
+                                  <SpinnerCustom />
+                                  :
+                                  investment?.isWithdrawalSent ? 'Request Sent' : 'Withdraw'
+                              }
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      )
+                    })}
+                </TableBody>
+              </Table>
         }
       </div>
       {investments?.pagination ?

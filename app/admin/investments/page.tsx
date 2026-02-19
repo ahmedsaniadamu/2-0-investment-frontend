@@ -107,7 +107,7 @@ const page = () => {
                         Icon={<Wallet className="w-6 h-6 text-indigo-600" />}
                     />
                 </div>
-                <div className="bg-white mt-5 overflow-x-auto p-3 rounded-2xl shadow-sm border">
+                <div className="bg-white mt-5 p-3 rounded-2xl shadow-sm border">
                     {
                         investmentsPending ? (
                             <Loader size={8} color='text-primary' />
@@ -115,73 +115,72 @@ const page = () => {
                             !investments?.data?.length ?
                                 <EmptyData text='No Investments found' />
                                 :
-                                <section className='overflow-x-auto w-full p-1'>
-                                    <Table className='overflow-x-auto w-full'>
-                                        <TableHeader>
-                                            <TableRow>
-                                                <TableHead>Name</TableHead>
-                                                <TableHead>Email</TableHead>
-                                                <TableHead>Phone Number</TableHead>
-                                                <TableHead>Plan</TableHead>
-                                                <TableHead>Amount ($)</TableHead>
-                                                <TableHead>ROI (%)</TableHead>
-                                                <TableHead>Start Date</TableHead>
-                                                <TableHead>Expected Withdrawal</TableHead>
-                                                <TableHead>Profit Progress</TableHead>
-                                                <TableHead>Current Profit ($)</TableHead>
-                                                <TableHead>Status</TableHead>
-                                                {/* <TableHead>Action</TableHead> */}
-                                            </TableRow>
-                                        </TableHeader>
-                                        <TableBody>
-                                            {
-                                                investments?.data?.map((investment: any, index: number) => {
-                                                    const metrics = calculateInvestmentMetrics(investment);
-                                                    const statusConfig = getStatusConfig(investment.status);
-                                                    const amount = parseFloat(investment?.amount);
-                                                    const averageRoi = () => {
-                                                        const [min, max] = investment?.plan?.roi?.replace("%", "").split("-").map(Number);
-                                                        const avgRoi = (min + max) / 2;
-                                                        return avgRoi.toFixed(2);
-                                                    }
+                                <Table className='min-w-[1200px]'>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead>Name</TableHead>
+                                            <TableHead>Email</TableHead>
+                                            <TableHead>Phone Number</TableHead>
+                                            <TableHead>Plan</TableHead>
+                                            <TableHead>Amount ($)</TableHead>
+                                            <TableHead>ROI (%)</TableHead>
+                                            <TableHead>Start Date</TableHead>
+                                            <TableHead>Expected Withdrawal</TableHead>
+                                            <TableHead>Profit Progress</TableHead>
+                                            <TableHead>Current Profit ($)</TableHead>
+                                            <TableHead>Status</TableHead>
+                                            {/* <TableHead>Action</TableHead> */}
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {
+                                            investments?.data?.map((investment: any, index: number) => {
+                                                const metrics = calculateInvestmentMetrics(investment);
+                                                const statusConfig = getStatusConfig(investment.status);
+                                                const amount = parseFloat(investment?.amount);
+                                                const averageRoi = () => {
+                                                    const [min, max] = investment?.plan?.roi?.replace("%", "").split("-").map(Number);
+                                                    const avgRoi = (min + max) / 2;
+                                                    return avgRoi.toFixed(2);
+                                                }
 
-                                                    return (
-                                                        <TableRow key={investment?.id}>
+                                                return (
+                                                    <TableRow key={investment?.id}>
 
-                                                            <TableCell>{investment?.investor?.name}</TableCell>
-                                                            <TableCell>{investment?.investor?.email}</TableCell>
-                                                            <TableCell>{investment?.investor?.phone_number}</TableCell>
-                                                            <TableCell>{investment?.plan?.name}</TableCell>
-                                                            <TableCell className="font-bold text-primary">${formatNumberWithCommas(amount)}</TableCell>
-                                                            <TableCell>{averageRoi()}%</TableCell>
-                                                            <TableCell>{investment?.startDate
-                                                                ? new Date(investment.startDate).toLocaleDateString('en-US', {
-                                                                    year: 'numeric',
-                                                                    month: 'short',
-                                                                    day: 'numeric'
-                                                                }) : 'N/A'
-                                                            }</TableCell>
-                                                            <TableCell>{metrics.expectedWithdrawalDate}</TableCell>
-                                                            <TableCell className="w-[200px]">
-                                                                <Progress
-                                                                    value={metrics.profitProgress}
-                                                                    className={`h-2 ${metrics.profitProgress < 30
-                                                                            ? "bg-blue-100 [&>div]:bg-blue-500"
-                                                                            : metrics.profitProgress < 60
-                                                                                ? "bg-orange-100 [&>div]:bg-orange-500"
-                                                                                : "bg-green-100 [&>div]:bg-green-600"
-                                                                        }`}
-                                                                />
-                                                                <p className="text-xs text-gray-500 mt-1">{metrics.profitProgress}% of yearly profit</p>
-                                                            </TableCell>
-                                                            <TableCell className="font-bold text-green-900">${metrics.currentProfit.toLocaleString()}</TableCell>
-                                                            <TableCell>
-                                                                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium ${statusConfig.className}`}>
-                                                                    {statusConfig.icon}
-                                                                    {statusConfig.label}
-                                                                </span>
-                                                            </TableCell>
-                                                            {/* {<TableCell>
+                                                        <TableCell>{investment?.investor?.name}</TableCell>
+                                                        <TableCell>{investment?.investor?.email}</TableCell>
+                                                        <TableCell>{investment?.investor?.phone_number}</TableCell>
+                                                        <TableCell>{investment?.plan?.name}</TableCell>
+                                                        <TableCell className="font-bold text-primary">${formatNumberWithCommas(amount)}</TableCell>
+                                                        <TableCell>{averageRoi()}%</TableCell>
+                                                        <TableCell>{investment?.startDate
+                                                            ? new Date(investment.startDate).toLocaleDateString('en-US', {
+                                                                year: 'numeric',
+                                                                month: 'short',
+                                                                day: 'numeric'
+                                                            }) : 'N/A'
+                                                        }</TableCell>
+                                                        <TableCell>{metrics.expectedWithdrawalDate}</TableCell>
+                                                        <TableCell className="w-[200px]">
+                                                            <Progress
+                                                                value={metrics.profitProgress}
+                                                                className={`h-2 ${metrics.profitProgress < 30
+                                                                    ? "bg-blue-100 [&>div]:bg-blue-500"
+                                                                    : metrics.profitProgress < 60
+                                                                        ? "bg-orange-100 [&>div]:bg-orange-500"
+                                                                        : "bg-green-100 [&>div]:bg-green-600"
+                                                                    }`}
+                                                            />
+                                                            <p className="text-xs text-gray-500 mt-1">{metrics.profitProgress}% of yearly profit</p>
+                                                        </TableCell>
+                                                        <TableCell className="font-bold text-green-900">${metrics.currentProfit.toLocaleString()}</TableCell>
+                                                        <TableCell>
+                                                            <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium ${statusConfig.className}`}>
+                                                                {statusConfig.icon}
+                                                                {statusConfig.label}
+                                                            </span>
+                                                        </TableCell>
+                                                        {/* {<TableCell>
                                     <Button
                                     variant={ investment?.status === "Completed" ? "default" : "outline"}
                                     disabled={investment?.status !== "Completed"}
@@ -189,12 +188,11 @@ const page = () => {
                                     Withdraw
                                     </Button>
                                 </TableCell>} */}
-                                                        </TableRow>
-                                                    )
-                                                })}
-                                        </TableBody>
-                                    </Table>
-                                </section>
+                                                    </TableRow>
+                                                )
+                                            })}
+                                    </TableBody>
+                                </Table>
                     }
                 </div>
                 {investments?.pagination ?

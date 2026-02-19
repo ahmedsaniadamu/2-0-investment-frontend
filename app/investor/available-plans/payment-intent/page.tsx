@@ -66,6 +66,14 @@ export default function InvestmentFlow() {
     }, [profileStatus]);
 
 
+    const [formValues, setFormValues] = useState({
+        amount: "",
+        paymentMethod: "stripe",
+        startDate: "",
+        investmentGoal: "",
+        agreement: false,
+    });
+
     const activePlan = availablePlans?.find((p: any) => p.id === planId);
 
     console.log({ activePlan });
@@ -85,6 +93,7 @@ export default function InvestmentFlow() {
     }, [currentStep]);
 
     const handleInvestmentSubmit = async (values: any) => {
+        setFormValues(values);
         setLoading(true);
         try {
             if (values.paymentMethod === 'stripe') {
@@ -138,7 +147,7 @@ export default function InvestmentFlow() {
                                 <div
                                     className={`flex items-center justify-center w-10 h-10 rounded-full ${currentStep === 1
                                         ? "bg-primary text-white"
-                                        : "bg-green-500 text-white"
+                                        : "bg-green-600 text-white"
                                         }`}
                                 >
                                     1
@@ -170,13 +179,8 @@ export default function InvestmentFlow() {
                         {/* Step 1: Investment Details */}
                         {currentStep === 1 && (
                             <Formik
-                                initialValues={{
-                                    amount: "",
-                                    paymentMethod: "stripe",
-                                    startDate: "",
-                                    investmentGoal: "",
-                                    agreement: false,
-                                }}
+                                initialValues={formValues}
+                                enableReinitialize={true}
                                 validationSchema={investmentDetailsSchema(parseFloat(activePlan.minDeposit))}
                                 onSubmit={handleInvestmentSubmit}
                             >

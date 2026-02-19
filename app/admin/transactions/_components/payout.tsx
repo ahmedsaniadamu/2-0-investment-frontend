@@ -96,85 +96,83 @@ const Payout: React.FC<{ transactions: any, limit: number, refetch: any, refetch
                 !transactions?.data?.length ?
                     <EmptyData text='No Payouts Found' />
                     :
-                    <div className="overflow-x-auto w-full">
-                        <Table className='min-w-[1200px]'>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead>ID</TableHead>
-                                    <TableHead>Investor</TableHead>
-                                    <TableHead>Email</TableHead>
-                                    <TableHead>Plan</TableHead>
-                                    <TableHead>Amount To Be Paid</TableHead>
-                                    {/* <TableHead>Profit</TableHead>
+                    <Table className='min-w-[1200px]'>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>ID</TableHead>
+                                <TableHead>Investor</TableHead>
+                                <TableHead>Email</TableHead>
+                                <TableHead>Plan</TableHead>
+                                <TableHead>Amount To Be Paid</TableHead>
+                                {/* <TableHead>Profit</TableHead>
                                     <TableHead>Total (Inc. Profit)</TableHead> */}
-                                    <TableHead>Payout Status</TableHead>
-                                    <TableHead>Date</TableHead>
-                                    <TableHead>Actions</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {transactions.data.map((txn: any, index: number) => {
-                                    const metrics = txn.Plan ? calculateInvestmentMetrics({
-                                        ...txn,
-                                        plan: txn.Plan
-                                    }) : { currentProfit: "0" };
-                                    const profit = parseFloat(metrics.currentProfit);
-                                    const amount = parseFloat(txn.amount || 0);
-                                    const total = amount + profit;
+                                <TableHead>Payout Status</TableHead>
+                                <TableHead>Date</TableHead>
+                                <TableHead>Actions</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {transactions.data.map((txn: any, index: number) => {
+                                const metrics = txn.Plan ? calculateInvestmentMetrics({
+                                    ...txn,
+                                    plan: txn.Plan
+                                }) : { currentProfit: "0" };
+                                const profit = parseFloat(metrics.currentProfit);
+                                const amount = parseFloat(txn.amount || 0);
+                                const total = amount + profit;
 
-                                    return (
-                                        <TableRow key={txn?.id} className='py-3 h-16'>
-                                            <TableCell>
-                                                {
-                                                    index + 1 +
-                                                    ((transactions?.pagination?.currentPage || 1) - 1) *
-                                                    (limit)
-                                                }
-                                            </TableCell>
-                                            <TableCell>{txn?.Investor?.name}</TableCell>
-                                            <TableCell>{txn?.Investor?.email}</TableCell>
-                                            <TableCell>{txn?.Plan?.name}</TableCell>
-                                            <TableCell className='font-bold text-primary'>${formatNumberWithCommas(amount)}</TableCell>
-                                            {/* <TableCell className='font-bold text-green-600'>${formatNumberWithCommas(profit)}</TableCell>
+                                return (
+                                    <TableRow key={txn?.id} className='py-3 h-16'>
+                                        <TableCell>
+                                            {
+                                                index + 1 +
+                                                ((transactions?.pagination?.currentPage || 1) - 1) *
+                                                (limit)
+                                            }
+                                        </TableCell>
+                                        <TableCell>{txn?.Investor?.name}</TableCell>
+                                        <TableCell>{txn?.Investor?.email}</TableCell>
+                                        <TableCell>{txn?.Plan?.name}</TableCell>
+                                        <TableCell className='font-bold text-primary'>${formatNumberWithCommas(amount)}</TableCell>
+                                        {/* <TableCell className='font-bold text-green-600'>${formatNumberWithCommas(profit)}</TableCell>
                                             <TableCell className='font-bold text-primary'>${formatNumberWithCommas(total)}</TableCell> */}
-                                            <TableCell>
-                                                <span className={`px-3 py-1 text-sm rounded-full ${getStatusColor(txn.payoutStatus)}`}>
-                                                    {txn.payoutStatus || 'N/A'}
-                                                </span>
-                                            </TableCell>
-                                            <TableCell>
-                                                {new Date(txn?.createdAt).toLocaleDateString('en-ng')}
-                                            </TableCell>
-                                            <TableCell className="flex gap-3 items-center">
-                                                {
-                                                    hasAccess ?
-                                                        <>
-                                                            <Eye
-                                                                className="w-5 h-5 text-blue-600 cursor-pointer"
-                                                                onClick={() => {
-                                                                    setSelectedTxn(txn);
-                                                                    setIsOpen(true);
-                                                                }}
-                                                            />
-                                                            <Button
-                                                                variant="outline"
-                                                                size="sm"
-                                                                disabled={txn.payoutStatus === 'success' || (isProcessing && activeTxn?.id === txn.id)}
-                                                                onClick={() => handleProcessPayout(txn)}
-                                                                className="border-primary text-primary hover:bg-primary hover:text-white transition-colors h-9 px-4"
-                                                            >
-                                                                {isProcessing && activeTxn?.id === txn.id ? <SpinnerCustom /> : 'Process Payout'}
-                                                            </Button>
-                                                        </>
-                                                        : '----------'
-                                                }
-                                            </TableCell>
-                                        </TableRow>
-                                    )
-                                })}
-                            </TableBody>
-                        </Table>
-                    </div>
+                                        <TableCell>
+                                            <span className={`px-3 py-1 text-sm rounded-full ${getStatusColor(txn.payoutStatus)}`}>
+                                                {txn.payoutStatus || 'N/A'}
+                                            </span>
+                                        </TableCell>
+                                        <TableCell>
+                                            {new Date(txn?.createdAt).toLocaleDateString('en-ng')}
+                                        </TableCell>
+                                        <TableCell className="flex gap-3 items-center">
+                                            {
+                                                hasAccess ?
+                                                    <>
+                                                        <Eye
+                                                            className="w-5 h-5 text-blue-600 cursor-pointer"
+                                                            onClick={() => {
+                                                                setSelectedTxn(txn);
+                                                                setIsOpen(true);
+                                                            }}
+                                                        />
+                                                        <Button
+                                                            variant="outline"
+                                                            size="sm"
+                                                            disabled={txn.payoutStatus === 'success' || (isProcessing && activeTxn?.id === txn.id)}
+                                                            onClick={() => handleProcessPayout(txn)}
+                                                            className="border-primary text-primary hover:bg-primary hover:text-white transition-colors h-9 px-4"
+                                                        >
+                                                            {isProcessing && activeTxn?.id === txn.id ? <SpinnerCustom /> : 'Process Payout'}
+                                                        </Button>
+                                                    </>
+                                                    : '----------'
+                                            }
+                                        </TableCell>
+                                    </TableRow>
+                                )
+                            })}
+                        </TableBody>
+                    </Table>
             }
         </div>
     )

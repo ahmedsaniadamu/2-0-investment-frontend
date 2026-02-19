@@ -64,7 +64,7 @@ const SuccessPage = () => {
                             <div>
                                 <h3 className="font-bold text-gray-800 text-sm">Confirmation</h3>
                                 <p className="text-xs text-gray-500 mt-1 leading-relaxed">
-                                    A detailed receipt has been sent to your email address.
+                                    Your payment has been confirmed by the payment provider.
                                 </p>
                             </div>
                         </div>

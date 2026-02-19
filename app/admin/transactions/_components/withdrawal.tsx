@@ -122,100 +122,98 @@ const Withdrawal = ({ transactions, limit, refetch, refetchSummary }: {
         !transactions?.data?.length ?
           <EmptyData text='No Withdrawal Found' />
           :
-          <div className="overflow-x-auto w-full">
-            <Table className='min-w-[1100px]'>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>ID</TableHead>
-                  <TableHead>Investor</TableHead>
-                  <TableHead>Email</TableHead>
-                  <TableHead>Plan</TableHead>
-                  <TableHead>Amount</TableHead>
-                  <TableHead>Method</TableHead>
-                  <TableHead>Transaction Status</TableHead>
-                  <TableHead>Approval Status</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {transactions.data.map((txn: any, index: number) => (
-                  <TableRow key={txn?.id} className='py-3 h-16'>
-                    <TableCell>
-                      {
-                        index + 1 +
-                        ((transactions?.pagination?.currentPage || 1) - 1) *
-                        (limit)
-                      }
-                    </TableCell>
-                    <TableCell>{txn?.Investor?.name}</TableCell>
-                    <TableCell>{txn?.Investor?.email}</TableCell>
-                    <TableCell>{txn?.Plan?.name}</TableCell>
-                    <TableCell className='font-bold text-primary'>${formatNumberWithCommas(txn?.amount)}</TableCell>
-                    <TableCell>{txn?.paymentMethod}</TableCell>
-                    <TableCell>
-                      <span className={`px-3 py-1 text-sm rounded-full ${getStatusColor(txn.transactionStatus)}`}>
-                        {txn.transactionStatus || 'N/A'}
-                      </span>
-                    </TableCell>
-                    <TableCell>
-                      <span className={`px-3 py-1 text-sm rounded-full ${getStatusColor(txn.status)}`}>
-                        {txn.status}
-                      </span>
-                    </TableCell>
-                    <TableCell>
-                      {new Date(txn?.createdAt).toLocaleDateString('en-ng')}
-                    </TableCell>
-                    <TableCell className="flex gap-3 items-center">
-                      {
-                        hasAccess ?
-                          <>
-                            <Eye
-                              className="w-5 h-5 text-blue-600 cursor-pointer"
-                              onClick={() => {
-                                setSelectedTxn(txn);
-                                setIsOpen(true);
-                              }}
-                            />
-                            {
-                              isPending && activeTxn?.id === txn?.id ?
-                                <SpinnerCustom />
-                                :
-                                <CheckCircle
-                                  className={`w-5 h-5 text-green-600 cursor-pointer ${txn?.status === "pending" || txn?.status === "rejected" ? "" : "opacity-25 cursor-not-allowed"}`}
-                                  onClick={() => {
+          <Table className='min-w-[1100px]'>
+            <TableHeader>
+              <TableRow>
+                <TableHead>ID</TableHead>
+                <TableHead>Investor</TableHead>
+                <TableHead>Email</TableHead>
+                <TableHead>Plan</TableHead>
+                <TableHead>Amount</TableHead>
+                <TableHead>Method</TableHead>
+                <TableHead>Transaction Status</TableHead>
+                <TableHead>Approval Status</TableHead>
+                <TableHead>Date</TableHead>
+                <TableHead>Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {transactions.data.map((txn: any, index: number) => (
+                <TableRow key={txn?.id} className='py-3 h-16'>
+                  <TableCell>
+                    {
+                      index + 1 +
+                      ((transactions?.pagination?.currentPage || 1) - 1) *
+                      (limit)
+                    }
+                  </TableCell>
+                  <TableCell>{txn?.Investor?.name}</TableCell>
+                  <TableCell>{txn?.Investor?.email}</TableCell>
+                  <TableCell>{txn?.Plan?.name}</TableCell>
+                  <TableCell className='font-bold text-primary'>${formatNumberWithCommas(txn?.amount)}</TableCell>
+                  <TableCell>{txn?.paymentMethod}</TableCell>
+                  <TableCell>
+                    <span className={`px-3 py-1 text-sm rounded-full ${getStatusColor(txn.transactionStatus)}`}>
+                      {txn.transactionStatus || 'N/A'}
+                    </span>
+                  </TableCell>
+                  <TableCell>
+                    <span className={`px-3 py-1 text-sm rounded-full ${getStatusColor(txn.status)}`}>
+                      {txn.status}
+                    </span>
+                  </TableCell>
+                  <TableCell>
+                    {new Date(txn?.createdAt).toLocaleDateString('en-ng')}
+                  </TableCell>
+                  <TableCell className="flex gap-3 items-center">
+                    {
+                      hasAccess ?
+                        <>
+                          <Eye
+                            className="w-5 h-5 text-blue-600 cursor-pointer"
+                            onClick={() => {
+                              setSelectedTxn(txn);
+                              setIsOpen(true);
+                            }}
+                          />
+                          {
+                            isPending && activeTxn?.id === txn?.id ?
+                              <SpinnerCustom />
+                              :
+                              <CheckCircle
+                                className={`w-5 h-5 text-green-600 cursor-pointer ${txn?.status === "pending" || txn?.status === "rejected" ? "" : "opacity-25 cursor-not-allowed"}`}
+                                onClick={() => {
+                                  setActiveTxn(txn);
+                                  handleApprove(txn)
+                                  if (txn?.status === "pending" || txn?.status === "rejected") {
                                     setActiveTxn(txn);
                                     handleApprove(txn)
-                                    if (txn?.status === "pending" || txn?.status === "rejected") {
-                                      setActiveTxn(txn);
-                                      handleApprove(txn)
-                                    }
-                                    else {
-                                      toastMessage(
-                                        "error",
-                                        "Error",
-                                        "Transaction is already approved",
-                                      );
-                                    }
-                                  }}
-                                />
-                            }
-                            <XCircle
-                              className="w-5 h-5 text-red-600 cursor-pointer"
-                              onClick={() => {
-                                setActiveTxn(txn);
-                                handleReject(txn)
-                              }}
-                            />
-                          </>
-                          : '----------'
-                      }
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
+                                  }
+                                  else {
+                                    toastMessage(
+                                      "error",
+                                      "Error",
+                                      "Transaction is already approved",
+                                    );
+                                  }
+                                }}
+                              />
+                          }
+                          <XCircle
+                            className="w-5 h-5 text-red-600 cursor-pointer"
+                            onClick={() => {
+                              setActiveTxn(txn);
+                              handleReject(txn)
+                            }}
+                          />
+                        </>
+                        : '----------'
+                    }
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
       }
     </div>
   )

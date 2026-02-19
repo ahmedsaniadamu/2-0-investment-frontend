@@ -130,7 +130,7 @@ const faqCategories = [
 export default function FAQPage() {
     return (
         <div className="min-h-screen bg-gradient-to-b from-background via-background to-muted/20">
-            <Header />
+            <Header isTransaprent={false} hasSpacing={false} />
 
             {/* Hero Section */}
             <section className="relative overflow-hidden border-b bg-gradient-to-br from-primary via-background to-blue-500">
