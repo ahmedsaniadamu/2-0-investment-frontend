@@ -102,7 +102,7 @@ const CountryDropdownComponent = (
     );
 
     return (
-        <Popover open={open} onOpenChange={setOpen}>
+        <Popover modal={false} open={open} onOpenChange={setOpen}>
             <PopoverTrigger
                 ref={ref}
                 className={triggerClasses}

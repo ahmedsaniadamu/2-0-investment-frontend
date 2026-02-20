@@ -92,7 +92,7 @@ const CountrySelect = ({
     return (
         <Popover
             open={isOpen}
-            modal
+            modal={false}
             onOpenChange={(open) => {
                 setIsOpen(open);
                 open && setSearchValue("");

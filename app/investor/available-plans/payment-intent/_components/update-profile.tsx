@@ -152,6 +152,7 @@ export default function UpdateProfile({
                         <CountryDropdown
                             defaultValue={formik.values.country}
                             onChange={(country) => formik.setFieldValue("country", country.alpha3)}
+
                         />
                         {formik.touched.country && formik.errors.country && (
                             <p className="text-sm text-red-500">{formik.errors.country}</p>
