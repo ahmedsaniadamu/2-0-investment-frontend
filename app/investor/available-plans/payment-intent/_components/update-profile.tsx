@@ -100,8 +100,8 @@ export default function UpdateProfile({
     });
 
     return (
-        <Dialog open={open} onOpenChange={(val) => { if (!val) onClose(); }}>
-            <DialogContent className="sm:max-w-md h-[94vh] overflow-y-auto bg-white" onInteractOutside={(e) => e.preventDefault()}>
+        <Dialog modal={false} open={open} onOpenChange={(val) => { if (!val) onClose(); }}>
+            <DialogContent className="sm:max-w-lg h-[94vh] overflow-y-auto bg-blue-50" onInteractOutside={(e) => e.preventDefault()}>
                 <DialogHeader>
                     <DialogTitle>Update Profile</DialogTitle>
                     <p className="text-sm text-gray-500">Please complete your profile to continue.</p>
@@ -115,7 +115,7 @@ export default function UpdateProfile({
                             placeholder="Full Name"
                             value={formik.values.fullName}
                             readOnly
-                            className="bg-gray-100 cursor-not-allowed opacity-70"
+                            className="bg-white cursor-not-allowed opacity-70"
                         />
                     </div>
 
@@ -128,7 +128,7 @@ export default function UpdateProfile({
                             placeholder="Email"
                             value={formik.values.email}
                             readOnly
-                            className="bg-gray-100 cursor-not-allowed opacity-70"
+                            className="bg-white cursor-not-allowed opacity-70"
                         />
                     </div>
 
@@ -139,6 +139,7 @@ export default function UpdateProfile({
                             defaultCountry="NG"
                             placeholder="Phone Number"
                             value={formik.values.phone}
+                            className="bg-white"
                             onChange={(value) => formik.setFieldValue("phone", value)}
                             onBlur={() => formik.setFieldTouched("phone", true)}
                         />
@@ -149,11 +150,12 @@ export default function UpdateProfile({
 
                     <div className="space-y-2">
                         <Label htmlFor="country">Country <span className="text-red-500">*</span></Label>
-                        <CountryDropdown
-                            defaultValue={formik.values.country}
-                            onChange={(country) => formik.setFieldValue("country", country.alpha3)}
-
-                        />
+                        <div className="bg-white">
+                            <CountryDropdown
+                                defaultValue={formik.values.country}
+                                onChange={(country) => formik.setFieldValue("country", country.alpha3)}
+                            />
+                        </div>
                         {formik.touched.country && formik.errors.country && (
                             <p className="text-sm text-red-500">{formik.errors.country}</p>
                         )}
@@ -168,7 +170,7 @@ export default function UpdateProfile({
                             value={formik.values.address}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            className={formik.touched.address && formik.errors.address ? "border-red-500" : ""}
+                            className={formik.touched.address && formik.errors.address ? "border-red-500 bg-white" : "bg-white"}
                         />
                         {formik.touched.address && formik.errors.address && (
                             <p className="text-sm text-red-500">{formik.errors.address}</p>
