@@ -4,6 +4,7 @@ import InvestorPageLayout from "../_components/investor-page-layout"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { PhoneInput } from "@/components/ui/phone-input"
 import { Label } from "@/components/ui/label"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useFormik } from "formik"
@@ -11,6 +12,7 @@ import * as Yup from "yup"
 import UpdatePasswordModal from "./_components/update-password-modal"
 import { PenSquareIcon } from "lucide-react"
 import { useSessionUserId } from "@/hooks/use-session-user-id"
+import { CountryDropdown } from "@/components/ui/country-dropdown"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { investorProfile } from "@/services/profile"
 import Loader from "@/components/loader"
@@ -24,6 +26,7 @@ type FormData = {
   email: string;
   phone: string;
   address: string;
+  country: string;
   bankName: string;
   accountNumber: string;
   accountName: string;
@@ -53,6 +56,7 @@ const InvestorProfilePage = () => {
       email: profile?.investor?.email || "",
       phone: profile?.investor?.phone_number || "",
       address: profile?.address || "",
+      country: profile?.country || "",
       bankName: profile?.bankName || "",
       accountNumber: profile?.accountNumber || "",
       accountName: profile?.accountName || "",
@@ -61,7 +65,10 @@ const InvestorProfilePage = () => {
     validationSchema: Yup.object({
       fullName: Yup.string().required("Full name is required"),
       email: Yup.string().email("Invalid email").required("Email is required"),
-      phone: Yup.string().required("Phone is required"),
+      phone: Yup.string()
+        .required("Phone is required")
+        .matches(/^\+[1-9]\d{6,14}$/, "Please enter a valid phone number with country code"),
+      country: Yup.string().required("Country is required"),
       //accountNumber: Yup.string().required("Account number is required"),
     }),
     onSubmit: async (values) => {
@@ -153,12 +160,30 @@ const InvestorProfilePage = () => {
 
             <div>
               <Label>Phone</Label>
-              <Input disabled={!edit} {...formik.getFieldProps("phone")} />
+              <PhoneInput
+                defaultCountry="NG"
+                disabled={!edit}
+                value={formik.values.phone}
+                onChange={(value) => formik.setFieldValue("phone", value)}
+                onBlur={() => formik.setFieldTouched("phone", true)}
+              />
+              {formik.touched.phone && formik.errors.phone && (
+                <p className="text-sm text-red-500 mt-1">{formik.errors.phone}</p>
+              )}
             </div>
 
             <div className="col-span-2">
               <Label>Address</Label>
               <Textarea disabled={!edit} {...formik.getFieldProps("address")} />
+            </div>
+
+            <div>
+              <Label>Country</Label>
+              <CountryDropdown
+                disabled={!edit}
+                defaultValue={formik.values.country}
+                onChange={(country) => formik.setFieldValue("country", country.alpha3)}
+              />
             </div>
 
             {/* <div>

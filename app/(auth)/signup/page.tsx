@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PhoneInput } from "@/components/ui/phone-input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import Image from "next/image";
@@ -44,7 +45,7 @@ const validationSchema = Yup.object({
   email: Yup.string().email("Invalid email address").required("Email is required"),
   phone: Yup.string()
     .required("Phone number is required")
-    .matches(/^[0-9]{10,}$/, "Phone number must be at least 10 digits"),
+    .matches(/^\+[1-9]\d{6,14}$/, "Please enter a valid phone number with country code"),
   password: Yup.string()
     .required("Password is required")
     .min(8, "Must be at least 8 characters")
@@ -179,14 +180,13 @@ export default function SignupPage() {
                 {/* Phone */}
                 <div className="space-y-2">
                   <Label htmlFor="phone">Phone Number *</Label>
-                  <Input
+                  <PhoneInput
                     id="phone"
-                    name="phone"
-                    type="tel"
+                    defaultCountry="NG"
                     placeholder="Enter your phone number"
                     value={formik.values.phone}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
+                    onChange={(value) => formik.setFieldValue("phone", value)}
+                    onBlur={() => formik.setFieldTouched("phone", true)}
                   />
                   {formik.touched.phone && formik.errors.phone && (
                     <p className="text-sm text-red-500">{formik.errors.phone}</p>

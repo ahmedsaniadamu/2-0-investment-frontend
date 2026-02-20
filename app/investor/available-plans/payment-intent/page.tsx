@@ -26,10 +26,10 @@ import { investorProfile } from "@/services/profile";
 import UpdateProfile from "./_components/update-profile";
 
 // Validation schemas
-const investmentDetailsSchema = (minDeposit: number) => Yup.object().shape({
+const investmentDetailsSchema = (minDeposit: number, maxDeposit: number) => Yup.object().shape({
     amount: Yup.number()
         .min(minDeposit, `Minimum investment is $${formatNumberWithCommas(minDeposit)}`)
-        .required("Amount is required"),
+        .required("Amount is required").max(maxDeposit, `Maximum investment is $${formatNumberWithCommas(maxDeposit)}`),
     paymentMethod: Yup.string().required("Select a payment method"),
     startDate: Yup.date().nullable().required("Select a start date"),
     investmentGoal: Yup.string()
@@ -76,7 +76,7 @@ export default function InvestmentFlow() {
 
     const activePlan = availablePlans?.find((p: any) => p.id === planId);
 
-    console.log({ activePlan });
+    // console.log({ activePlan });
 
     const { mutateAsync: initiateInvestment } = useMutation({
         mutationFn: investorInvestments.initiateInvestment,
@@ -181,7 +181,7 @@ export default function InvestmentFlow() {
                             <Formik
                                 initialValues={formValues}
                                 enableReinitialize={true}
-                                validationSchema={investmentDetailsSchema(parseFloat(activePlan.minDeposit))}
+                                validationSchema={investmentDetailsSchema(parseFloat(activePlan.minDeposit), parseFloat(activePlan.maxDeposit))}
                                 onSubmit={handleInvestmentSubmit}
                             >
                                 {({ errors, touched, setFieldValue, values }) => {

@@ -20,7 +20,7 @@ import { useMutation } from "@tanstack/react-query";
 import { auth } from "@/services/auth";
 import { toastMessage } from "@/lib/custom-toast";
 import { SpinnerCustom } from "@/components/ui/spinner";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowLeft, Eye, EyeOff } from "lucide-react"; // 👁️ Import icons
 import { hashSync } from "bcryptjs";
 import { adminModules } from "@/app/admin/_components/admin-page-layout";
@@ -54,8 +54,10 @@ const getPasswordStrength = (password: string) => {
 
 
 export default function LoginPage() {
+
   const [showPassword, setShowPassword] = useState(false);
   const { push } = useRouter();
+  const searchParams = useSearchParams()
 
   const { mutateAsync: login, isPending } = useMutation({
     mutationFn: auth.login,
@@ -93,7 +95,18 @@ export default function LoginPage() {
             }
           } else push("/admin");
         }
-        else push("/investor");
+        else {
+          const action = searchParams.get('action')
+          if (action === 'view-transactions') {
+            push('/investor/transactions')
+          }
+          else if (action === 'view-kyc-status') {
+            push('/investor/settings')
+          }
+          else {
+            push("/investor");
+          }
+        }
       } catch (error: any) {
         toastMessage("error", "Error", error?.response?.data?.message);
       }

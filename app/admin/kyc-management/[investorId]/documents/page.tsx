@@ -108,7 +108,7 @@ const page = () => {
           </h1>
           <div>
             <div className='md:flex md:gap-4 md:items-center max-[500px]:grid max-[500px]:grid-cols-2 max-[500px]:gap-4'>
-              <Button disabled={isPending || investorKyc?.status === 'approved' || investorKyc?.status === 'rejected'} style={{ opacity: investorKyc?.status === 'approved' || isPending ? 0.5 : 1 }} disabled={investorKyc?.status === 'approved' || isPending} onClick={handleApprove} className='h-12 text-white bg-primary ml-2'>
+              <Button disabled={isPending || investorKyc?.status === 'approved' || investorKyc?.status === 'rejected'} style={{ opacity: investorKyc?.status === 'approved' || isPending ? 0.5 : 1 }} onClick={handleApprove} className='h-12 text-white bg-primary ml-2'>
                 {
                   isPending ? <Loader /> : 'Approve'
                 }

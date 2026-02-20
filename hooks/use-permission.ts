@@ -28,7 +28,7 @@ export const usePermission = (moduleName: string, action?: string) => {
     const hasAccess = action
         ? permissions.find(
             (p: any) => p?.name?.toLowerCase().includes(action.toLowerCase())
-        )
+        ) ? true : false
         : Boolean(permission);
 
     return {

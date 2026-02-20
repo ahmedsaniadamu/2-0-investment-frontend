@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PhoneInput } from "@/components/ui/phone-input";
 import { Label } from "@/components/ui/label";
 import { toastMessage } from "@/lib/custom-toast";
 import { SpinnerCustom } from "@/components/ui/spinner";
@@ -18,12 +19,16 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { investorProfile } from "@/services/profile";
 import { useSessionUserId } from "@/hooks/use-session-user-id";
 import { Textarea } from "@/components/ui/textarea";
+import { CountryDropdown } from "@/components/ui/country-dropdown";
 
 const validationSchema = Yup.object({
     fullName: Yup.string().required("Full Name is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
-    phone: Yup.string().required("Phone number is required"),
+    phone: Yup.string()
+        .required("Phone number is required")
+        .matches(/^\+[1-9]\d{6,14}$/, "Please enter a valid phone number with country code"),
     address: Yup.string().required("Address is required"),
+    country: Yup.string().required("Country is required"),
 });
 
 export default function UpdateProfile({
@@ -40,6 +45,7 @@ export default function UpdateProfile({
         email: "",
         phone: "",
         address: "",
+        country: "",
     });
 
     useEffect(() => {
@@ -52,6 +58,7 @@ export default function UpdateProfile({
                     email: parsedUser.email || "",
                     phone: parsedUser.phone_number || "",
                     address: parsedUser.address || "",
+                    country: parsedUser.country || "",
                 });
             } catch (error) {
                 console.error("Failed to parse user from sessionStorage", error);
@@ -81,6 +88,7 @@ export default function UpdateProfile({
                         email: values.email,
                         phone: values.phone,
                         address: values.address,
+                        country: values.country,
                     }
                 });
                 toastMessage("success", "Success", "Profile updated successfully!");
@@ -93,7 +101,7 @@ export default function UpdateProfile({
 
     return (
         <Dialog open={open} onOpenChange={(val) => { if (!val) onClose(); }}>
-            <DialogContent className="sm:max-w-md bg-white" onInteractOutside={(e) => e.preventDefault()}>
+            <DialogContent className="sm:max-w-md h-[94vh] overflow-y-auto bg-white" onInteractOutside={(e) => e.preventDefault()}>
                 <DialogHeader>
                     <DialogTitle>Update Profile</DialogTitle>
                     <p className="text-sm text-gray-500">Please complete your profile to continue.</p>
@@ -126,17 +134,27 @@ export default function UpdateProfile({
 
                     <div className="space-y-2">
                         <Label htmlFor="phone">Phone Number <span className="text-red-500">*</span></Label>
-                        <Input
+                        <PhoneInput
                             id="phone"
-                            name="phone"
+                            defaultCountry="NG"
                             placeholder="Phone Number"
                             value={formik.values.phone}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            className={formik.touched.phone && formik.errors.phone ? "border-red-500" : ""}
+                            onChange={(value) => formik.setFieldValue("phone", value)}
+                            onBlur={() => formik.setFieldTouched("phone", true)}
                         />
                         {formik.touched.phone && formik.errors.phone && (
                             <p className="text-sm text-red-500">{formik.errors.phone}</p>
+                        )}
+                    </div>
+
+                    <div className="space-y-2">
+                        <Label htmlFor="country">Country <span className="text-red-500">*</span></Label>
+                        <CountryDropdown
+                            defaultValue={formik.values.country}
+                            onChange={(country) => formik.setFieldValue("country", country.alpha3)}
+                        />
+                        {formik.touched.country && formik.errors.country && (
+                            <p className="text-sm text-red-500">{formik.errors.country}</p>
                         )}
                     </div>
 
