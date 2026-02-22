@@ -10,6 +10,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import Loader from '@/components/loader'
 import { formatNumberWithCommas } from "@/lib/format-number"
+import SearchInput from '@/components/search'
 
 const page = () => {
 
@@ -26,21 +27,10 @@ const page = () => {
       <header className='flex flex-col md:flex-row justify-between items-center'>
         <h1 className="text-2xl max-[500px]:mb-3 font-semibold">Investment Plans Overview</h1>
         <div>
-          <div className='flex max-[500px]:mb-3 items-center'>
-            <Input
-              type="search"
-              placeholder="Search plans..."
-              value={initialSearch}
-              onChange={(e) => {
-                if (e.target.value === "") {
-                  setSearch("");
-                }
-                setInitialSearch(e.target.value);
-              }}
+          <div className='flex max-[500px]:mb-3  md:mt-3 items-center'>
+            <SearchInput
+              setSearch={setSearch} placeHolder='Search Plans...'
             />
-            <Button onClick={() => setSearch(initialSearch)} className='h-12 bg-white ml-2' variant="outline">
-              <Search /> Search
-            </Button>
           </div>
         </div>
       </header>

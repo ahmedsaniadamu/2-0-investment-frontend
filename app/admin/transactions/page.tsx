@@ -99,7 +99,7 @@ const page = () => {
         <header className='md:flex justify-between items-center'>
           <h1 className="text-2xl font-semibold max-[500px]:mb-3">Transactions Overview</h1>
           <div>
-            <div className='md:flex items-center'>
+            <div className='md:flex gap-3 items-center'>
               <SearchInput
                 setSearch={setSearch} placeHolder='Search transactions...'
               />

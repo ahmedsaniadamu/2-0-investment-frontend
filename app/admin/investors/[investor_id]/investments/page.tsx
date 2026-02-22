@@ -146,7 +146,7 @@ const page = () => {
   });
 
   const { data: investorInvestments, isPending: investorInvestmentsPending } = useQuery({
-    queryKey: ["investors investments", , search, page, limit],
+    queryKey: ["investors investments", , search, page, limit, investor_id],
     queryFn: () => adminInvestors.getInvestorInvestments({
       search, page, limit, id: investor_id,
     }),

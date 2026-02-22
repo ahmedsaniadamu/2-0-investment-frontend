@@ -8,26 +8,29 @@ const SearchInput: React.FC<{
   placeHolder?: string,
   search?: string
   setSearch: React.Dispatch<React.SetStateAction<string>>
-}> = ({placeHolder, search, setSearch}) => {
+}> = ({ placeHolder, search, setSearch }) => {
 
   const [searchInit, setSearchInit] = React.useState('')
 
   return (
-    <React.Fragment>
-          <Input
-                 value={searchInit}
-        className={'max-[500px]:w-full mb-2'}
-                  onChange={ (e: React.ChangeEvent<HTMLInputElement>) => {
-                    if(e.target.value === '') setSearch('')
-                    setSearchInit(e.target.value)
-                  } }
-                  type="search"
-                  placeholder={placeHolder}
-                />
-      <Button onClick={() => setSearch(searchInit)} className='h-12 max-[500px]:h-16 max-[500px]:w-full bg-white md:ml-2' variant="outline">
-            <Search /> Search
-        </Button>
-    </React.Fragment>
+    <div className="relative w-full">
+      <Input
+        value={searchInit}
+        className="w-full pr-28 h-14 max-[500px]:h-14 bg-white"
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          if (e.target.value === '') setSearch('')
+          setSearchInit(e.target.value)
+        }}
+        type="search"
+        placeholder={placeHolder}
+      />
+      <Button
+        onClick={() => setSearch(searchInit)}
+        className="absolute right-1 top-1 h-10 max-[500px]:h-12 flex items-center gap-2"
+      >
+        <Search className="h-4 w-4" />
+      </Button>
+    </div>
   )
 }
 

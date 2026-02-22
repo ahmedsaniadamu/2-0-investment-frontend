@@ -32,14 +32,14 @@ const Page = () => {
     const [open, setOpen] = useState(false)
     const [activeUser, setActiveUser] = useState<any>(null)
     const { hasAccess, loading } = usePermission("users", "view_users");
- const { hasAccess: hasAccessToDelete } = usePermission("users", "delete_user");
+    const { hasAccess: hasAccessToDelete } = usePermission("users", "delete_user");
     const { hasAccess: hasAccessToUpdate } = usePermission("users", "update_user");
-  const {confirm, ConfirmModalElement} = useConfirmModal();
- const router = useRouter();
-  const { mutateAsync: deleteUserAccount, } = useMutation({
-              mutationFn: usersApi.deleteUser,
-              mutationKey: ["create-user"],
-            });
+    const { confirm, ConfirmModalElement } = useConfirmModal();
+    const router = useRouter();
+    const { mutateAsync: deleteUserAccount, } = useMutation({
+        mutationFn: usersApi.deleteUser,
+        mutationKey: ["create-user"],
+    });
     const {
         data: users,
         isPending: usersPending,
@@ -55,23 +55,23 @@ const Page = () => {
         select: (data: any) => data,
     });
 
-    const handleDelete = async(id: string) => {
-        if(!hasAccessToDelete) return toastMessage("error", "Error", "You don't have permission to delete user account");
+    const handleDelete = async (id: string) => {
+        if (!hasAccessToDelete) return toastMessage("error", "Error", "You don't have permission to delete user account");
         try {
-          const ok = await confirm({
-            title: "Delete User Account",
-            description: "Are you sure you want to delete this user Account?",
-            confirmText: "Delete",
-            type: 'reject'
-          });
-          if (!ok) return;
-          await deleteUserAccount({id});
-          toastMessage("success", "Success", "User Account deleted successfully");
-          refetch?.();
+            const ok = await confirm({
+                title: "Delete User Account",
+                description: "Are you sure you want to delete this user Account?",
+                confirmText: "Delete",
+                type: 'reject'
+            });
+            if (!ok) return;
+            await deleteUserAccount({ id });
+            toastMessage("success", "Success", "User Account deleted successfully");
+            refetch?.();
         } catch (error: any) {
-          toastMessage("error", "Error", error?.response?.data?.message || "Failed to delete user account");
+            toastMessage("error", "Error", error?.response?.data?.message || "Failed to delete user account");
         }
-      };
+    };
 
     if (loading) return <Loader />;
 
@@ -90,7 +90,7 @@ const Page = () => {
             <div className="space-y-6 p-6">
                 <div className="flex items-center justify-between">
                     <h2 className="text-2xl font-bold">Users Accounts Roles Overview ({users?.pagination?.totalItems})</h2>
-                     <div>
+                    <div className='flex items-center gap-3'>
                         <Button asChild>
                             <Link href="/admin/users/create">Create New User Account</Link>
                         </Button>
@@ -103,7 +103,7 @@ const Page = () => {
                             <ArrowLeft className="mr-2 ml-4 h-4 w-4" />
                             Back
                         </Button>
-                     </div>
+                    </div>
                 </div>
 
                 {/* Table */}
@@ -161,20 +161,20 @@ const Page = () => {
                                                     setOpen(true);
                                                     setActiveUser(user);
                                                 }}
-                                             />
+                                            />
                                             <Pencil
-                                            size={16}
-                                            className="cursor-pointer text-blue-600 hover:text-blue-800"
-                                            onClick={() => {
-                                              if(!hasAccessToUpdate) return toastMessage("error", "Error", "You don't have permission to update user account");
-                                               sessionStorage.setItem("active-user", JSON.stringify(user));
-                                              router.push(`/admin/users/create?action=edit`);
-                                            }}
+                                                size={16}
+                                                className="cursor-pointer text-blue-600 hover:text-blue-800"
+                                                onClick={() => {
+                                                    if (!hasAccessToUpdate) return toastMessage("error", "Error", "You don't have permission to update user account");
+                                                    sessionStorage.setItem("active-user", JSON.stringify(user));
+                                                    router.push(`/admin/users/create?action=edit`);
+                                                }}
                                             />
                                             <Trash2
-                                            size={16}
-                                            className="cursor-pointer text-red-600 hover:text-red-800"
-                                             onClick={() => handleDelete(user?.id)}
+                                                size={16}
+                                                className="cursor-pointer text-red-600 hover:text-red-800"
+                                                onClick={() => handleDelete(user?.id)}
                                             />
                                         </TableCell>
                                     </TableRow>
