@@ -49,7 +49,7 @@ const InvestorPageLayout = ({ children }: { children: React.ReactNode }) => {
           <div className="flex items-center gap-4">
             <SidebarTrigger />
             <h5 className='text-sm capitalize font-bold flex items-center'>
-              Good {greeting}, {user?.name || ''} &nbsp;
+              Good {greeting},&nbsp;
               <Image src={wavingHand} alt='hands' />
             </h5>
           </div>
@@ -60,7 +60,7 @@ const InvestorPageLayout = ({ children }: { children: React.ReactNode }) => {
                   <span className='flex items-center rounded-full justify-center w-[30px] bg-slate-200 h-[30px]'>
                     <Image src={userImg} alt='profile' className='w-[25px] rounded-full h-[25px]' />
                   </span>
-                  <span className='pl-1'>{'Investor'}</span>
+                  <span className='pl-1'> {user?.name || ''} </span>
                   <i className='bi bi-chevron-down pl-1' />
                 </button>
               </DropdownMenuTrigger>

@@ -128,8 +128,8 @@ export default function InvestmentFlow() {
     return (
         <InvestorPageLayout>
             <UpdateProfile open={showUpdateProfile} onClose={() => setShowUpdateProfile(false)} />
-            <div className="container mx-auto py-8 px-4 max-w-4xl">
-                <Card>
+            <div className="container mx-auto py-3 md:py-8 px-0 sm:px-4 max-w-4xl">
+                <Card className="max-[500px]:px-0">
                     <CardHeader>
                         <CardTitle className="text-2xl font-bold">Complete Your Investment</CardTitle>
                         <div className="mt-4">

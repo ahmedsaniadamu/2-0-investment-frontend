@@ -64,9 +64,9 @@ export function Header({
   return (
     <header className={`relative z-50 w-full shadow ${isTransaprent ? "bg-transparent" : "bg-white"} ${hasSpacing ? "mb-5" : ""}`}>
       <div className="w-full flex h-20 items-center justify-between">
-        <Link href="/" className="flex max-[500px]:-ml-5  items-center gap-2">
+        <Link href="/" className="flex max-[500px]:ml-1  items-center gap-2">
           <div className="bg-white p-0 rounded-full ml-2">
-            <Image className="w-[60px] h-[60px] rounded-full" src={logo} alt="2Zero Investment" />
+            <Image className="w-[60px] h-[60px] max-[500px]:w-[50px] max-[500px]:h-[50px] rounded-full" src={logo} alt="2Zero Investment" />
           </div>
         </Link>
         <div className="md:hidden">
@@ -77,7 +77,7 @@ export function Header({
             <SheetContent side="left">
               <SheetHeader>
                 <SheetDescription>
-                  <Navbar className="flex flex-col gap-5" isTransaprent={isTransaprent} />
+                  <Navbar isTransaprent={false} className="flex flex-col gap-5" />
                 </SheetDescription>
               </SheetHeader>
             </SheetContent>
