@@ -215,7 +215,7 @@ export default function FAQPage() {
                             Our support team is here to help you 24/7
                         </p>
                         <a
-                            href="mailto: support@2zeroinvestment.com"
+                            href="/contact"
                             className="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3 text-sm font-semibold text-primary-foreground shadow-lg transition-all hover:bg-primary/90 hover:shadow-xl hover:scale-105"
                         >
                             Contact Support

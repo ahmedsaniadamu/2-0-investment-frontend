@@ -17,6 +17,12 @@ const Navbar = ({ className, isTransaprent }: { className?: string, isTransapren
   return (
     <nav className={className || "hidden items-center gap-6 md:flex justify-end pr-5"}>
       <Link
+        href="/"
+        className={`text-sm font-medium ${isTransaprent ? "text-white" : "text-primary"} transition-colors hover:text-foreground`}
+      >
+        Home
+      </Link>
+      <Link
         href="/#plans"
         className={`text-sm font-medium ${isTransaprent ? "text-white" : "text-primary"} transition-colors hover:text-foreground`}
       >
@@ -33,12 +39,6 @@ const Navbar = ({ className, isTransaprent }: { className?: string, isTransapren
         className={`text-sm font-medium ${isTransaprent ? "text-white" : "text-primary"} transition-colors hover:text-foreground`}
       >
         FAQ
-      </Link>
-      <Link
-        href="/#testimonials"
-        className={`text-sm font-medium ${isTransaprent ? "text-white" : "text-primary"} transition-colors hover:text-foreground`}
-      >
-        Testimonials
       </Link>
       <div className="flex max-[500px]:flex-col md:items-center gap-3">
         <Button className={`max-[500px]:hidden ${isTransaprent ? "text-white" : "text-primary"}`} variant="ghost" asChild>
@@ -65,7 +65,7 @@ export function Header({
     <header className={`relative z-50 w-full shadow ${isTransaprent ? "bg-transparent" : "bg-white"} ${hasSpacing ? "mb-5" : ""}`}>
       <div className="w-full flex h-20 items-center justify-between">
         <Link href="/" className="flex max-[500px]:ml-1  items-center gap-2">
-          <div className="bg-white p-0 rounded-full ml-2">
+          <div className={`bg-white p-0 rounded-full ml-2 ${isTransaprent ? "" : "border-[1.5px] border-primary"}`}>
             <Image className="w-[60px] h-[60px] max-[500px]:w-[50px] max-[500px]:h-[50px] rounded-full" src={logo} alt="2Zero Investment" />
           </div>
         </Link>
