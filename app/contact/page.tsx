@@ -84,9 +84,6 @@ export default function ContactPage() {
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ duration: 0.6 }}
                             >
-                                <span className="inline-block px-4 py-1.5 mb-6 text-sm font-medium tracking-wider uppercase bg-white backdrop-blur-md rounded-full border border-white/20">
-                                    Connect With Us
-                                </span>
                                 <h1 className="text-5xl md:text-7xl text-primary font-bold mb-6 tracking-tight">
                                     Let&apos;s build your <span className="text-primary">future</span> together.
                                 </h1>

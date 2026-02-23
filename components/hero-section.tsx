@@ -9,33 +9,41 @@ export function HeroSection() {
   return (
     <section className="relative overflow-hidden  bg-primary py-20 pt-0 md:pt-0 md:py-32">
       <Header isTransaprent hasSpacing />
-      {/* Add the scanning effect element */}
-      <motion.div
-        className="pointer-events-none absolute h-[600px] w-[600px] rounded-full bg-gradient-to-r from-[#81a1f8] via-white/20 to-transparent"
-        initial={{ x: '-50%', y: '-50%', scale: 0.8, rotate: 0 }} // Start at the center with slight scaling
-        animate={{ x: ['-50%', '10%', '50%', '10%', '-50%'], y: ['-50%', '-30%', '0%', '30%', '-50%'], rotate: 360 }} // Larger circular motion
-        transition={{
-          duration: 10, // Slower and smoother motion
-          repeat: Infinity,
-          ease: "linear" // Continuous motion
-        }}
-        style={{ willChange: 'transform, opacity' }} // Optimize for animation
-      />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.5),transparent_60%)]" />
+      {/* Animated Background Patterns */}
+      <div className="absolute inset-0 opacity-10">
+        <svg className="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+          {[20, 35, 50, 65, 80].map((y, i) => (
+            <motion.path
+              key={i}
+              initial={{ pathLength: 0, opacity: 0 }}
+              animate={{
+                pathLength: 1,
+                opacity: 1,
+                d: [
+                  `M0 ${y} Q 25 ${y - 10} 50 ${y} T 100 ${y}`,
+                  `M0 ${y} Q 25 ${y + 10} 50 ${y} T 100 ${y}`,
+                  `M0 ${y} Q 25 ${y - 10} 50 ${y} T 100 ${y}`
+                ]
+              }}
+              transition={{
+                d: {
+                  duration: 10 + i * 2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: i * 0.5
+                },
+                pathLength: { duration: 2, ease: "easeInOut" },
+                opacity: { duration: 2 }
+              }}
+              stroke="white"
+              strokeWidth="0.3"
+              fill="none"
+            />
+          ))}
+        </svg>
+      </div>
       <div className="container relative mx-auto px-4">
         <div className="mx-auto max-w-4xl text-center">
-          {/* <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, ease: "easeOut" }} // Reduced duration
-            className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-primary backdrop-blur-sm px-4 py-2 text-sm"
-          >
-            <TrendingUp className="h-4 w-4 text-accent" />
-            <span className="text-muted-foreground">
-              Your next investment partner
-            </span>
-          </motion.div> */}
-
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -64,7 +72,7 @@ export function HeroSection() {
             transition={{ duration: 0.4, delay: 0.5, ease: "easeOut" }} // Reduced duration
             className="flex flex-col items-center justify-center gap-4 sm:flex-row"
           >
-            <Button size="lg" className="w-full sm:w-auto" asChild>
+            <Button size="lg" className="w-full bg-white text-primary sm:w-auto" asChild>
               <Link href="/signup">
                 Get Started
                 <ArrowRight className="ml-2 h-4 w-4" />

@@ -23,6 +23,12 @@ const Navbar = ({ className, isTransaprent }: { className?: string, isTransapren
         Home
       </Link>
       <Link
+        href="/about"
+        className={`text-sm font-medium ${isTransaprent ? "text-white" : "text-primary"} transition-colors hover:text-foreground`}
+      >
+        About Us
+      </Link>
+      <Link
         href="/#plans"
         className={`text-sm font-medium ${isTransaprent ? "text-white" : "text-primary"} transition-colors hover:text-foreground`}
       >
@@ -51,7 +57,7 @@ const Navbar = ({ className, isTransaprent }: { className?: string, isTransapren
           <Link href="/signup">Create Account</Link>
         </Button>
       </div>
-    </nav>
+    </nav >
   )
 }
 export function Header({
@@ -65,14 +71,14 @@ export function Header({
     <header className={`relative z-50 w-full shadow ${isTransaprent ? "bg-transparent" : "bg-white"} ${hasSpacing ? "mb-5" : ""}`}>
       <div className="w-full flex h-20 items-center justify-between">
         <Link href="/" className="flex max-[500px]:ml-1  items-center gap-2">
-          <div className={`bg-white p-0 rounded-full ml-2 ${isTransaprent ? "" : "border-[1.5px] border-primary"}`}>
-            <Image className="w-[60px] h-[60px] max-[500px]:w-[50px] max-[500px]:h-[50px] rounded-full" src={logo} alt="2Zero Investment" />
+          <div className={`bg-white p-0 rounded-full ml-2`}>
+            <Image className="w-[60px] h-[60px]  rounded-full" src={logo} alt="2Zero Investment" />
           </div>
         </Link>
         <div className="md:hidden">
           <Sheet>
             <SheetTrigger>
-              <Menu className={`md:hidden text-3xl pl-5 ${isTransaprent ? "text-white" : "text-primary"}`} size={60} />
+              <Menu className={`md:hidden pr-2 text-3xl pl-5 ${isTransaprent ? "text-white" : "text-primary"}`} size={60} />
             </SheetTrigger>
             <SheetContent side="left">
               <SheetHeader>

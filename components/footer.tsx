@@ -4,7 +4,7 @@ import logo from "@/assets/logo.png"
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-primary text-white">
+    <footer className="border-t-0 border-border bg-primary text-white">
       <div className="container mx-auto px-4 py-12">
         <div className="grid gap-8 md:grid-cols-4">
           <div>
@@ -15,7 +15,6 @@ export function Footer() {
             </div>
             <p className="text-sm text-white">Professional investment management for everyone.</p>
           </div>
-
           <div>
             <h3 className="mb-4 font-semibold text-white">Product</h3>
             <ul className="space-y-2 text-sm">
@@ -41,7 +40,7 @@ export function Footer() {
             <h3 className="mb-4 font-semibold text-white">Company</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="#" className="text-white/80 hover:text-white">
+                <Link href="/about" className="text-white/80 hover:text-white">
                   About Us
                 </Link>
               </li>
