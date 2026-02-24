@@ -12,6 +12,8 @@ import { Mail, Phone, MapPin, Send, Clock, Linkedin, Twitter, Facebook, Instagra
 import { useFormik } from "formik"
 import * as Yup from "yup"
 import { toast } from "sonner"
+import { contactService } from "@/services/contact"
+import { toastMessage } from "@/lib/custom-toast"
 
 const validationSchema = Yup.object({
     name: Yup.string().required("Full Name is required"),
@@ -31,13 +33,11 @@ export default function ContactPage() {
         validationSchema,
         onSubmit: async (values, { resetForm, setSubmitting }) => {
             try {
-                // Simulate API call
-                await new Promise((resolve) => setTimeout(resolve, 1500))
-                console.log("Form values:", values)
-                toast.success("Message sent successfully! We'll get back to you soon.")
+                const res = await contactService.sendMessage(values)
+                toastMessage("success", res?.message || "Message sent successfully! We'll get back to you soon.")
                 resetForm()
-            } catch (error) {
-                toast.error("Something went wrong. Please try again.")
+            } catch (error: any) {
+                toastMessage("error", error?.response?.data?.message || "Something went wrong. Please try again.")
             } finally {
                 setSubmitting(false)
             }
@@ -48,7 +48,7 @@ export default function ContactPage() {
         <div className="flex flex-col min-h-screen bg-[#f8faff]">
             <main className="flex-grow">
                 {/* Interactive Hero Section */}
-                <section className="relative border-b bg-gradient-to-br from-primary via-background to-blue-500 pt-0 pb-24  overflow-hidden">
+                <section className="relative bg-primary pt-0 pb-24  overflow-hidden">
                     <Header isTransaprent={false} hasSpacing />
                     {/* Background Decorative Elements */}
                     <motion.div
@@ -84,10 +84,10 @@ export default function ContactPage() {
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ duration: 0.6 }}
                             >
-                                <h1 className="text-5xl md:text-7xl text-primary font-bold mb-6 tracking-tight">
-                                    Let&apos;s build your <span className="text-primary">future</span> together.
+                                <h1 className="text-5xl md:text-7xl text-white/90 pt-8 font-bold mb-6 tracking-tight">
+                                    Let&apos;s build your <span className="text-white">future</span> together.
                                 </h1>
-                                <p className="text-lg text-black leading-relaxed max-w-2xl">
+                                <p className="text-lg text-white/90 leading-relaxed max-w-2xl">
                                     Whether you have questions about our investment strategies or need technical support,
                                     our professional team is dedicated to providing you with the best experience.
                                 </p>
@@ -173,7 +173,7 @@ export default function ContactPage() {
                                 className="lg:col-span-7"
                             >
                                 <Card className="shadow-[0_20px_50px_rgba(0,0,0,0.05)] border-none rounded-3xl overflow-hidden">
-                                    <div className="h-2 bg-primary w-full" />
+                                    <div className="h-1 bg-primary w-full" />
                                     <CardHeader className="pt-5 px-8 pb-4">
                                         <CardTitle className="text-3xl font-bold">Send a Message</CardTitle>
                                         <CardDescription className="text-sm mt-2">

@@ -63,12 +63,14 @@ const Navbar = ({ className, isTransaprent }: { className?: string, isTransapren
 export function Header({
   isTransaprent = false,
   hasSpacing = false,
+  bgColor
 }: {
   isTransaprent?: boolean
   hasSpacing?: boolean
+  bgColor?: string
 }) {
   return (
-    <header className={`relative z-50 w-full shadow ${isTransaprent ? "bg-transparent" : "bg-white"} ${hasSpacing ? "mb-5" : ""}`}>
+    <header className={`relative z-50 w-full shadow ${isTransaprent ? bgColor || "bg-transparent" : "bg-white"} ${hasSpacing ? "mb-5" : ""}`}>
       <div className="w-full flex h-20 items-center justify-between">
         <Link href="/" className="flex max-[500px]:ml-1  items-center gap-2">
           <div className={`bg-white p-0 rounded-full ml-2`}>

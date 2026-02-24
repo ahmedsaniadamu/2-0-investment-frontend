@@ -133,21 +133,21 @@ export default function FAQPage() {
             <Header isTransaprent={false} hasSpacing={false} />
 
             {/* Hero Section */}
-            <section className="relative overflow-hidden border-b bg-gradient-to-br from-primary via-background to-blue-500">
+            <section className="relative overflow-hidden bg-primary">
                 <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
                 <div className="container relative mx-auto px-4 py-16">
                     <div className="mx-auto max-w-3xl text-center">
-                        <Badge className="mb-4 animate-fade-in-up" variant="outline">
+                        <Badge className="mb-4 bg-white/10 text-white/90 animate-fade-in-up" variant="outline">
                             <HeadphonesIcon className="mr-2 h-3 w-3" />
                             Help Center
                         </Badge>
-                        <h1 className="mb-6 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl animate-fade-in-up animation-delay-100">
+                        <h1 className="mb-6 text-4xl text-white/90 pt-5 font-bold tracking-tight sm:text-5xl md:text-6xl animate-fade-in-up animation-delay-100">
                             Frequently Asked{" "}
-                            <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+                            <span className="bg-gradient-to-r from-white/90 to-white/60 bg-clip-text text-transparent">
                                 Questions
                             </span>
                         </h1>
-                        <p className="text-lg text-muted-foreground animate-fade-in-up animation-delay-200">
+                        <p className="text-lg text-white/90 animate-fade-in-up animation-delay-200">
                             Everything you need to know about 2Zero. Can't find what you're looking for?
                             <br className="hidden sm:block" />
                             Contact our support team at{" "}

@@ -148,17 +148,17 @@ const InvestorProfilePage = () => {
             </Button>
           </h2>
           <form onSubmit={formik.handleSubmit} className="grid sm:grid-cols-2 gap-6">
-            <div>
+            <div className="max-[500px]:col-span-2">
               <Label>Full Name</Label>
               <Input disabled={!edit} {...formik.getFieldProps("fullName")} />
             </div>
 
-            <div>
+            <div className="max-[500px]:col-span-2">
               <Label>Email</Label>
               <Input disabled {...formik.getFieldProps("email")} type="email" />
             </div>
 
-            <div>
+            <div className="max-[500px]:col-span-2">
               <Label>Phone</Label>
               <PhoneInput
                 defaultCountry="NG"
@@ -172,12 +172,12 @@ const InvestorProfilePage = () => {
               )}
             </div>
 
-            <div className="col-span-2">
+            <div className="max-[500px]:col-span-2">
               <Label>Address</Label>
               <Textarea disabled={!edit} {...formik.getFieldProps("address")} />
             </div>
 
-            <div>
+            <div className="max-[500px]:col-span-2">
               <Label>Country</Label>
               <CountryDropdown
                 disabled={!edit}
@@ -196,18 +196,18 @@ const InvestorProfilePage = () => {
               <Input disabled={!edit} {...formik.getFieldProps("accountName")} />
             </div> */}
 
-            <div className="py-5 text-sm font-bold col-span-2 bg-yellow-200 rounded-lg p-4">
+            <div className="max-[500px]:col-span-2 py-5 text-sm font-bold col-span-2 bg-yellow-200 rounded-lg p-4">
               Note: bank details is auto generated and can't be edited.
               Please note that this account number is only for receiving funds.
               you will be required to onboard with a payment provider to activate the account for withdrawals.
               onbarding will be sent after investment is completed and approved by our review team.
             </div>
-            <div>
+            <div className="max-[500px]:col-span-2">
               <Label>Connected Account Id</Label>
               <Input disabled={true} value={profile?.stripeAccountId} />
             </div>
 
-            <div>
+            <div className="max-[500px]:col-span-2">
               <Label>Connected Account Status</Label>
               <Input disabled={true} value={profile?.accountStatus} className={`${profile?.accountStatus === "active" ? "text-green-500" : "text-orange-500"}`} />
             </div>

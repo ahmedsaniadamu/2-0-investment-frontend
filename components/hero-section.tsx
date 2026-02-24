@@ -72,17 +72,16 @@ export function HeroSection() {
             transition={{ duration: 0.4, delay: 0.5, ease: "easeOut" }} // Reduced duration
             className="flex flex-col items-center justify-center gap-4 sm:flex-row"
           >
-            <Button size="lg" className="w-full bg-white text-primary sm:w-auto" asChild>
+            <Button size="lg" className="w-full max-[500px]:h-[60px] bg-white hover:bg-white/90 text-primary sm:w-auto" asChild>
               <Link href="/signup">
                 Get Started
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
-            <Button size="lg" variant="outline" className="w-full text-white sm:w-auto bg-transparent backdrop-blur-sm" asChild>
+            <Button size="lg" variant="outline" className="w-full max-[500px]:h-[60px] hover:bg-white/90 hover:text-primary text-white sm:w-auto bg-transparent backdrop-blur-sm" asChild>
               <Link href="/#plans">View Plans</Link>
             </Button>
           </motion.div>
-
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
