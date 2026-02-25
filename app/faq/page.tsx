@@ -16,7 +16,7 @@ const faqCategories = [
     {
         title: "Getting Started & Verification",
         icon: Shield,
-        color: "bg-blue-500/10 text-blue-600 dark:text-blue-400",
+        color: "bg-blue-500/10 text-primary",
         questions: [
             {
                 q: "What is 2Zero and how does it work?",
@@ -43,7 +43,7 @@ const faqCategories = [
     {
         title: "Funding & Plans",
         icon: DollarSign,
-        color: "bg-blue-500/10 text-blue-600 dark:text-blue-400",
+        color: "bg-blue-500/10 text-primary",
         questions: [
             {
                 q: "What payment methods do you accept?",
@@ -66,7 +66,7 @@ const faqCategories = [
     {
         title: "Earning & Maturity",
         icon: TrendingUp,
-        color: "bg-blue-500/10 text-blue-600 dark:text-blue-400",
+        color: "bg-blue-500/10 text-primary",
         questions: [
             {
                 q: "How long is the maturity period?",
@@ -89,7 +89,7 @@ const faqCategories = [
     {
         title: "Withdrawals (The \"Double KYC\" Explained)",
         icon: Lock,
-        color: "bg-blue-500/10 text-blue-600 dark:text-blue-400",
+        color: "bg-blue-500/10 text-primary",
         questions: [
             {
                 q: "How do I withdraw my funds when they mature?",
@@ -112,7 +112,7 @@ const faqCategories = [
     {
         title: "Security & Trust",
         icon: HelpCircle,
-        color: "bg-blue-500/10 text-blue-600 dark:text-blue-400",
+        color: "bg-blue-500/10 text-primary",
         questions: [
 
             {
@@ -134,7 +134,7 @@ export default function FAQPage() {
 
             {/* Hero Section */}
             <section className="relative overflow-hidden bg-primary">
-                <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+                <div className="absolute inset-0"></div>
                 <div className="container relative mx-auto px-4 py-16">
                     <div className="mx-auto max-w-3xl text-center">
                         <Badge className="mb-4 bg-white/10 text-white/90 animate-fade-in-up" variant="outline">

@@ -210,7 +210,7 @@ export default function AboutPage() {
                 {/* CTA Section */}
                 <section className="py-10">
                     <div className="container mx-auto px-4">
-                        <div className="relative overflow-hidden rounded-[3rem] bg-gradient-to-br from-primary to-blue-800 px-8 py-16 text-center md:py-24">
+                        <div className="relative overflow-hidden rounded-[3rem] bg-primary px-8 py-16 text-center md:py-24">
                             {/* Decorative circles */}
                             <div className="absolute -left-20 -top-20 h-64 w-64 rounded-full bg-white/5 blur-3xl" />
                             <div className="absolute -right-20 -bottom-20 h-64 w-64 rounded-full bg-white/5 blur-3xl" />
