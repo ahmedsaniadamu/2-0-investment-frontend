@@ -120,7 +120,7 @@ const page = () => {
                                         <TableRow>
                                             <TableHead>Name</TableHead>
                                             <TableHead>Email</TableHead>
-                                            <TableHead>Phone Number</TableHead>
+                                            {/* <TableHead>Phone Number</TableHead> */}
                                             <TableHead>Plan</TableHead>
                                             <TableHead>Amount ($)</TableHead>
                                             <TableHead>ROI (%)</TableHead>
@@ -149,7 +149,7 @@ const page = () => {
 
                                                         <TableCell>{investment?.investor?.name}</TableCell>
                                                         <TableCell>{investment?.investor?.email}</TableCell>
-                                                        <TableCell>{investment?.investor?.phone_number}</TableCell>
+                                                        {/* <TableCell>{investment?.investor?.phone_number}</TableCell> */}
                                                         <TableCell>{investment?.plan?.name}</TableCell>
                                                         <TableCell className="font-bold text-primary">${formatNumberWithCommas(amount)}</TableCell>
                                                         <TableCell>{averageRoi()}%</TableCell>

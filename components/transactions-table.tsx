@@ -69,9 +69,8 @@ export function TransactionsTable() {
             >
               <div className="flex items-center gap-4">
                 <div
-                  className={`flex h-10 w-10 items-center justify-center rounded-full ${
-                    transaction.type === "deposit" ? "bg-primary/10 text-primary" : "bg-accent/10 text-accent"
-                  }`}
+                  className={`flex h-10 w-10 items-center justify-center rounded-full ${transaction.type === "deposit" ? "bg-primary/10 text-primary" : "bg-primary/10 text-accent"
+                    }`}
                 >
                   {transaction.type === "deposit" ? (
                     <ArrowDownLeft className="h-5 w-5" />

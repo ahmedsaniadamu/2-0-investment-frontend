@@ -229,11 +229,11 @@ export default function LoginPage() {
 
           <p className="mt-3 text-center text-xs text-muted-foreground">
             By signing in, you agree to our{" "}
-            <Link href="#" className="underline hover:text-foreground">
+            <Link href="/term-of-service" className="underline hover:text-foreground">
               Terms of Service
             </Link>{" "}
             and{" "}
-            <Link href="#" className="underline hover:text-foreground">
+            <Link href="/privacy-policy" className="underline hover:text-foreground">
               Privacy Policy
             </Link>
           </p>

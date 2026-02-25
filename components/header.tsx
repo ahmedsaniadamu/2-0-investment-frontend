@@ -18,42 +18,42 @@ const Navbar = ({ className, isTransaprent }: { className?: string, isTransapren
     <nav className={className || "hidden items-center gap-6 md:flex justify-end pr-5"}>
       <Link
         href="/"
-        className={`text-sm font-medium ${isTransaprent ? "text-white" : "text-primary"} transition-colors hover:text-foreground`}
+        className={`text-sm font-medium ${isTransaprent ? "text-white hover:text-white/50" : "text-primary"} transition-colors hover:text-foreground`}
       >
         Home
       </Link>
       <Link
         href="/about"
-        className={`text-sm font-medium ${isTransaprent ? "text-white" : "text-primary"} transition-colors hover:text-foreground`}
+        className={`text-sm font-medium ${isTransaprent ? "text-white hover:text-white/50" : "text-primary "} transition-colors hover:text-foreground`}
       >
         About Us
       </Link>
       <Link
         href="/#plans"
-        className={`text-sm font-medium ${isTransaprent ? "text-white" : "text-primary"} transition-colors hover:text-foreground`}
+        className={`text-sm font-medium ${isTransaprent ? "text-white hover:text-white/50" : "text-primary"} transition-colors hover:text-foreground`}
       >
         Plans
       </Link>
       <Link
         href="/#how-it-works"
-        className={`text-sm font-medium ${isTransaprent ? "text-white" : "text-primary"} transition-colors hover:text-foreground`}
+        className={`text-sm font-medium ${isTransaprent ? "text-white hover:text-white/50" : "text-primary"} transition-colors hover:text-foreground`}
       >
         How It Works
       </Link>
       <Link
         href="/faq"
-        className={`text-sm font-medium ${isTransaprent ? "text-white" : "text-primary"} transition-colors hover:text-foreground`}
+        className={`text-sm font-medium ${isTransaprent ? "text-white hover:text-white/50" : "text-primary"} transition-colors hover:text-foreground`}
       >
         FAQ
       </Link>
       <div className="flex max-[500px]:flex-col md:items-center gap-3">
-        <Button className={`max-[500px]:hidden ${isTransaprent ? "text-white" : "text-primary"}`} variant="ghost" asChild>
+        <Button className={`max-[500px]:hidden ${isTransaprent ? "text-white hover:text-white/50" : "text-primary"}`} variant="ghost" asChild>
           <Link href="/login">Login</Link>
         </Button>
-        <Button variant="outline" className={`sm:hidden ${isTransaprent ? "text-white" : "text-primary"}`} asChild>
+        <Button variant="outline" className={`hover:bg-white/50 sm:hidden ${isTransaprent ? "text-white hover:text-white/50" : "text-primary"}`} asChild>
           <Link href="/login">Login</Link>
         </Button>
-        <Button asChild className={` ${isTransaprent ? "text-primary bg-white" : "text-white bg-primary"}`}>
+        <Button asChild className={` ${isTransaprent ? "text-primary bg-white hover:bg-white/50" : "text-white hover:text-white/50 bg-primary"}`}>
           <Link href="/signup">Create Account</Link>
         </Button>
       </div>
