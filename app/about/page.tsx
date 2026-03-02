@@ -81,7 +81,7 @@ export default function AboutPage() {
 
             <main className="flex-grow">
                 {/* Hero Section */}
-                <section className="relative overflow-hidden bg-primary py-24 md:py-32">
+                <section className="relative overflow-hidden bg-[#005b9e] py-24 md:py-32">
                     {/* Animated Background Patters */}
                     <div className="absolute inset-0 opacity-10">
                         <svg className="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
