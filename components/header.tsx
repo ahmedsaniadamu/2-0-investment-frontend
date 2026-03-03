@@ -74,8 +74,8 @@ export function Header({
     <header className={`relative z-50 w-full shadow ${isTransaprent ? bgColor || "bg-transparent" : "bg-white"} ${hasSpacing ? "mb-5" : ""}`}>
       <div className="w-full flex h-20 items-center justify-between">
         <Link href="/" className="flex max-[500px]:ml-1  items-center gap-2">
-          <div className={`bg-white p-0 rounded-full ml-2`}>
-            <Image className="w-[60px] h-[60px]  rounded-full" src={!isTransaprent ? logo2 : logo} alt="2Zero Investment" />
+          <div className={`p-0  ml-2`}>
+            <Image className="w-[60px] h-[60px] bg-white rounded-full" src={logo} alt="2Zero Investment" />
           </div>
         </Link>
         <div className="md:hidden">

@@ -60,9 +60,9 @@ export function AppSidebar({ items = investorModules }: {
       <SidebarContent className="bg-primary">
         <SidebarGroup>
           <SidebarGroupLabel className="w-full bg-white mt-8 flex justify-center">
-            <div className="rounded-full bg-white text-center">
+            <div className="text-center">
               <Link href="/" className="inline-flex items-center gap-0">
-                <Image className="w-[90px] h-[90px]" src={logo} alt="2Zero Investment" />
+                <Image className="w-[80px] h-[80px] bg-white rounded-full" src={logo} alt="2Zero Investment" />
               </Link>
             </div>
           </SidebarGroupLabel>

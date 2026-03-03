@@ -117,10 +117,10 @@ export default function LoginPage() {
     <div className="sm:grid grid-cols-2 h-screen overflow-y-hidden bg-white">
       {/* Left section with logo */}
       <section className="bg-primary max-[500px]:hidden h-screen flex justify-center items-center">
-        <div className="mb-0 bg-white rounded-2xl text-center">
+        <div className="mb-0 text-center">
           <div className="mb-0 text-center">
             <Link href="/" className="inline-flex items-center gap-2">
-              <Image className="w-[120px] h-[120px]" src={logo} alt="2Zero Investment" />
+              <Image className="w-[120px] h-[120px] bg-white rounded-full" src={logo} alt="2Zero Investment" />
             </Link>
           </div>
         </div>
