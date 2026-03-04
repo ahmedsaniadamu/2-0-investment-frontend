@@ -2,7 +2,7 @@ import { createApiClient } from "./api-client";
 
 const client = createApiClient();
 
-type getRequestParamsType = {
+export type getRequestParamsType = {
   page: number;
   limit: number;
   search: string;

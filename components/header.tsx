@@ -16,7 +16,7 @@ import {
 
 const Navbar = ({ className, isTransaprent }: { className?: string, isTransaprent?: boolean }) => {
   return (
-    <nav className={className || "hidden items-center gap-6 md:flex justify-end pr-5"}>
+    <nav className={className || "hidden items-center gap-6 md:flex justify-end pr-5 sticky top-0"}>
       <Link
         href="/"
         className={`text-sm font-medium ${isTransaprent ? "text-white hover:text-white/50" : "text-primary"} transition-colors hover:text-foreground`}
@@ -71,7 +71,7 @@ export function Header({
   bgColor?: string
 }) {
   return (
-    <header className={`relative z-50 w-full shadow ${isTransaprent ? bgColor || "bg-transparent" : "bg-white"} ${hasSpacing ? "mb-5" : ""}`}>
+    <header className={`relative sticky top-0 z-50 w-full shadow ${isTransaprent ? bgColor || "bg-transparent" : "bg-white"} ${hasSpacing ? "mb-5" : ""}`}>
       <div className="w-full flex h-20 items-center justify-between">
         <Link href="/" className="flex max-[500px]:ml-1  items-center gap-2">
           <div className={`p-0  ml-2`}>
