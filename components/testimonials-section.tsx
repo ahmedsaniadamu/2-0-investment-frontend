@@ -77,7 +77,6 @@ export function TestimonialsSection() {
           autoplaySpeed: 4000,
           speed: 500,
           cssEase: "ease",
-          width: "100%",
         }
       }
     ],
@@ -154,7 +153,7 @@ export function TestimonialsSection() {
           ) : testimonials.length > 0 ? (
             <Slider {...settings} className="testimonial-slider">
               {testimonials.map((testimonial: any, index: number) => (
-                <div key={testimonial.id || index} className="h-full block pb-8 px-2 max-[500px]:w-[300px]">
+                <div key={testimonial.id || index} className="h-full pb-8 px-3">
                   <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     whileInView={{ opacity: 1, scale: 1 }}

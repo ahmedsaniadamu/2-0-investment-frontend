@@ -6,6 +6,7 @@ import { HowItWorksSection } from "@/components/how-it-works-section"
 import { TestimonialsSection } from "@/components/testimonials-section"
 import { Footer } from "@/components/footer"
 import DecorativeSection from "@/components/decorative-section"
+import { TestimonialsSectionMobile } from "@/components/ui/testimonial-section-mobile"
 
 export default function HomePage() {
   return (
@@ -14,7 +15,12 @@ export default function HomePage() {
         <HeroSection />
         <PlansSection />
         <HowItWorksSection />
-        <TestimonialsSection />
+        <section className="sm:hidden">
+          <TestimonialsSectionMobile />
+        </section>
+        <section className="hidden sm:block">
+          <TestimonialsSection />
+        </section>
         <DecorativeSection />
       </main>
       <Footer />
