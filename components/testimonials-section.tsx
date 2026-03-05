@@ -68,12 +68,16 @@ export function TestimonialsSection() {
         }
       },
       {
-        breakpoint: 640,
+        breakpoint: 768,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
           infinite: testimonials.length > 1,
           autoplay: testimonials.length > 1,
+          autoplaySpeed: 4000,
+          speed: 500,
+          cssEase: "ease",
+          width: "100%",
         }
       }
     ],
@@ -101,7 +105,7 @@ export function TestimonialsSection() {
       {[1, 2, 3].map((i) => (
         <Card key={i} className="h-[320px] border-none shadow-lg bg-white relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-1.5 bg-slate-100" />
-          <CardContent className="pt-10 pb-8 px-8 flex flex-col h-full">
+          <CardContent className="pt-8 pb-6 px-6 sm:pt-10 sm:pb-8 sm:px-8 flex flex-col h-full">
             <div className="flex gap-1 mb-4">
               {[1, 2, 3, 4, 5].map((s) => (
                 <Skeleton key={s} className="h-4 w-4 rounded-full" />
@@ -144,23 +148,23 @@ export function TestimonialsSection() {
           </p>
         </motion.div>
 
-        <div className="relative px-2">
+        <div className="relative">
           {isPending ? (
             <SkeletonLoader />
           ) : testimonials.length > 0 ? (
             <Slider {...settings} className="testimonial-slider">
               {testimonials.map((testimonial: any, index: number) => (
-                <div key={testimonial.id || index} className="h-full pb-8 px-2">
+                <div key={testimonial.id || index} className="h-full block pb-8 px-2 max-[500px]:w-[300px]">
                   <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.4, delay: index * 0.1 }}
-                    className="h-full"
+                    className="h-full w-full"
                   >
                     <Card className="h-full border-none shadow-lg hover:shadow-xl transition-all duration-300 bg-white relative group overflow-hidden">
                       <div className={`absolute top-0 left-0 w-full h-1.5 bg-primary`} />
-                      <CardContent className="pt-10 pb-8 px-8 relative flex flex-col h-full min-h-[300px]">
-                        <Quote className="absolute top-6 right-8 text-slate-100 w-12 h-12 -z-0 group-hover:text-slate-200 transition-colors" />
+                      <CardContent className="pt-8 pb-6 px-6 sm:pt-10 sm:pb-8 sm:px-8 relative flex flex-col h-full min-h-[320px] sm:min-h-[300px]">
+                        <Quote className="absolute top-4 right-6 sm:top-6 sm:right-8 text-slate-100 w-10 h-10 sm:w-12 sm:h-12 -z-0 group-hover:text-slate-200 transition-colors" />
 
                         <div className="mb-4 relative z-10 pointer-events-none">
                           <StarRating rating={Number(testimonial.rating)} />
@@ -177,8 +181,8 @@ export function TestimonialsSection() {
                             </AvatarFallback>
                           </Avatar>
                           <div>
-                            <div className="font-bold text-slate-900">{testimonial?.investor?.name || 'Investor'}</div>
-                            <div className="text-xs font-semibold text-primary uppercase tracking-wider">
+                            <div className="font-bold text-slate-900 line-clamp-1">{testimonial?.investor?.name || 'Investor'}</div>
+                            <div className="text-xs font-semibold text-primary uppercase tracking-wider line-clamp-1">
                               {testimonial?.role || 'Verified Investor'}
                             </div>
                           </div>
