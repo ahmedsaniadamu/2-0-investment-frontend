@@ -20,6 +20,8 @@ import { users } from "@/services/users";
 import { permissions as permissionsApi } from '@/services/permissions';
 import { useRouter, useSearchParams } from "next/navigation";
 import { SpinnerCustom } from "@/components/ui/spinner";
+import { PhoneInput } from "@/components/ui/phone-input";
+import { Eye, EyeOff } from "lucide-react";
 
 // Types
 interface UserDetails {
@@ -77,10 +79,11 @@ export default function CreateUserAccount() {
     const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
     const [loading, setLoading] = useState(false);
     const [createdUserId, setCreatedUserId] = useState<string | null>(null);
+    const [showPassword, setShowPassword] = useState(false);
     const { hasAccess, loading: loadingPermissions } = usePermission("users", "create_user");
     const searchParams = useSearchParams();
     const isEdit = searchParams.get("action") === "edit";
-    const {push} = useRouter();
+    const { push } = useRouter();
     const {
         data: permissions,
         isPending: permissionsPending,
@@ -96,27 +99,27 @@ export default function CreateUserAccount() {
     });
 
     const { mutateAsync: createUser, } = useMutation({
-            mutationFn: users.createUser,
-            mutationKey: ["create-user"],
-          });
-    
-       const { mutateAsync: assignUserPermissions, } = useMutation({
-            mutationFn: users.assignPermissionsToUser,
-            mutationKey: ["assign-permissions"],
-          });
-    
+        mutationFn: users.createUser,
+        mutationKey: ["create-user"],
+    });
+
+    const { mutateAsync: assignUserPermissions, } = useMutation({
+        mutationFn: users.assignPermissionsToUser,
+        mutationKey: ["assign-permissions"],
+    });
+
     const { mutateAsync: updateUserPermissions, } = useMutation({
         mutationFn: users.updateUserPermissions,
         mutationKey: ["update-user-permissions"],
     });
 
     useEffect(() => {
-        document.querySelectorAll('*').forEach((e:any) => {
-          e.scroll({
-            top: 0,
-            left: 0,
-            behavior: 'smooth'
-          });
+        document.querySelectorAll('*').forEach((e: any) => {
+            e.scroll({
+                top: 0,
+                left: 0,
+                behavior: 'smooth'
+            });
         })
     }, [currentStep]);
 
@@ -131,20 +134,20 @@ export default function CreateUserAccount() {
     const handleUserDetailsSubmit = async (values: UserDetails) => {
         setLoading(true);
         try {
-            const response =  await createUser(
-            isEdit ?  
+            const response = await createUser(
+                isEdit ?
                     values.password === 'defaultPassword123@' ?
-                    {
-                        ...values,
-                        password: null
-                    } : values
-            : values);
-           setCreatedUserId(response?.user?.id);  
-           setUserDetails(values);
-           toastMessage('success', 'Success', isEdit ? 'User account updated successfully.' : 'User account created successfully, they will receive an email onbaording email with their credentials.');
-          setCurrentStep(2);
+                        {
+                            ...values,
+                            password: null
+                        } : values
+                    : values);
+            setCreatedUserId(response?.user?.id);
+            setUserDetails(values);
+            toastMessage('success', 'Success', isEdit ? 'User account updated successfully.' : 'User account created successfully, they will receive an email onbaording email with their credentials.');
+            setCurrentStep(2);
         } catch (error: any) {
-             toastMessage('error', 'Error', error?.response?.data?.message || 'Failed to create user account. Please try again.');
+            toastMessage('error', 'Error', error?.response?.data?.message || 'Failed to create user account. Please try again.');
         } finally {
             setLoading(false);
         }
@@ -155,12 +158,12 @@ export default function CreateUserAccount() {
         try {
             let response;
             if (isEdit) {
-                response =  await updateUserPermissions({ permissionIds: values.permissionIds, userId: createdUserId as string  });
+                response = await updateUserPermissions({ permissionIds: values.permissionIds, userId: createdUserId as string });
             } else {
-              response =  await assignUserPermissions({ permissionIds: values.permissionIds, userId: createdUserId as string });
+                response = await assignUserPermissions({ permissionIds: values.permissionIds, userId: createdUserId as string });
             }
-            toastMessage("success", "Success", response?.message || "Permissions assigned successfully.");              
-             push('/admin/users');
+            toastMessage("success", "Success", response?.message || "Permissions assigned successfully.");
+            push('/admin/users');
         } catch (error: any) {
             toastMessage("error", "Error", error?.response?.data?.message || "Failed to assign permissions. Please try again.");
         } finally {
@@ -169,8 +172,8 @@ export default function CreateUserAccount() {
     };
 
     if (loadingPermissions) return <Loader />;
-    
-        if (!hasAccess) return <AccessDeniedFullScreen />;
+
+    if (!hasAccess) return <AccessDeniedFullScreen />;
 
     const progressPercentage = (currentStep / 2) * 100;
 
@@ -237,11 +240,11 @@ export default function CreateUserAccount() {
                                 validationSchema={userDetailsSchema}
                                 onSubmit={handleUserDetailsSubmit}
                             >
-                                {({ errors, touched, setFieldValue, values }) =>{
+                                {({ errors, touched, setFieldValue, values, setFieldTouched }) => {
                                     useEffect(() => {
                                         if (isEdit) {
                                             const user = JSON.parse(sessionStorage.getItem('active-user') as string);
-                                            if(user){
+                                            if (user) {
                                                 setFieldValue('name', user?.name);
                                                 setFieldValue('email', user?.email);
                                                 setFieldValue('password', 'defaultPassword123@');
@@ -251,119 +254,135 @@ export default function CreateUserAccount() {
                                         }
                                     }, [isEdit])
                                     return (
-                                    <Form className="space-y-6">
-                                        <div>
-                                            <Label htmlFor="name">
-                                                Name <span className="text-red-500">*</span>
-                                            </Label>
-                                            <Field
-                                                as={Input}
-                                                id="name"
-                                                name="name"
-                                                placeholder="Enter full name"
-                                                className={errors.name && touched.name ? "border-red-500" : ""}
-                                            />
-                                            <ErrorMessage
-                                                name="name"
-                                                component="div"
-                                                className="text-red-500 text-sm mt-1"
-                                            />
-                                        </div>
+                                        <Form className="space-y-6">
+                                            <div>
+                                                <Label htmlFor="name">
+                                                    Name <span className="text-red-500">*</span>
+                                                </Label>
+                                                <Field
+                                                    as={Input}
+                                                    id="name"
+                                                    name="name"
+                                                    placeholder="Enter full name"
+                                                    className={errors.name && touched.name ? "border-red-500" : ""}
+                                                />
+                                                <ErrorMessage
+                                                    name="name"
+                                                    component="div"
+                                                    className="text-red-500 text-sm mt-1"
+                                                />
+                                            </div>
 
-                                        <div>
-                                            <Label htmlFor="email">
-                                                Email <span className="text-red-500">*</span>
-                                            </Label>
-                                            <Field
-                                                as={Input}
-                                                id="email"
-                                                name="email"
-                                                type="email"
-                                                placeholder="Enter email address"
-                                                className={errors.email && touched.email ? "border-red-500" : ""}
-                                            />
-                                            <ErrorMessage
-                                                name="email"
-                                                component="div"
-                                                className="text-red-500 text-sm mt-1"
-                                            />
-                                        </div>
+                                            <div>
+                                                <Label htmlFor="email">
+                                                    Email <span className="text-red-500">*</span>
+                                                </Label>
+                                                <Field
+                                                    as={Input}
+                                                    id="email"
+                                                    name="email"
+                                                    type="email"
+                                                    placeholder="Enter email address"
+                                                    className={errors.email && touched.email ? "border-red-500" : ""}
+                                                />
+                                                <ErrorMessage
+                                                    name="email"
+                                                    component="div"
+                                                    className="text-red-500 text-sm mt-1"
+                                                />
+                                            </div>
 
-                                        <div>
-                                            <Label htmlFor="password">
-                                                Password <span className="text-red-500">*</span>
-                                            </Label>
-                                            <Field
-                                                as={Input}
-                                                id="password"
-                                                name="password"
-                                                type="password"
-                                                placeholder="Enter password"
-                                                className={errors.password && touched.password ? "border-red-500" : ""}
-                                            />
-                                            <ErrorMessage
-                                                name="password"
-                                                component="div"
-                                                className="text-red-500 text-sm mt-1"
-                                            />
-                                        </div>
+                                            <div>
+                                                <Label htmlFor="phone_number">
+                                                    Phone Number <span className="text-red-500">*</span>
+                                                </Label>
+                                                <PhoneInput
+                                                    id="phone_number"
+                                                    defaultCountry="NG"
+                                                    placeholder="Enter phone number"
+                                                    value={values.phone_number}
+                                                    onChange={(value) => setFieldValue("phone_number", value)}
+                                                    onBlur={() => setFieldTouched("phone_number", true)}
+                                                    className={
+                                                        errors.phone_number && touched.phone_number ? "border-red-500" : ""
+                                                    }
+                                                />
+                                                <ErrorMessage
+                                                    name="phone_number"
+                                                    component="div"
+                                                    className="text-red-500 text-sm mt-1"
+                                                />
+                                            </div>
 
-                                        <div>
-                                            <Label htmlFor="userType">
-                                                Account Role <span className="text-red-500">*</span>
-                                            </Label>
-                                            <Field
-                                                as={Input}
-                                                id="userType"
-                                                name="userType"
-                                                type="text"
-                                                placeholder="e.g Accountant"
-                                                className={
-                                                    errors.phone_number && touched.phone_number ? "border-red-500" : ""
-                                                }
-                                            />
-                                            <ErrorMessage
-                                                name="userType"
-                                                component="div"
-                                                className="text-red-500 text-sm mt-1"
-                                            />
-                                        </div>
+                                            <div>
+                                                <Label htmlFor="password">
+                                                    Password <span className="text-red-500">*</span>
+                                                </Label>
+                                                <div className="relative">
+                                                    <Field
+                                                        as={Input}
+                                                        id="password"
+                                                        name="password"
+                                                        type={showPassword ? "text" : "password"}
+                                                        placeholder="Enter password"
+                                                        className={(errors.password && touched.password ? "border-red-500" : "") + " pr-10"}
+                                                    />
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => setShowPassword(!showPassword)}
+                                                        className="absolute right-3 top-1/2 -translate-y-1/2"
+                                                    >
+                                                        {showPassword ? (
+                                                            <EyeOff className="h-4 w-4 text-muted-foreground" />
+                                                        ) : (
+                                                            <Eye className="h-4 w-4 text-muted-foreground" />
+                                                        )}
+                                                    </button>
+                                                </div>
+                                                <ErrorMessage
+                                                    name="password"
+                                                    component="div"
+                                                    className="text-red-500 text-sm mt-1"
+                                                />
+                                            </div>
 
-                                        <div>
-                                            <Label htmlFor="phone_number">
-                                                Phone Number <span className="text-red-500">*</span>
-                                            </Label>
-                                            <Field
-                                                as={Input}
-                                                id="phone_number"
-                                                name="phone_number"
-                                                placeholder="+2348012345678"
-                                                className={
-                                                    errors.phone_number && touched.phone_number ? "border-red-500" : ""
-                                                }
-                                            />
-                                            <ErrorMessage
-                                                name="phone_number"
-                                                component="div"
-                                                className="text-red-500 text-sm mt-1"
-                                            />
-                                        </div>
+                                            <div>
+                                                <Label htmlFor="userType">
+                                                    Account Role <span className="text-red-500">*</span>
+                                                </Label>
+                                                <Field
+                                                    as={Input}
+                                                    id="userType"
+                                                    name="userType"
+                                                    type="text"
+                                                    placeholder="e.g Accountant"
+                                                    className={
+                                                        errors.userType && touched.userType ? "border-red-500" : ""
+                                                    }
+                                                />
+                                                <ErrorMessage
+                                                    name="userType"
+                                                    component="div"
+                                                    className="text-red-500 text-sm mt-1"
+                                                />
+                                            </div>
 
-                                        <div className="flex justify-end">
-                                            <Button type="submit" className="bg-primary hover:bg-orange-600 px-16" disabled={loading}>
-                                                {loading ? <SpinnerCustom /> : "Save Changes"}
-                                            </Button>
-                                        </div>
-                                    </Form>
-                                )}}
+                                            <div className="flex justify-end">
+                                                <Button type="submit" className="bg-primary hover:bg-orange-600 px-16" disabled={loading}>
+                                                    {loading ? <SpinnerCustom /> : "Save Changes"}
+                                                </Button>
+                                            </div>
+                                        </Form>
+                                    )
+                                }}
                             </Formik>
                         )}
 
                         {/* Step 2: Assign Permissions */}
                         {currentStep === 2 ?
-                          permissionsPending ? 
-                           <Loader />
-                          : 
+                            permissionsPending ?
+                                <Loader />
+                                :
                                 <Formik
                                     initialValues={{
                                         permissionIds: [],
@@ -372,8 +391,8 @@ export default function CreateUserAccount() {
                                     onSubmit={handlePermissionsSubmit}
                                 >
                                     {({ values, setFieldValue, errors, touched }: any) => {
-                                       
-                                       const [activeUser, setActiveUser] = useState<any>(null); 
+
+                                        const [activeUser, setActiveUser] = useState<any>(null);
 
                                         useEffect(() => {
                                             if (isEdit) {
@@ -382,7 +401,7 @@ export default function CreateUserAccount() {
                                             }
                                         }, [])
                                         console.log(activeUser, 'user');
-                                        
+
                                         const {
                                             data: userPermissions,
                                             isPending: permissionsPending,
@@ -397,12 +416,12 @@ export default function CreateUserAccount() {
                                         });
 
                                         useEffect(() => {
-                                            if(isEdit && userPermissions?.length) {
+                                            if (isEdit && userPermissions?.length) {
                                                 setFieldValue("permissionIds", userPermissions.map((permission: any) => permission?.id))
                                             }
                                         }, [userPermissions])
 
-                                        if(isEdit && !activeUser && permissionsPending) return <Loader />
+                                        if (isEdit && !activeUser && permissionsPending) return <Loader />
 
                                         return (
                                             <Form className="space-y-6">
@@ -467,11 +486,11 @@ export default function CreateUserAccount() {
                                                         {loading ? <SpinnerCustom /> : "Save Changes"}
                                                     </Button>
                                                 </div>
-                                            </Form> 
+                                            </Form>
                                         )
                                     }}
                                 </Formik>
-                        : null}
+                            : null}
                     </CardContent>
                 </Card>
             </div>
