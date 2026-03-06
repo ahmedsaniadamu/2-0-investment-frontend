@@ -253,7 +253,7 @@ const page = () => {
                                 activeInvestment?.id === investment?.id && initiateWithdrawalPending ?
                                   <SpinnerCustom />
                                   :
-                                  investment?.isWithdrawalSent ? 'Request Sent' : 'Withdraw'
+                                  investment?.isWithdrawalSent ? 'Request Sent' : 'Initiate Withdrawal'
                               }
                             </Button>
                           </TableCell>

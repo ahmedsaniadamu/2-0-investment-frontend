@@ -108,7 +108,11 @@ const page = () => {
           <SummaryCard
             title="Average Ratings"
             isLoading={isPending}
-            amount={summary?.averageRating}
+            amount={
+              summary?.averageRating ?
+                summary?.averageRating.toFixed(2)
+                : 0
+            }
             Icon={<Star className="w-6 h-6 text-yellow-600" />}
           />
         </div>
