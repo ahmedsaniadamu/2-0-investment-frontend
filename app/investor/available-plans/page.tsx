@@ -48,7 +48,7 @@ const page = () => {
                 return (
                   <Card
                     key={plan.name + i}
-                    className={`mb-3 flex-shrink-0 ${isPopular ? "relative border-primary shadow-lg" : ""
+                    className={`mb-3 flex flex-col h-full flex-shrink-0 ${isPopular ? "relative border-primary shadow-lg" : ""
                       }`}
                   >
                     {isPopular && (
@@ -60,7 +60,7 @@ const page = () => {
                     )}
                     <CardHeader>
                       <CardTitle className="text-2xl">{plan.name}</CardTitle>
-                      <CardDescription>{plan.description}</CardDescription>
+                      <CardDescription className="line-clamp-2">{plan.description}</CardDescription>
                     </CardHeader>
 
                     <CardContent className="space-y-6">
@@ -78,7 +78,7 @@ const page = () => {
                       </div>
                     </CardContent>
 
-                    <CardFooter>
+                    <CardFooter className="mt-auto">
                       <Button disabled={!plan?.visibility} className={`w-full ${plan?.visibility ? "bg-primary" : "bg-gray-600"}`} onClick={() => {
                         router.push(`/investor/available-plans/payment-intent?planId=${plan.id}`)
                       }}>

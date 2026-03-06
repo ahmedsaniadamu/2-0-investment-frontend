@@ -65,7 +65,9 @@ export function PlansSection() {
   .scroll-wrapper {
     /* changed to allow horizontal scrolling for manual controls */
     overflow-x: auto;
-    overflow-y: hidden;
+    overflow-y: visible;
+    padding-top: 2rem;
+    padding-bottom: 1rem;
     width: 100%;
     scroll-behavior: smooth;
   }
@@ -76,6 +78,7 @@ export function PlansSection() {
   .scroll-track {
     display: flex;
     width: max-content;
+    padding: 1rem 0;
     animation: scroll-pingpong 48s ease-in-out infinite;
   }
 
@@ -109,8 +112,7 @@ export function PlansSection() {
             ))}
           </div>
         ) : availablePlans?.length ? (
-          // Wrap scroll area in a relative container so we can position buttons
-          <div className="relative">
+          <div className="relative -mt-12">
             {/* Left button */}
             <button
               aria-label="Scroll left"
@@ -134,12 +136,12 @@ export function PlansSection() {
                   return (
                     <Card
                       key={plan.name + i}
-                      className={`mx-4 w-[300px] flex-shrink-0 ${isPopular ? "relative border-primary shadow-lg" : ""
+                      className={`mx-4 h-[350px] w-[300px] overflow-visible flex flex-col flex-shrink-0 ${isPopular ? "relative border-primary shadow-lg z-[10]" : ""
                         }`}
                     >
                       {isPopular && (
-                        <div className="absolute -top-0 z-[1000] left-1/2 -translate-x-1/2">
-                          <span className="rounded-full bg-primary px-4 py-1 text-sm font-medium text-primary-foreground">
+                        <div className="absolute -top-4 z-[1000] left-1/2 -translate-x-1/2">
+                          <span className="rounded-full bg-primary px-4 py-1 text-sm font-medium text-primary-foreground whitespace-nowrap">
                             Most Popular
                           </span>
                         </div>
@@ -147,7 +149,7 @@ export function PlansSection() {
 
                       <CardHeader>
                         <CardTitle className="text-2xl">{plan.name}</CardTitle>
-                        <CardDescription>{plan.description}</CardDescription>
+                        <CardDescription className="line-clamp-2">{plan.description}</CardDescription>
                       </CardHeader>
 
                       <CardContent className="space-y-6">
@@ -165,10 +167,10 @@ export function PlansSection() {
                         </div>
                       </CardContent>
 
-                      <CardFooter>
+                      <CardFooter className="mt-auto">
                         <Button disabled={!plan?.visibility} className={`w-full ${plan?.visibility ? "bg-primary" : "bg-gray-600"}`} asChild>
                           <Link href="/signup">{
-                            plan?.visibility ? 'Invest Now' : 'Over Subscribed'
+                            plan?.visibility ? 'Buy Now' : 'Over Subscribed'
                           }</Link>
                         </Button>
                       </CardFooter>

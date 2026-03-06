@@ -29,7 +29,7 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/dashboard" className="text-white/80 hover:text-white">
+                <Link href="/investor" className="text-white/80 hover:text-white">
                   Dashboard
                 </Link>
               </li>
@@ -50,8 +50,8 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-white/80 hover:text-white">
-                  Careers
+                <Link href="faq" className="text-white/80 hover:text-white">
+                  FAQ
                 </Link>
               </li>
             </ul>
