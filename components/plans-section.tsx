@@ -126,7 +126,6 @@ export function PlansSection() {
             </button>
             {/* Scroll wrapper now has ref */}
             <div ref={wrapperRef} className="scroll-wrapper">
-              {/* scroll-track has ref so we can pause/resume animation from JS */}
               <div ref={trackRef} className="scroll-track">
                 {[/*...availablePlans, */...availablePlans].map((plan: any, i: number) => {
                   const isPopular =

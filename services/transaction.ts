@@ -43,6 +43,6 @@ export const investorTransactions = {
       .then(({ data }) => data),
   getTransactionsSummary: (id: string): Promise<any> =>
     client.get(`/investor/transactions/summary/${id}`).then(({ data }) => data),
-  getLoginLink: ({ investmentId, investorId }: { investmentId: string, investorId: string }): Promise<any> =>
-    client.get(`/investor/transactions/get-login-link/${investmentId}/${investorId}`).then(({ data }) => data),
+  getLoginLink: ({ investorId }: { investorId: string }): Promise<any> =>
+    client.get(`/investor/transactions/get-login-link/${investorId}`).then(({ data }) => data),
 };

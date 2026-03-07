@@ -44,7 +44,7 @@ const page = () => {
   });
 
   const { data: investments, isPending: investorInvestmentsPending } = useQuery({
-    queryKey: ["investor investments", , search, page, limit],
+    queryKey: ["investor investments", , search, page, limit, userId],
     queryFn: () => investorInvestments.getInvestments({
       search, page, limit, id: userId as string,
     }),
@@ -71,9 +71,9 @@ const page = () => {
     }
   }
 
-  const handleGetLoginLink = async (investmentId: string) => {
+  const handleGetLoginLink = async () => {
     try {
-      const res = await getLoginLink({ investmentId, investorId: userId as string });
+      const res = await getLoginLink({ investorId: userId as string });
       toastMessage("success", "Success", res?.message || "Login link sent successfully");
       window.open(res?.url, "_blank");
     } catch (error: any) {
@@ -142,6 +142,44 @@ const page = () => {
           Icon={<Wallet className="w-6 h-6 text-indigo-600" />}
         />
       </div>
+      {
+        investments?.data[0]?.onboardingLink && investments?.accountInfo?.
+          accountCapabilty === 'inactive' ? (
+          <section className="p-5 rounded-lg bg-blue-100 border mt-6">
+            <p className="text-sm">
+              <strong>Note:</strong> To process your investment and ROI, you’ll need to
+              complete a one-time onboarding with our payment partner. Once you click the
+              link below, you’ll be redirected to their secure website to finish the
+              process.
+              <Link href={investments?.data[0]?.onboardingLink} className="ml-3 underline text-primary font-bold">
+                Complete Onboarding
+              </Link>
+            </p>
+          </section>
+        ) :
+          investments?.accountInfo?.accountCapabilty === 'active' ? (
+            <section className="p-5 rounded-lg bg-blue-100 border mt-6">
+              <p className="text-sm">
+                <strong>Note:</strong> Your connected account is active and can receive payments.
+                However, you can request a login link to check further information from your connected account.
+                Please note the login is only for one session.
+                {
+                  getLoginLinkPending ? (
+                    <SpinnerCustom />
+                  ) : (
+                    <button
+                      onClick={() => handleGetLoginLink()}
+                      className="ml-3 text-primary font-bold"
+                    >
+                      Request Login Link
+                    </button>
+                  )
+                }
+              </p>
+            </section>
+          ) :
+            null
+      }
       <div className="bg-white mt-5 p-3 rounded-2xl shadow-sm border">
         {
           investorInvestmentsPending ? (
@@ -161,8 +199,8 @@ const page = () => {
                     <TableHead>Profit Progress</TableHead>
                     <TableHead>Current Profit ($)</TableHead>
                     <TableHead>Payment Status</TableHead>
-                    <TableHead>Onboarding Link</TableHead>
-                    <TableHead>Login Link</TableHead>
+                    {/* <TableHead>Onboarding Link</TableHead> */}
+                    {/* <TableHead>Login Link</TableHead> */}
                     <TableHead>Status</TableHead>
                     <TableHead>Action</TableHead>
                   </TableRow>
@@ -205,8 +243,8 @@ const page = () => {
                             <p className="text-xs text-gray-500 mt-1">{metrics.profitProgress}% of yearly profit</p>
                           </TableCell>
                           <TableCell className="font-bold text-green-900">${metrics.currentProfit.toLocaleString()}</TableCell>
-                          <TableCell className="capitalize">{investment?.paymentStatus || 'N/A'}</TableCell>
-                          <TableCell className='pl-8'>
+                          <TableCell className={`capitalize font-bold ${investment?.paymentStatus === "paid" ? "text-green-600" : investment?.paymentStatus === "pending" ? "text-yellow-600" : investment?.paymentStatus === "failed" ? "text-red-600" : "text-gray-600"}`}>{investment?.paymentStatus || 'N/A'}</TableCell>
+                          {/* <TableCell className='pl-8'>
                             {investment?.onboardingLink ? (
                               <a
                                 href={investment.onboardingLink}
@@ -219,13 +257,13 @@ const page = () => {
                             ) : (
                               <span className="text-gray-400">N/A</span>
                             )}
-                          </TableCell>
-                          <TableCell className='pl-5'>
+                          </TableCell> */}
+                          {/* <TableCell className='pl-5'>
                             {
                               statusConfig.label === "Completed" && investment?.onboardingLink
                                 ? (
                                   <button
-                                    onClick={() => handleGetLoginLink(investment?.id)}
+                                    onClick={() => }
                                     className="text-primary hover:underline font-medium"
                                   >
                                     {getLoginLinkPending ? <SpinnerCustom /> : <Eye />}
@@ -233,7 +271,7 @@ const page = () => {
                                 ) : (
                                   <span className="text-gray-400">N/A</span>
                                 )}
-                          </TableCell>
+                          </TableCell> */}
                           <TableCell>
                             <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium ${statusConfig.className}`}>
                               {statusConfig.icon}
