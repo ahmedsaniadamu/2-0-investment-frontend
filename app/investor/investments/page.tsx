@@ -151,7 +151,7 @@ const page = () => {
               complete a one-time onboarding with our payment partner. Once you click the
               link below, you’ll be redirected to their secure website to finish the
               process.
-              <Link href={investments?.data[0]?.onboardingLink} className="ml-3 underline text-primary font-bold">
+              <Link href={investments?.data[0]?.onboardingLink} target='_blank' className="ml-3 underline text-primary font-bold">
                 Complete Onboarding
               </Link>
             </p>

@@ -38,7 +38,7 @@ const page = () => {
         isPending ? (
           <Loader />
         ) :
-          <div className="grid mt-8 gap-5 md:grid-cols-3">
+          <div className="grid mt-8 gap-8 sm:gap-5 md:grid-cols-3">
             {availablePlans?.length ? (
               [...availablePlans].map((plan: any, i: number) => {
                 const isPopular =

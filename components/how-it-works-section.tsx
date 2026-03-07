@@ -16,7 +16,7 @@ const steps = [
   {
     number: "02",
     title: "Choose Your Plan",
-    description: "Select from our range of professional investment plans starting from $5,000. Each plan is tailored for different levels of capital and return goals.",
+    description: "Explore professional investment plans crafted to suit varying capital levels and return expectations.",
     icon: BarChart3,
     color: "#0ea5e9",
     animation: "bg-sky-100 dark:bg-sky-900/30",
@@ -24,7 +24,7 @@ const steps = [
   {
     number: "03",
     title: "Expert Allocation",
-    description: "Our professional management team allocates your funds across diversified portfolios to ensure consistent returns of 10-15% annually.",
+    description: "We diversify your investments across carefully selected portfolios to help you achieve consistent performance over time.",
     icon: TrendingUp,
     color: "#6366f1",
     animation: "bg-indigo-100 dark:bg-indigo-900/30",

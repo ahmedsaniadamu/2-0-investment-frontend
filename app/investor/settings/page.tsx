@@ -199,8 +199,8 @@ const InvestorProfilePage = () => {
             <div className="max-[500px]:col-span-2 py-5 text-sm font-bold col-span-2 bg-yellow-200 rounded-lg p-4">
               Note: bank details is auto generated and can't be edited.
               Please note that this account number is only for receiving funds.
-              you will be required to onboard with a payment provider to activate the account for withdrawals.
-              onbarding will be sent after investment is completed and approved by our review team.
+              you will be required to onboard with our payment partner to activate the account for withdrawals.
+              onboarding link will be sent after investment is completed and approved by our review team.
             </div>
             <div className="max-[500px]:col-span-2">
               <Label>Connected Account Id</Label>

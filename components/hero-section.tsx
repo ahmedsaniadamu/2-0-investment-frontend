@@ -62,8 +62,8 @@ export function HeroSection() {
             transition={{ duration: 0.4, delay: 0.3, ease: "easeOut" }} // Reduced duration
             className="mb-10 text-pretty text-lg text-slate-200 md:text-xl"
           >
-            Start investing with as little as $5,000 and watch your money grow. Professional investment management made
-            simple and accessible.
+            Invest on your terms and see your wealth grow. Simple,
+            professional investment management for everyone.
           </motion.p>
 
           <motion.div
@@ -89,9 +89,9 @@ export function HeroSection() {
             className="mt-16 grid grid-cols-3 gap-8 border-t border-border pt-8"
           >
             {([
-              { value: "10-15%", label: "Annual Returns" },
-              { value: "$5K", label: "Minimum Deposit" },
-              { value: "24/7", label: "Support" },
+              { value: "Competitive", label: "Annual Returns" },
+              { value: "Flexible", label: "Investment Options" },
+              { value: "24/7", label: "Dedicated Support" },
             ])
               .map((stat, index) => (
                 <motion.div
@@ -100,7 +100,7 @@ export function HeroSection() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 1 + index * 0.1 }}
                 >
-                  <div className="text-3xl font-bold text-slate-300 md:text-4xl">{stat.value}</div>
+                  <div className="text-2xl font-bold text-slate-300 md:text-3xl">{stat.value}</div>
                   <div className="mt-1 text-sm text-slate-300">{stat.label}</div>
                 </motion.div>
               ))}

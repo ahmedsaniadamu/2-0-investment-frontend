@@ -3,12 +3,13 @@ import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogFooter,
-} from "@/components/ui/dialog";
+    Drawer,
+    DrawerContent,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerFooter,
+    DrawerDescription,
+} from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/phone-input";
@@ -100,90 +101,95 @@ export default function UpdateProfile({
     });
 
     return (
-        <Dialog modal={false} open={open} onOpenChange={(val) => { if (!val) onClose(); }}>
-            <DialogContent className="sm:max-w-lg h-[94vh] overflow-y-auto bg-blue-50" onInteractOutside={(e) => e.preventDefault()}>
-                <DialogHeader>
-                    <DialogTitle>Update Profile</DialogTitle>
-                    <p className="text-sm text-gray-500">Please complete your profile to continue.</p>
-                </DialogHeader>
-                <form onSubmit={formik.handleSubmit} className="space-y-4">
-                    <div className="space-y-2">
-                        <Label htmlFor="fullName">Full Name</Label>
-                        <Input
-                            id="fullName"
-                            name="fullName"
-                            placeholder="Full Name"
-                            value={formik.values.fullName}
-                            readOnly
-                            className="bg-white cursor-not-allowed opacity-70"
-                        />
-                    </div>
+        <Drawer open={open} onOpenChange={(val) => { if (!val) onClose(); }} dismissible={false} direction="right">
+            <DrawerContent className="bg-white  min-w-[90%] sm:min-w-[500px] max-w-full">
+                <div className="h-full overflow-y-auto px-4 pb-6">
+                    <DrawerHeader className="px-0">
+                        <DrawerTitle>Update Profile</DrawerTitle>
+                        <DrawerDescription>
+                            Please complete your profile to continue.
+                        </DrawerDescription>
+                    </DrawerHeader>
 
-                    <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
-                        <Input
-                            id="email"
-                            name="email"
-                            type="email"
-                            placeholder="Email"
-                            value={formik.values.email}
-                            readOnly
-                            className="bg-white cursor-not-allowed opacity-70"
-                        />
-                    </div>
-
-                    <div className="space-y-2">
-                        <Label htmlFor="phone">Phone Number <span className="text-red-500">*</span></Label>
-                        <PhoneInput
-                            id="phone"
-                            defaultCountry="NG"
-                            placeholder="Phone Number"
-                            value={formik.values.phone}
-                            className="bg-white"
-                            onChange={(value) => formik.setFieldValue("phone", value)}
-                            onBlur={() => formik.setFieldTouched("phone", true)}
-                        />
-                        {formik.touched.phone && formik.errors.phone && (
-                            <p className="text-sm text-red-500">{formik.errors.phone}</p>
-                        )}
-                    </div>
-
-                    <div className="space-y-2">
-                        <Label htmlFor="country">Country <span className="text-red-500">*</span></Label>
-                        <div className="bg-white">
-                            <CountryDropdown
-                                defaultValue={formik.values.country}
-                                onChange={(country) => formik.setFieldValue("country", country.alpha3)}
+                    <form onSubmit={formik.handleSubmit} className="space-y-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="fullName">Full Name</Label>
+                            <Input
+                                id="fullName"
+                                name="fullName"
+                                placeholder="Full Name"
+                                value={formik.values.fullName}
+                                readOnly
+                                className="bg-white cursor-not-allowed opacity-70"
                             />
                         </div>
-                        {formik.touched.country && formik.errors.country && (
-                            <p className="text-sm text-red-500">{formik.errors.country}</p>
-                        )}
-                    </div>
 
-                    <div className="space-y-2">
-                        <Label htmlFor="address">Address <span className="text-red-500">*</span></Label>
-                        <Textarea
-                            id="address"
-                            name="address"
-                            placeholder="Address"
-                            value={formik.values.address}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            className={formik.touched.address && formik.errors.address ? "border-red-500 bg-white" : "bg-white"}
-                        />
-                        {formik.touched.address && formik.errors.address && (
-                            <p className="text-sm text-red-500">{formik.errors.address}</p>
-                        )}
-                    </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="email">Email</Label>
+                            <Input
+                                id="email"
+                                name="email"
+                                type="email"
+                                placeholder="Email"
+                                value={formik.values.email}
+                                readOnly
+                                className="bg-white cursor-not-allowed opacity-70"
+                            />
+                        </div>
 
-                    <DialogFooter>
-                        <Button type="submit" disabled={updatePending || !formik.isValid} className="w-full">
-                            {updatePending ? <SpinnerCustom /> : "Update Profile"}
-                        </Button>
-                    </DialogFooter>
-                </form>
-            </DialogContent>
-        </Dialog>
+                        <div className="space-y-2">
+                            <Label htmlFor="phone">Phone Number <span className="text-red-500">*</span></Label>
+                            <PhoneInput
+                                id="phone"
+                                defaultCountry="NG"
+                                placeholder="Phone Number"
+                                value={formik.values.phone}
+                                className="bg-white"
+                                onChange={(value) => formik.setFieldValue("phone", value)}
+                                onBlur={() => formik.setFieldTouched("phone", true)}
+                            />
+                            {formik.touched.phone && formik.errors.phone && (
+                                <p className="text-sm text-red-500">{formik.errors.phone}</p>
+                            )}
+                        </div>
+
+                        <div className="space-y-2">
+                            <Label htmlFor="country">Country <span className="text-red-500">*</span></Label>
+                            <div className="bg-white">
+                                <CountryDropdown
+                                    defaultValue={formik.values.country}
+                                    onChange={(country) => formik.setFieldValue("country", country.alpha3)}
+                                />
+                            </div>
+                            {formik.touched.country && formik.errors.country && (
+                                <p className="text-sm text-red-500">{formik.errors.country}</p>
+                            )}
+                        </div>
+
+                        <div className="space-y-2">
+                            <Label htmlFor="address">Address <span className="text-red-500">*</span></Label>
+                            <Textarea
+                                id="address"
+                                name="address"
+                                placeholder="Address"
+                                value={formik.values.address}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                className={formik.touched.address && formik.errors.address ? "border-red-500 bg-white" : "bg-white"}
+                            />
+                            {formik.touched.address && formik.errors.address && (
+                                <p className="text-sm text-red-500">{formik.errors.address}</p>
+                            )}
+                        </div>
+
+                        <DrawerFooter className="px-0">
+                            <Button type="submit" disabled={updatePending || !formik.isValid} className="w-full">
+                                {updatePending ? <SpinnerCustom /> : "Update Profile"}
+                            </Button>
+                        </DrawerFooter>
+                    </form>
+                </div>
+            </DrawerContent>
+        </Drawer>
     );
 }

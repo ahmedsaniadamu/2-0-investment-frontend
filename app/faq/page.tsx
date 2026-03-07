@@ -101,7 +101,7 @@ const faqCategories = [
             },
             {
                 q: "How long does a withdrawal take to hit my bank account?",
-                a: "Once you request a withdrawal, it typically takes 2–5 business days for the funds to appear in your bank account, depending on your bank's processing times."
+                a: "Once you request a withdrawal, it typically takes 1–3 business days for the funds to appear in your bank account, depending on your bank's processing times."
             },
             {
                 q: "Can I withdraw to a different person's bank account?",

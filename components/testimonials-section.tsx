@@ -127,7 +127,7 @@ export function TestimonialsSection() {
   )
 
   return (
-    <section id="testimonials" className="py-20 md:py-32 overflow-hidden bg-slate-50/50">
+    <section id="testimonials" className="py-20 md:py-20 overflow-hidden bg-slate-50/50">
       <div className="container mx-auto px-4 md:px-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

@@ -60,7 +60,7 @@ export function PlansSection() {
   }, [])
 
   return (
-    <section id="plans" className="border-b border-border bg-white py-20 md:py-32 overflow-hidden">
+    <section id="plans" className="border-b border-border bg-white py-20 md:py-24 overflow-hidden">
       <style>{`
   .scroll-wrapper {
     /* changed to allow horizontal scrolling for manual controls */
